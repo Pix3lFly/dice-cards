@@ -3961,6 +3961,31 @@ html body .s3 .arw{padding:4px 8px;border-radius:10px;background:#2a1a0b;box-sha
 /* old saves: re-roll offers that contain the same hero/base twice */
 (function w(){if(typeof SV==='undefined'||!SV){setTimeout(w,300);return}try{const d=(a,k)=>a&&new Set(a.map(x=>x[k])).size<a.length;let ch=0;
  if(d(SV.offers,'h')){(0,eval)('mkOffers()');ch=1}if(d(SV.boffers,'b')){SV.boffers=null;ch=1}if(ch)try{sv()}catch(e){}}catch(e){}})();
+
+/* Gold & Gems: 3 real-money gem packs under the gold packs (payments not connected yet → "coming soon") */
+(function(){try{const st=document.createElement('style');st.textContent=`
+#mb .spn2:has(.gpk3)>.ogr{flex:1 1 0!important;min-height:0;align-content:center}
+#mb .spn2:has(.gpk3) .ocd{height:auto!important;min-height:0!important;padding-top:6px!important;padding-bottom:6px!important;gap:3px}
+#mb .spn2:has(.gpk3) .otop{height:auto!important}
+#mb .spn2:has(.gpk3) .omed{height:52px!important;width:52px!important}
+#mb .spn2:has(.gpk3) .omed img{width:100%!important;height:100%!important;object-fit:contain}
+#mb .spn2:has(.gpk3) .onm{font-size:15px!important;line-height:1.1!important}
+#mb .spn2:has(.gpk3) .opr{height:30px!important}
+#mb .gpk3{flex:1 1 0;min-height:0;display:flex;flex-direction:column;margin-top:2px}
+#mb .gpk3>.ogr{flex:1 1 0;align-content:center}
+#mb .gpk3 .gph{flex:none;font:400 15px 'Lilita One',system-ui,sans-serif;color:#ffe08a;text-align:center;text-shadow:0 1px 0 #000;margin:2px 0 4px}
+#mb .gpk3 .ogr{gap:6px}
+#mb .gpk3 .ocd .omed img{object-fit:contain}
+#mb .gpk3 .gbn{position:absolute;top:4px;right:4px;z-index:3;padding:1px 6px;border-radius:8px;background:#d8342a;color:#fff;font:800 9.5px system-ui;border:1.5px solid #fff3;box-shadow:0 1px 3px #0008}
+#mb .gpk3 .gpr{display:flex;align-items:center;justify-content:center;width:100%;height:30px;border-radius:9px;font:400 16px 'Lilita One',system-ui,sans-serif;color:#fff;background:linear-gradient(#6fd36a,#2f9a3a);border:2px solid #1d5a1f;box-shadow:inset 0 2px 0 #c8ffb4aa,0 2px 0 #123a14;text-shadow:0 1px 0 #1d5a1f}
+`;document.head.appendChild(st);
+ const PK=[[100,'$0.99',''],[550,'$4.99','+10%'],[1200,'$9.99','+20%']];
+ window.__gemBuy=function(i){const M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();p=document.createElement('div');p.className='mpop';
+  p.innerHTML='<div class="uc pp3"><b class="rb3">Coming soon</b><p>Buying <b style="color:#9fd6ff">'+PK[i][0]+' gems</b> for <b>'+PK[i][1]+'</b> isn’t available yet.<br>Real-money purchases will open in a later update.</p><div class="bts3"><button onclick="this.closest(\'.mpop\').remove()">OK</button></div></div>';M.appendChild(p)};
+ const _m=menu;menu=function(t){const r=_m.apply(this,arguments);try{if(tab==='shop'&&STAB==='gg'&&!document.querySelector('#mb .gpk3')){const g=document.querySelector('#mb .spn2 .ogr');if(g){const U=window.__U||{},pc='<i class="pc pc1"></i><i class="pc pc2"></i><i class="pc pc3"></i><i class="pc pc4"></i>';
+   g.insertAdjacentHTML('afterend','<div class="gpk3"><div class="gph">Gem packs</div><div class="ogr c3">'+PK.map((k,i)=>'<div class="ocd" style="position:relative">'+pc+(k[2]?'<span class="gbn">'+k[2]+'</span>':'')+'<div class="otop"><div class="omed big"><img alt="" src="'+(U.gem||'')+'"></div></div><div class="onm">'+k[0]+' gems</div><button class="gpr" onclick="__gemBuy('+i+')">'+k[1]+'</button></div>').join('')+'</div></div>');
+   try{fitMenu()}catch(e){}}}}catch(e){console.warn('gem packs',e)}return r};
+}catch(e){console.warn('v3 gem packs',e)}})();
 </script><script id="v3_45">/* forfeiting before turn 5 gives no rewards (stops farming gold by quitting early) */
 (function(){try{const _f=fin;fin=function(win){
  let early=false;try{early=!win&&mode!=='train'&&/forfeit/i.test((document.getElementById('ovt')||{}).textContent||'')&&(typeof round==='number'?round:0)<5}catch(e){}
