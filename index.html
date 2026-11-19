@@ -4274,7 +4274,7 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
   clr();const t0=Date.now(),wait=2500+Math.random()*3500;
   const p=box(m==='rank'?'Ranked match':'Casual match','<div class="spin3"></div><p>Searching for an opponent…</p><div class="tm3">0:00</div><div class="bts3"><button class="sec" onclick="__mmCancel()">Cancel</button></div>');
   const tk=()=>{const s=Math.floor((Date.now()-t0)/1000),e=p.querySelector('.tm3');if(e)e.textContent='0:'+String(s).padStart(2,'0');later(250,tk)};tk();
-  later(wait,()=>{clr();const foe={n:NM[Math.floor(Math.random()*NM.length)]+(Math.random()<.5?Math.floor(Math.random()*90+10):''),h:HS[Math.floor(Math.random()*HS.length)]};
+  later(wait,()=>{clr();const foe={n:NM[Math.floor(Math.random()*NM.length)]+(Math.random()<.5?Math.floor(Math.random()*90+10):''),h:(()=>{const hs=HS.filter(x=>x!==SV.mine);return hs[Math.floor(Math.random()*hs.length)]||HS[0]})()};window.__frM=0;
    const rp=Math.max(0,(SV.rp||0)+Math.round((Math.random()-.5)*120));try{snd(784,.1,'triangle',.1);setTimeout(()=>snd(1047,.14,'triangle',.1),110)}catch(e){}
    const q=box('Opponent found!',vs(foe,rnk(rp))+'<p style="margin-top:8px!important">Get ready…</p>');later(1600,()=>start(m,foe,rnk(rp),'Opponent found!'))})};
  window.__mmCancel=()=>close();
@@ -4283,8 +4283,25 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
   SV.fbN=(SV.fbN||0)+1;try{sv()}catch(e){}const ok=SV.fbN>=3;
   const p=box('Battle request','<div class="vs3"><div class="av en"><img alt="" src="'+(POR()[f.h]||'')+'"></div></div><div class="spin3" style="width:34px;height:34px;border-width:4px"></div><p>Asking <b>'+f.n+'</b> to battle…</p><div class="bts3"><button class="sec" onclick="__mmCancel()">Cancel</button></div>');
   later(2500,()=>{if(!ok){box('Battle request','<div class="vs3"><div class="av en"><img alt="" src="'+(POR()[f.h]||'')+'"></div></div><p class="bad"><b style="color:#ffb4a4">'+f.n+'</b> is already in a game.</p><p>Try again later!</p><div class="bts3"><button onclick="__mmCancel()">OK</button></div>');try{snd(330,.12,'triangle',.08)}catch(e){}return}
-   try{snd(784,.1,'triangle',.1)}catch(e){}start('casual',{n:f.n,h:f.h},f.rk||'','Request accepted!')})};
+   try{snd(784,.1,'triangle',.1)}catch(e){}window.__frM=1;start('casual',{n:f.n,h:f.h},f.rk||'','Request accepted!')})};
 }catch(e){console.warn('v3 mm',e)}})();
+
+/* matched opponents never use your hero or your base (friend battles keep whatever the friend picked) */
+(function(){try{const _iX=init;init=function(){const r=_iX.apply(this,arguments);try{const fr=window.__frM;window.__frM=0;
+  if(!fr&&(mode==='casual'||mode==='rank')&&P&&P[0]&&P[1]){
+   if(P[1].h===P[0].h){const hs=Object.keys(HD).filter(h=>h!==P[0].h&&!HD[h].lock),h=hs[Math.floor(Math.random()*hs.length)];if(h){const d=HD[h];Object.assign(P[1],{h,sk:[1,1,1],name:d.nm||P[1].name,av:d.e,ap:d.ap,hp:d.hp,max:d.hp,gold:d.g});window.setModel&&setModel(1,h)}}
+   if(P[1].bt===P[0].bt){const bs=Object.keys(BASES).filter(b=>b!==P[0].bt);P[1].bt=bs[Math.floor(Math.random()*bs.length)];try{window.__3&&__3.setTile(P[1].base)}catch(e){}}
+   render()}}catch(e){console.warn('foe pick',e)}return r}}catch(e){console.warn('v3 foe pick',e)}})();
+
+/* a few quiet sounds for key moments: portal teleport, jailed, level up */
+(function(){try{const G3=window.__3;if(!G3)return;const last=[{},{}];
+ const tone=(f,d,t,v,dl)=>setTimeout(()=>{try{snd(f,d,t,v)}catch(e){}},dl||0);
+ const S={tp:()=>{[523,659,880,1175].forEach((f,k)=>tone(f,.12,'sine',.045,k*55))},
+  jail:()=>{tone(220,.18,'square',.035);tone(165,.26,'square',.035,150)},
+  lv:()=>{[523,659,784,1047].forEach((f,k)=>tone(f,.16,'triangle',.05,k*90))}};
+ setInterval(()=>{try{if(typeof P==='undefined'||!P||over)return;[0,1].forEach(k=>{const p=P[k],L=last[k],tp=!!(G3.TP&&G3.TP[k]);
+  if(L.p===p){if(tp&&!L.tp)S.tp();if(p.jail&&!L.j)S.jail();if((p.lv||1)>(L.lv||1))S.lv()}
+  L.p=p;L.tp=tp;L.j=!!p.jail;L.lv=p.lv||1})}catch(e){}},100)}catch(e){console.warn('v3 key sounds',e)}})();
 </script><script id="v3_55">/* title screen: logo font + buttons/text restyle */
 (function(){
  const lk=document.createElement('link');lk.rel='stylesheet';lk.href='https://fonts.googleapis.com/css2?family=Titan+One&display=swap';document.head.appendChild(lk);
