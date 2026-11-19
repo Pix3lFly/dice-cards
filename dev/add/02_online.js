@@ -84,7 +84,7 @@ function form(m){const reg=m==='reg';
 const load=src=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=B+src;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
 if(CFG){const to=setTimeout(()=>{if(state==='loading'){state='off';status()}},15000);
  load('firebase-app-compat.js').then(()=>Promise.all([load('firebase-auth-compat.js'),load('firebase-firestore-compat.js')])).then(()=>{
-  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{auth.useDeviceLanguage()}catch(e){}
+  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{db.settings({experimentalForceLongPolling:true,merge:true})}catch(e){console.log('fs settings',e)}try{auth.useDeviceLanguage()}catch(e){}
   auth.getRedirectResult().catch(e=>console.log('redirect',e));
   state='ready';status();
   setTimeout(()=>{if(!known){known=true;status()}},10000);
