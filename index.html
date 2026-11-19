@@ -4350,6 +4350,9 @@ html body #splash .spB .xp{position:relative}
   clearTimeout(tm);tm=setTimeout(()=>{h.remove();a.remove()},2200)},true);
  setInterval(()=>{const b=document.querySelector('#splash .xb');if(b&&!b.classList.contains('wait'))document.querySelectorAll('#splash .ldH,#splash .ldA').forEach(x=>x.remove())},300);
 })();
+
+/* logo sits higher on the title screen */
+(function(){const st=document.createElement('style');st.textContent='html body #splash .xl{margin-top:-4svh!important}';document.head.appendChild(st)})();
 </script><script id="v3_56">/* never start a match on a half-loaded board: wait for every model, animated hero and warm-up first */
 (function(){try{
  const ready=()=>{try{return !window.__loadF||window.__loadF()>=1}catch(e){return true}};
