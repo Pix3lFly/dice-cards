@@ -4669,8 +4669,8 @@ const A2=['Goblin','Knight','Wizard','Ogre','Dragon','Rogue','Hunter','Bat','Mag
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const randName=()=>{for(;;){const n=pick(A1)+pick(A2)+Math.floor(10+Math.random()*990);if(n.length<=16)return n}};
 const randNum=()=>String(Math.floor(10000000+Math.random()*90000000));
-let prof=null,uid=null,unsub=[],frU={},frIds=[],frP={},inc=[],out=[],hb=0;
-const F=window.__FRON={get on(){return !!(prof&&O.state==='ready'&&O.user)},get prof(){return prof}};
+let lastErr='',busyE=false,prof=null,uid=null,unsub=[],frU={},frIds=[],frP={},inc=[],out=[],hb=0;
+const F=window.__FRON={get on(){return !!(prof&&O.state==='ready'&&O.user)},get prof(){return prof},get err(){return lastErr},retry:()=>ensure()};
 const ON=()=>F.on;
 const db=()=>O.db;
 const isOnline=p=>p&&Date.now()-ms(p.seen)<3*60e3;
@@ -4682,12 +4682,13 @@ const toast=t=>{try{const n=document.createElement('div');n.className='m3note';n
 const refresh=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='undefined'&&CMT==='fr'&&!document.querySelector('#menu .mpop')&&document.getElementById('menu').style.display!=='none')menu()}catch(e){}};
 
 /* ---------- profile: create with a random unique name + number, keep stats fresh ---------- */
-async function ensure(){const u=O.user;if(!u)return;uid=u.uid;const D=db(),ref=D.collection('profiles').doc(uid);
- let s;try{s=await ref.get()}catch(e){console.log('profile load',e);return}
+async function ensure(){const u=O.user;if(!u||busyE||prof)return;busyE=true;try{await ensure2(u)}finally{busyE=false}}
+async function ensure2(u){uid=u.uid;const D=db(),ref=D.collection('profiles').doc(uid);
+ let s;try{s=await ref.get()}catch(e){lastErr=(e&&e.code)||'load';console.log('profile load',e);return}
  if(s.exists&&s.data().name)prof=s.data();
  else{for(let i=0;i<8&&!prof;i++){const n=randName(),num=randNum(),p=Object.assign({name:n,nameLower:n.toLowerCase(),num:num,seen:FV().serverTimestamp()},stats());
    const b=D.batch();b.set(D.collection('names').doc(p.nameLower),{uid:uid});b.set(D.collection('nums').doc(num),{uid:uid});b.set(ref,p);
-   try{await b.commit();prof=p}catch(e){console.log('name try',e&&e.code)}}
+   try{await b.commit();prof=p;lastErr=''}catch(e){lastErr=(e&&e.code)||'create';console.log('name try',e&&e.code);if(lastErr!=='permission-denied'||i>=2)break}}
   if(!prof)return}
  if(O.user&&O.user.uid!==uid)return;
  const em=(u.email||'').toLowerCase();if(em)D.collection('emails').doc(em).set({uid:uid}).catch(e=>console.log('email idx',e&&e.code));
@@ -4710,6 +4711,7 @@ function listen(){stop();const D=db();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&ON())beat()});
 window.addEventListener('dc-auth',()=>{stop();prof=null;uid=null;if(!O.user){try{SV.frReq=(SV.frReq||[]).filter(r=>!r.r);SV.frOut=(SV.frOut||[]).filter(o=>!o.r)}catch(e){}}});
 window.addEventListener('dc-synced',()=>{if(O.user&&!prof)ensure()});
+setInterval(()=>{if(O.user&&O.synced&&!prof&&O.state==='ready')ensure()},30e3);
 
 /* ---------- what the existing friends page shows ---------- */
 const friendObj=id=>{const p=frP[id]||{};const rks=RKN();return {id:id,n:NAME_OK.test(p.name||'')?p.name:'Player',h:okH(p.h),rk:rks.includes(p.rk)?p.rk:'Bronze',g:esc(p.g||'No guild'),w:+p.w||0,l:+p.l||0,wv:0,lv:+p.lv||1,num:/^\d{8}$/.test(p.num||'')?p.num:'',real:1,on:isOnline(p)}};
@@ -4781,7 +4783,8 @@ const _save=window.__pfSave;
 window.__pfSave=async function(){let synced=null;try{synced=JSON.parse(localStorage.getItem('dc7_sync')||'null')}catch(e){}
  const i=document.getElementById('pfnm'),v=(i&&i.value||'').trim();
  const err=t=>{let e=document.querySelector('#menu .pfp .pner');if(!e){const r=document.querySelector('#menu .pfp .pnr');if(!r)return toast(t);r.insertAdjacentHTML('afterend','<div class="pner" style="font:700 11.5px system-ui;color:#ffb3a8;text-align:center;margin-top:-2px"></div>');e=document.querySelector('#menu .pfp .pner')}e.textContent=t};
- if(!ON()){if(synced&&synced.uid||O.user)return err('Connect to the internet to change your name.');return _save&&_save()}
+ if(!ON()){if(O.user&&O.state==='ready'){ensure();return err('Setting up your online profile… try again in a moment'+(lastErr?' ('+lastErr+')':''))}
+  if(synced&&synced.uid)return err('Connect to the internet to change your name.');return _save&&_save()}
  if(!NAME_OK.test(v))return err('3–16 letters, numbers or _ (no spaces).');
  if(v===prof.name){SV.pname=v;return _save&&_save()}
  const D=db(),lo=v.toLowerCase(),old=prof.nameLower;
