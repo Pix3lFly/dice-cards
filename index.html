@@ -4046,6 +4046,13 @@ html body #menu .stb3 .hro img,html body #menu .stb3 .hro .ph{animation:m2breath
  const _h=m3h;window.m3h=m3h=function(k){const was=SV.mine;const r=_h.apply(this,arguments);if(SV.mine!==was||true)setTimeout(()=>{burst(document.getElementById('hroi')||document.querySelector('#mb .stb3 .hro'),16);burst(document.querySelector('#mb .pb.sel'),8)},60);return r};
  const _b=m3b;window.m3b=m3b=function(k){const r=_b.apply(this,arguments);setTimeout(()=>{burst(document.querySelector('#mb .stb3 .isl'),12);burst(document.querySelectorAll('#mb .pb.sel')[1]||document.querySelector('#mb .bb.sel,#mb .pb.sel'),8)},60);return r};
 }catch(e){console.warn('v3 lobby',e)}})();
+
+/* name bubbles left of the lobby hero: smaller and narrower so they never touch the model */
+(function(){const st=document.createElement('style');st.textContent=`html body #mb .nm2{left:2%!important;max-width:27%!important;gap:4px!important}
+html body #mb .nm2>div{max-width:100%;box-sizing:border-box;padding:2px 7px!important;font-size:10.5px!important;border-radius:10px!important}
+html body #mb .nm2>div b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+html body #mb .nm2>div span{font-size:9.5px!important}
+html body #mb .nm2 img{width:15px!important}`;document.head.appendChild(st)})();
 </script><script id="v3_48">/* Deck page: calmer, clearer layout (labels, slim points bar, empty slots) */
 (function(){
  const st=document.createElement('style');st.textContent=`
