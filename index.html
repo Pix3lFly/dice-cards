@@ -4275,7 +4275,19 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
   [0,1].forEach(i=>{const g=P[i].gold;if(g0[i]!=null&&g>g0[i]&&!(window.__vt&&window.__vt[i]!=null)){const d=g-g0[i];coins(i,Math.min(10,3+Math.round(d/3)))}g0[i]=g})}catch(e){}},250);
  const _fl=fl;fl=function(i,t,c){const r=_fl.apply(this,arguments);try{if(/^\+\d/.test(String(t)))leaves(i)}catch(e){}return r};
 }catch(e){console.warn('v3 fx',e)}})();
-</script><script id="v3_54">/* simulated online matchmaking (Casual / Ranked) and friend battle requests */
+</script><script id="v3_54">/* HP bar waits for the hit: the bar only drops when the damage number pops over the hero */
+(function(){try{
+ const S=[null,null],drop=[0,0],now=()=>performance.now();
+ const paint=k=>{try{const p=P[k],hc=document.querySelectorAll('.hc')[k];if(!p||!hc)return;const v=S[k]==null?p.hp:S[k],b=hc.querySelector('.bar i'),sp=hc.querySelector('.bar span');
+   if(b)b.style.width=Math.max(0,100*v/p.max)+'%';if(sp)sp.textContent=v+'/'+p.max}catch(e){}};
+ const sync=k=>{S[k]=null;drop[k]=0;paint(k)};
+ const hook=()=>{const f=window.__flc;if(f&&f.__hp)return;const g=function(t,d,k){if(/^-/.test(String(t))&&(k===0||k===1))setTimeout(()=>sync(k),0);return f?f.apply(this,arguments):''};g.__hp=1;window.__flc=g};
+ setInterval(()=>{try{hook();if(typeof P==='undefined'||!P||!P[0])return;[0,1].forEach(k=>{const p=P[k];if(S[k]==null){if(S[k+2]!=null&&p.hp<S[k+2]){S[k]=S[k+2];drop[k]=now()}}
+   else if(p.hp>=S[k]||now()-drop[k]>4000)S[k]=null;S[k+2]=p.hp;paint(k)})}catch(e){}},60);
+ const _r=render;render=function(){const r=_r.apply(this,arguments);try{[0,1].forEach(k=>{const p=P&&P[k];if(!p)return;if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]&&!over){S[k]=S[k+2];drop[k]=now()}S[k+2]=p.hp;paint(k)})}catch(e){}return r};
+ const _i=init;init=function(){S[0]=S[1]=S[2]=S[3]=null;return _i.apply(this,arguments)};
+}catch(e){console.warn('v3 hp delay',e)}})();
+</script><script id="v3_55">/* simulated online matchmaking (Casual / Ranked) and friend battle requests */
 (function w(){if(typeof go!=='function'||typeof fbat!=='function'){setTimeout(w,300);return}try{
  const st=document.createElement('style');st.textContent=`
 #menu .mm3 .spin3{width:54px;height:54px;margin:6px auto 8px;border-radius:50%;border:5px solid #2a1d12;border-top-color:#ffd05a;border-right-color:#ffd05a88;animation:mm3s .9s linear infinite}
@@ -4334,7 +4346,7 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
  setInterval(()=>{try{if(typeof P==='undefined'||!P||over)return;[0,1].forEach(k=>{const p=P[k],L=last[k],tp=!!(G3.TP&&G3.TP[k]);
   if(L.p===p){if(tp&&!L.tp)S.tp();if(p.jail&&!L.j)S.jail();if((p.lv||1)>(L.lv||1))S.lv()}
   L.p=p;L.tp=tp;L.j=!!p.jail;L.lv=p.lv||1})}catch(e){}},100)}catch(e){console.warn('v3 key sounds',e)}})();
-</script><script id="v3_55">/* ===== v3: daily quests (Journal → Rewards) + ranked rewards (rank-up, seasons, rank road) ===== */
+</script><script id="v3_56">/* ===== v3: daily quests (Journal → Rewards) + ranked rewards (rank-up, seasons, rank road) ===== */
 (function(){try{
  const ready=()=>typeof SV!=='undefined'&&SV&&typeof menu==='function'&&typeof RK!=='undefined';
  (function boot(){if(!ready()){setTimeout(boot,300);return}
@@ -4437,7 +4449,7 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
    if($('menu').style.display!=='none')setTimeout(showPend,350)}catch(e){console.warn('quests/rank',e)}return r};
  try{if($('menu')&&$('menu').style.display==='flex')menu(tab)}catch(e){}
  })()}catch(e){console.warn('v3 quests',e)}})();
-</script><script id="v3_56">/* title screen: logo font + buttons/text restyle */
+</script><script id="v3_57">/* title screen: logo font + buttons/text restyle */
 (function(){
  const lk=document.createElement('link');lk.rel='stylesheet';lk.href='https://fonts.googleapis.com/css2?family=Titan+One&display=swap';document.head.appendChild(lk);
  const st=document.createElement('style');st.textContent=`
@@ -4505,7 +4517,7 @@ html body #splash .spB .xp{position:relative}
 
 /* logo sits higher on the title screen */
 (function(){const st=document.createElement('style');st.textContent='html body #splash .xl{margin-top:-4svh!important}';document.head.appendChild(st)})();
-</script><script id="v3_57">/* never start a match on a half-loaded board: wait for every model, animated hero and warm-up first */
+</script><script id="v3_58">/* never start a match on a half-loaded board: wait for every model, animated hero and warm-up first */
 (function(){try{
  const ready=()=>{try{return !window.__loadF||window.__loadF()>=1}catch(e){return true}};
  const st=document.createElement('style');st.textContent=`#bdLoad{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;background:#0b1a33cc}
