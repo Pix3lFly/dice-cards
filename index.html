@@ -4561,6 +4561,7 @@ html body #splash .spB .xsoon.ok{color:#b9ffd0!important}
 #acp .acc button{flex:1;padding:10px 6px;border-radius:12px;border:2px solid #b98a3e;background:#2a1406;color:#fff2d8;font:600 12px/1.45 system-ui,sans-serif;cursor:pointer}
 #acp .acc button b{display:block;font:400 16px 'Lilita One',system-ui,sans-serif;color:#ffe08a;margin-bottom:3px}
 #acp p{margin:0 0 12px;line-height:1.35}
+html body #splash #bgn.lk{filter:grayscale(.7) brightness(.8);animation:none!important}
 </style><script id="v4_02_online">
 /* ===== v4: online accounts + online saves (Firebase). Works in the phone app; the claude.ai page can't reach Firebase and stays offline. ===== */
 (function(){try{
@@ -4568,7 +4569,7 @@ const CFG=window.__FBCFG,K='dc7',KT='dc7_lt',KS='dc7_sync',B='https://www.gstati
 const _set=Storage.prototype.setItem;
 const lg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},ls=(k,v)=>{try{_set.call(localStorage,k,v)}catch(e){}};
 const pj=t=>{try{return JSON.parse(t)}catch(e){return null}};
-let auth=null,db=null,user=null,state=CFG?'loading':'none',upT=0,quiet=false,busy=false;
+let known=false,auth=null,db=null,user=null,state=CFG?'loading':'none',upT=0,quiet=false,busy=false;
 const O=window.__ON={get user(){return user},get state(){return state}};
 const onSplash=()=>{const s=document.getElementById('splash');return !!s&&s.style.display!=='none'};
 
@@ -4610,11 +4611,15 @@ function status(msg){const bs=document.querySelectorAll('#splash .xau button'),t
  bs.forEach(b=>{b.disabled=!on;b.classList.toggle('on',on);b.classList.remove('me')});
  if(on&&user){bs[0].textContent='✓ '+(user.displayName?user.displayName.split(' ')[0]:(user.email||'Account').split('@')[0]);bs[0].classList.add('me');if(bs[1])bs[1].textContent='Log out'}
  else{bs[0].textContent='Log in';if(bs[1])bs[1].textContent='Register'}
+ const st=document.getElementById('bgn');if(st)st.classList.toggle('lk',needLogin());
  if(!tx)return;tx.classList.toggle('ok',!!(on&&user&&!msg&&!busy));
- tx.textContent=msg||(state==='none'?'Accounts are coming soon':state==='loading'?'Connecting…':state==='off'?(/claude\.ai|claudeusercontent/.test(location.hostname)?'Online accounts work in the phone app':'Offline — playing on this phone'):!user?'Log in to save your progress online':busy?'Checking your online save…':'Progress saved online')}
+ tx.textContent=msg||(state==='none'?'Accounts are coming soon':state==='loading'?'Connecting…':state==='off'?(/claude\.ai|claudeusercontent/.test(location.hostname)?'Online accounts work in the phone app':'Offline — playing on this phone'):!known?'Connecting…':!user?'Log in or register to play':busy?'Checking your online save…':'Progress saved online')}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#splash .xau button');if(!b||state!=='ready')return;e.preventDefault();e.stopPropagation();
  const i=[...document.querySelectorAll('#splash .xau button')].indexOf(b);
  if(user){if(i===1)push().then(()=>auth.signOut())}else form(i===1?'reg':'log')},true);
+function needLogin(){return (state==='loading'||state==='ready')&&!(known&&user)}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#bgn');if(!b||!needLogin())return;e.preventDefault();e.stopImmediatePropagation();
+ if(state==='ready'&&known)form('log');else status('Connecting… try again in a moment')},true);
 const iv=setInterval(()=>{if(!onSplash())return clearInterval(iv);status()},1500);
 
 /* popup */
@@ -4644,7 +4649,8 @@ if(CFG){const to=setTimeout(()=>{if(state==='loading'){state='off';status()}},15
   clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{auth.useDeviceLanguage()}catch(e){}
   auth.getRedirectResult().catch(e=>console.log('redirect',e));
   state='ready';status();
-  auth.onAuthStateChanged(u=>{user=u||null;close();status();if(user)sync()})
+  setTimeout(()=>{if(!known){known=true;status()}},10000);
+  auth.onAuthStateChanged(u=>{known=true;user=u||null;close();status();if(user)sync()})
  }).catch(e=>{clearTimeout(to);console.log('firebase load',e);state='off';status()})}
 status();
 }catch(e){console.warn('v4 online',e)}})();
