@@ -3339,7 +3339,7 @@ setInterval(()=>{try{const M=$('menu'),b=document.getElementById('v3tq');if(tab=
  const hole=(x,y,w,h,r)=>'M'+(x+r)+' '+y+'H'+(x+w-r)+'A'+r+' '+r+' 0 0 1 '+(x+w)+' '+(y+r)+'V'+(y+h-r)+'A'+r+' '+r+' 0 0 1 '+(x+w-r)+' '+(y+h)+'H'+(x+r)+'A'+r+' '+r+' 0 0 1 '+x+' '+(y+h-r)+'V'+(y+r)+'A'+r+' '+r+' 0 0 1 '+(x+r)+' '+y+'Z';
  const place=(sp,r)=>{if(!r){sp.classList.add('none');return''}sp.classList.remove('none');Object.assign(sp.style,{left:r.left-P+'px',top:r.top-P+'px',width:r.width+2*P+'px',height:r.height+2*P+'px'});return hole(r.left-P,r.top-P,r.width+2*P,r.height+2*P,12)};
  function show(){const st=run.steps[run.i];if(st.s&&run.p.cur()!==st.s)run.p.set(st.s);
-  setTimeout(()=>{const r=rectOf(st.t()),r2=st.t2?rectOf(st.t2()):null,sps=T.querySelectorAll('.sp'),bx=T.querySelector('.bx'),ar=T.querySelector('.ar'),a2=T.querySelector('.a2'),dim=T.querySelector('.dim'),pth=dim.querySelector('path');
+  const R0=run;setTimeout(()=>{if(!run||run!==R0||run.steps[run.i]!==st)return;const r=rectOf(st.t()),r2=st.t2?rectOf(st.t2()):null,sps=T.querySelectorAll('.sp'),bx=T.querySelector('.bx'),ar=T.querySelector('.ar'),a2=T.querySelector('.a2'),dim=T.querySelector('.dim'),pth=dim.querySelector('path');
    const last=run.i===run.steps.length-1;
    bx.innerHTML='<div class="uc"><div class="st">'+run.p.name.toUpperCase()+' · '+(run.i+1)+' / '+run.steps.length+'</div><p>'+st.m+'</p><small>'+(last?'Tap to finish':'Tap to continue')+'</small></div>';
    dim.setAttribute('viewBox','0 0 '+innerWidth+' '+innerHeight);
