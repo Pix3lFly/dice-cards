@@ -36,7 +36,11 @@ async def main():
     for k in range(6):
       await A.evaluate(ACT);await B.evaluate(ACT);await A.wait_for_timeout(1500)
     mode=__import__('sys').argv[1]
-    if mode=='ff':
+    if mode=='menu':
+      await A.evaluate("()=>leaveGame()");await A.wait_for_timeout(5000)
+      print('A menu visible:',await A.evaluate("()=>getComputedStyle(document.getElementById('menu')).display"))
+      print('B:',await B.evaluate("()=>document.getElementById('ovt').textContent+' | '+document.getElementById('ovr').textContent+' | ov:'+document.getElementById('ov').style.display"))
+    elif mode=='ff':
       await A.evaluate("()=>forfeit()");await A.wait_for_timeout(4000)
       print('A:',await A.evaluate("()=>document.getElementById('ovt').textContent+' | '+document.getElementById('ovr').textContent"))
       print('B:',await B.evaluate("()=>document.getElementById('ovt').textContent+' | '+document.getElementById('ovr').textContent"))
