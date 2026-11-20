@@ -8,3 +8,11 @@
 @media (orientation:landscape){
  .spn2:has(.gpk3) > .ogr, .spn2 > .gpk3{flex:0 0 auto!important;min-height:175px!important}
 }
+@media (orientation:landscape){
+ #mb > .spn2:has(> :is(.alist,.flst,.dkw)){flex:1 1 0!important;min-height:0!important}
+ #mb .spn2 > :is(.alist,.flst,.dkw), #mb > :is(.alist,.flst,.dkw){flex:1 1 auto!important;min-height:120px!important}
+ #mb .spn2:has(.gpk3) .ogr.c3{grid-auto-rows:auto!important}
+ #mb .spn2:has(.gpk3) > .ogr.c3, #mb .spn2 > .gpk3 > .ogr.c3{flex:0 0 auto!important}
+ .spn2:has(.gpk3) .ocd > *{flex-shrink:0!important}
+}
+.gpk3 .gpr{width:auto;min-width:64px;height:30px;padding:0 8px;font-size:14px;border-radius:8px;cursor:pointer}

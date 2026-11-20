@@ -142,5 +142,13 @@ const numRow=()=>{if(!ON())return;const box=document.querySelector('#menu .mpop 
  if(!num)return;const at=box.querySelector('.pnm')||box.querySelector('.pnr');if(!at)return;
  at.insertAdjacentHTML('afterend','<div class="pnum" style="display:flex;align-items:center;justify-content:center;gap:8px;font:700 12px system-ui;color:#e8d6b4">Player number <b style="font:400 15px \'Lilita One\',system-ui;color:#ffe08a;letter-spacing:.5px">#'+esc(num)+'</b>'+(me?'<button style="height:24px;padding:0 9px;border-radius:8px;border:1.5px solid #6b3f0a;background:linear-gradient(#f0cf7a,#c8962e);color:#3a2006;font:800 11px system-ui;cursor:pointer">Copy</button>':'')+'</div>');
  const cb=box.querySelector('.pnum button');if(cb)cb.onclick=()=>{try{navigator.clipboard.writeText(num).then(()=>{cb.textContent='Copied!'}).catch(()=>{cb.textContent='#'+num})}catch(e){}}};
+/* helpers for profile buttons and mail (07_mail.js) */
+F.ids=()=>frIds.slice();F.fobj=id=>friendObj(id);F.sentTo=to=>out.some(o=>o.to===to);F.reqFrom=from=>inc.find(r=>r.from===from);F.okH=okH;
+F.reqTo=async function(to){if(!ON()||!to||to===uid)return false;const D=db();
+ if(frIds.includes(to)||out.some(o=>o.to===to))return true;const back=inc.find(r=>r.from===to);if(back){await window.frAcc(back.id,1);return true}
+ try{const tp=await D.collection('profiles').doc(to).get();const tn=tp.exists?tp.data().name:'';
+  await D.collection('reqs').doc(uid+'_'+to).set({from:uid,to:to,fromName:prof.name,fromH:okH(SV.pav||SV.mine),fromRk:rankName(),toName:tn,t:FV().serverTimestamp()});
+  toast('Friend request sent to '+(tn||'player'));try{snd(660,.08,'triangle')}catch(e){}return true}
+ catch(e){console.log('fr reqTo',e&&e.code);toast(e&&e.code==='unavailable'?'No internet connection.':'Something went wrong — try again.');return false}};
 try{new MutationObserver(numRow).observe(document.getElementById('menu'),{childList:true,subtree:true})}catch(e){}
 }catch(e){console.warn('v4 friends',e)}})();
