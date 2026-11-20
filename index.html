@@ -4534,6 +4534,17 @@ html body #splash .spB .xp{position:relative}
 }catch(e){console.warn('v3 board gate',e)}})();
 </script><script id="v4_00_fbcfg">/* v4: Firebase project settings (project "dice-cards") */
 window.__FBCFG={apiKey:"AIzaSyAVrl8UYmuy8yrv1Ssl4tqKJX-onNprF0w",authDomain:"dice-cards.firebaseapp.com",projectId:"dice-cards",storageBucket:"dice-cards.firebasestorage.app",messagingSenderId:"166736973379",appId:"1:166736973379:web:926866073067185bd14ef6"};
+</script><script id="v4_00b_guard">/* v4: keep the 3D board alive — if one animation frame throws, report the real message and keep the loop going */
+(function(){try{
+ const raf=window.requestAnimationFrame.bind(window),seen={},tries=new WeakMap();let inCb=0,asked=0;
+ window.requestAnimationFrame=function(cb){if(typeof cb!=='function')return raf(cb);
+  return raf(function(t){const was=asked;asked=0;inCb++;
+   try{cb(t);tries.delete(cb)}catch(e){const m=String(e&&e.message||e).slice(0,140);
+    if(!seen[m]){seen[m]=1;try{console.warn('3D frame: '+m+' | '+String(e&&e.stack||'').split('\n').slice(0,3).join(' / ').slice(0,260))}catch(x){}}
+    const n=(tries.get(cb)||0)+1;tries.set(cb,n);if(!asked&&n<600)window.requestAnimationFrame(cb)}
+   finally{inCb--;asked=was}})};
+ const _r=window.requestAnimationFrame;window.requestAnimationFrame=function(cb){asked=1;return _r(cb)};
+}catch(e){console.log('v4 guard',e)}})();
 </script><style id="v4_01_online">
 /* v4: online accounts */
 html body #splash .spB .xau button.on{color:#fff2d8!important;border-color:#e9b54a!important;background:linear-gradient(#7a5532,#4a2e16)!important;cursor:pointer}
@@ -4899,7 +4910,10 @@ function deC(o){if(!o)return null;let t;
  if(o.n&&(t=CAT.find(c=>c.n===o.n)))return Object.assign({},t,{sp:1});
  return {n:o.n||'?',h:'',a:'🎲',f:()=>1+Math.floor(Math.random()*6)}}
 const CA=['hand','deck','disc'];
-function serP(p){const o={};for(const k in p){const v=p[k];if(typeof v==='function')continue;if(CA.includes(k))o[k]=(v||[]).map(serC);else o[k]=v==null?v:JSON.parse(JSON.stringify(v))}return o}
+const plain=v=>{if(v==null||typeof v==='number'||typeof v==='string'||typeof v==='boolean')return v;
+ if(Array.isArray(v))return v.map(plain).filter(x=>x!==undefined);
+ if(typeof v==='object'&&Object.getPrototypeOf(v)===Object.prototype){const o={};for(const k in v){const x=plain(v[k]);if(x!==undefined)o[k]=x}return o}return undefined};
+function serP(p){const o={};for(const k in p){const v=p[k];if(typeof v==='function')continue;if(CA.includes(k))o[k]=(v||[]).map(serC);else{const x=plain(v);if(x!==undefined)o[k]=x}}return o}
 function snap(){return{P:[serP(P[0]),serP(P[1])],T:T.slice(),round,SD,over:over?1:0,cur,logs:(logs||[]).slice(),
  vt:(window.__vt||[null,null]).slice(),burn:(window.__burn||[null,null]).map(b=>b&&b.tiles?{tiles:b.tiles.slice(),last:b.last}:null)}}
 /* turn the other phone's view into mine: swap players, rotate the board half way round */

@@ -20,7 +20,10 @@ function deC(o){if(!o)return null;let t;
  if(o.n&&(t=CAT.find(c=>c.n===o.n)))return Object.assign({},t,{sp:1});
  return {n:o.n||'?',h:'',a:'🎲',f:()=>1+Math.floor(Math.random()*6)}}
 const CA=['hand','deck','disc'];
-function serP(p){const o={};for(const k in p){const v=p[k];if(typeof v==='function')continue;if(CA.includes(k))o[k]=(v||[]).map(serC);else o[k]=v==null?v:JSON.parse(JSON.stringify(v))}return o}
+const plain=v=>{if(v==null||typeof v==='number'||typeof v==='string'||typeof v==='boolean')return v;
+ if(Array.isArray(v))return v.map(plain).filter(x=>x!==undefined);
+ if(typeof v==='object'&&Object.getPrototypeOf(v)===Object.prototype){const o={};for(const k in v){const x=plain(v[k]);if(x!==undefined)o[k]=x}return o}return undefined};
+function serP(p){const o={};for(const k in p){const v=p[k];if(typeof v==='function')continue;if(CA.includes(k))o[k]=(v||[]).map(serC);else{const x=plain(v);if(x!==undefined)o[k]=x}}return o}
 function snap(){return{P:[serP(P[0]),serP(P[1])],T:T.slice(),round,SD,over:over?1:0,cur,logs:(logs||[]).slice(),
  vt:(window.__vt||[null,null]).slice(),burn:(window.__burn||[null,null]).map(b=>b&&b.tiles?{tiles:b.tiles.slice(),last:b.last}:null)}}
 /* turn the other phone's view into mine: swap players, rotate the board half way round */
