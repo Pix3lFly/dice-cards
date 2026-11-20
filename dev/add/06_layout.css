@@ -1,0 +1,3 @@
+/* v4: Journal → Rewards on short screens (PC windows): panels keep their size, the page scrolls instead of squeezing the chests */
+#mb:has(.csh) > *{flex-shrink:0!important}
+#mb:has(.csh){overflow-y:auto!important;overflow-x:hidden!important}
