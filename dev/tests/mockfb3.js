@@ -14,7 +14,8 @@ const fix=v=>{const o={};for(const k in v){if(v[k]===TS)o[k]=Date.now();else o[k
 const dsnap=(path,d)=>({id:path.split('/').pop(),ref:Doc(path),exists:!!d,data:()=>d?Object.assign({},d):undefined});
 const guard=(d,path,data)=>{const [c]=path.split('/');if((c==='names'||c==='nums')&&d[path]&&d[path].uid!==cur.uid)throw {code:'permission-denied'};if(!cur)throw {code:'permission-denied'}};
 const apply=(d,op)=>{if(op.t==='del'){delete d[op.p];return}guard(d,op.p,op.v);const v=fix(op.v);d[op.p]=op.m?Object.assign({},d[op.p]||{},v):v};
-const sendOps=ops=>{const x=new XMLHttpRequest();x.open('POST','/__mock',false);x.send(JSON.stringify({ops:ops.map(o=>o.t==='del'?{p:o.p,del:1}:{p:o.p,v:fix(o.v),m:!!o.m})}))};
+const nested=(v,inArr)=>{if(Array.isArray(v)){if(inArr)return true;return v.some(x=>nested(x,true))}if(v&&typeof v==='object')return Object.values(v).some(x=>nested(x,false));return false};
+const sendOps=ops=>{if(ops.some(o=>o.v&&nested(o.v,false)))throw {code:'invalid-argument',message:'Nested arrays are not supported'};const x=new XMLHttpRequest();x.open('POST','/__mock',false);x.send(JSON.stringify({ops:ops.map(o=>o.t==='del'?{p:o.p,del:1}:{p:o.p,v:fix(o.v),m:!!o.m})}))};
 function Doc(p){return{id:p.split('/').pop(),path:p,
  get(){return Promise.resolve(dsnap(p,all()[p]))},
  set(v,o){try{const d=all();apply(d,{p,v,m:o&&o.merge});sendOps([{p,v,m:o&&o.merge}]);notify();return Promise.resolve()}catch(e){return Promise.reject(e)}},
