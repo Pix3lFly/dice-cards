@@ -1,7 +1,7 @@
 
 /* ===== v4: online accounts + online saves (Firebase). Works in the phone app; the claude.ai page can't reach Firebase and stays offline. ===== */
 (function(){try{
-const CFG=window.__FBCFG,K='dc7',KT='dc7_lt',KS='dc7_sync',B='https://www.gstatic.com/firebasejs/10.14.1/';
+const CFG=window.__FBCFG,K='dc7',KT='dc7_lt',KS='dc7_sync',VER=['12.18.0','10.14.1'];
 const _set=Storage.prototype.setItem;
 const lg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},ls=(k,v)=>{try{_set.call(localStorage,k,v)}catch(e){}};
 const pj=t=>{try{return JSON.parse(t)}catch(e){return null}};
@@ -81,10 +81,11 @@ function form(m){const reg=m==='reg';
   setTimeout(()=>{try{em.focus()}catch(e){}},50)})}
 
 /* start Firebase (scripts load only in the phone app; blocked on the claude.ai page) */
-const load=src=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=B+src;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+const load=(v,src)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://www.gstatic.com/firebasejs/'+v+'/'+src;s.onload=ok;s.onerror=()=>{s.remove();no()};document.head.appendChild(s)});
+const loadAll=v=>load(v,'firebase-app-compat.js').then(()=>Promise.all([load(v,'firebase-auth-compat.js'),load(v,'firebase-firestore-compat.js')]));
 if(CFG){const to=setTimeout(()=>{if(state==='loading'){state='off';status()}},15000);
- load('firebase-app-compat.js').then(()=>Promise.all([load('firebase-auth-compat.js'),load('firebase-firestore-compat.js')])).then(()=>{
-  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{db.settings({experimentalForceLongPolling:true,merge:true})}catch(e){console.log('fs settings',e)}try{auth.useDeviceLanguage()}catch(e){}
+ loadAll(VER[0]).catch(()=>{try{delete window.firebase}catch(e){window.firebase=undefined}return loadAll(VER[1])}).then(()=>{
+  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{auth.useDeviceLanguage()}catch(e){}
   auth.getRedirectResult().catch(e=>console.log('redirect',e));
   state='ready';status();
   setTimeout(()=>{if(!known){known=true;status()}},10000);

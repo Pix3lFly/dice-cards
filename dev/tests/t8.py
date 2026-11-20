@@ -16,7 +16,7 @@ async def reg(pg,mail):
 async def enter(pg):
     await pg.evaluate("()=>{window.__loadF=()=>1;SV.played=1}");await pg.click('#bgn',force=True);await pg.wait_for_timeout(800)
     await pg.evaluate("()=>{document.querySelectorAll('#menu .mpop').forEach(x=>x.remove());SV.mt=SV.mt||{};['main','comm','shop','coll','jour','bat','batl'].forEach(k=>SV.mt[k]=1);document.querySelectorAll('#tut3').forEach(x=>x.style.display='none');tab='comm';CMT='fr';menu()}")
-ACT="""()=>{if(!P||over)return 'over:'+over;const tut=document.getElementById('tut3');if(tut)tut.style.display='none';
+ACT="""()=>{if(!P||over)return 'over:'+over;if(typeof RO!=='undefined'&&RO&&!RO.fin&&!RO.a&&!RO.spin){doRoll();return 'roll'}const tut=document.getElementById('tut3');if(tut)tut.style.display='none';
  const up=document.getElementById('upm');if(up&&up.style.display!=='none'){pk(Math.max(0,P[0].sk.findIndex(l=>l<3)));return 'pk'}
  if(FT){if(FT.shop)bl();else fp(-1);return 'ft'}
  if(cur===0&&!busy){const p=P[0];if(p.jail){escape(0);return 'esc'}const i=p.hand.findIndex(c=>!c.sp);if(i>=0){play(0,i);return 'play'}end();return 'end'}return 'wait'}"""
@@ -33,6 +33,11 @@ async def main():
     await A.evaluate("(id)=>fbat(id)",bid);await A.wait_for_timeout(1500);await B.evaluate("()=>__ivAns(1)")
     await A.wait_for_timeout(9000)
     print('live A',await A.evaluate("()=>{const l=__LIVE();return l&&{host:l.host,wait:l.wait}}"),'live B',await B.evaluate("()=>{const l=__LIVE();return l&&{host:l.host}}"))
+    for k in range(40):
+      await A.evaluate(ACT);await B.evaluate(ACT)
+      ia=await A.evaluate("()=>document.getElementById('intro').innerText.replace(/\\s+/g,' ')");ib=await B.evaluate("()=>document.getElementById('intro').innerText.replace(/\\s+/g,' ')")
+      if 'first!' in ia and 'first!' in ib:print('ROLL A:',ia[-60:]);print('ROLL B:',ib[-60:]);break
+      await A.wait_for_timeout(300)
     t0=time.time();last=None;turns=0;mism=0;checks=0;nextq=t0+40
     def mp(x):y=dict(x);y['pos']=(y['pos']+12)%24;return y
     while time.time()-t0<1100:

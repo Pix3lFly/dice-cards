@@ -4565,7 +4565,7 @@ html body #splash #bgn.lk{filter:grayscale(.7) brightness(.8);animation:none!imp
 </style><script id="v4_02_online">
 /* ===== v4: online accounts + online saves (Firebase). Works in the phone app; the claude.ai page can't reach Firebase and stays offline. ===== */
 (function(){try{
-const CFG=window.__FBCFG,K='dc7',KT='dc7_lt',KS='dc7_sync',B='https://www.gstatic.com/firebasejs/10.14.1/';
+const CFG=window.__FBCFG,K='dc7',KT='dc7_lt',KS='dc7_sync',VER=['12.18.0','10.14.1'];
 const _set=Storage.prototype.setItem;
 const lg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},ls=(k,v)=>{try{_set.call(localStorage,k,v)}catch(e){}};
 const pj=t=>{try{return JSON.parse(t)}catch(e){return null}};
@@ -4645,10 +4645,11 @@ function form(m){const reg=m==='reg';
   setTimeout(()=>{try{em.focus()}catch(e){}},50)})}
 
 /* start Firebase (scripts load only in the phone app; blocked on the claude.ai page) */
-const load=src=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=B+src;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+const load=(v,src)=>new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://www.gstatic.com/firebasejs/'+v+'/'+src;s.onload=ok;s.onerror=()=>{s.remove();no()};document.head.appendChild(s)});
+const loadAll=v=>load(v,'firebase-app-compat.js').then(()=>Promise.all([load(v,'firebase-auth-compat.js'),load(v,'firebase-firestore-compat.js')]));
 if(CFG){const to=setTimeout(()=>{if(state==='loading'){state='off';status()}},15000);
- load('firebase-app-compat.js').then(()=>Promise.all([load('firebase-auth-compat.js'),load('firebase-firestore-compat.js')])).then(()=>{
-  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{db.settings({experimentalForceLongPolling:true,merge:true})}catch(e){console.log('fs settings',e)}try{auth.useDeviceLanguage()}catch(e){}
+ loadAll(VER[0]).catch(()=>{try{delete window.firebase}catch(e){window.firebase=undefined}return loadAll(VER[1])}).then(()=>{
+  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{auth.useDeviceLanguage()}catch(e){}
   auth.getRedirectResult().catch(e=>console.log('redirect',e));
   state='ready';status();
   setTimeout(()=>{if(!known){known=true;status()}},10000);
@@ -4941,6 +4942,7 @@ function queue(x){const S=L;if(!S)return;const now=Date.now();if(S.off==null)S.o
 setInterval(()=>{const S=L;if(!S||!S.q.length)return;const now=Date.now();while(S.q.length&&S.q[0].due<=now&&L===S){const {x}=S.q.shift();try{run(x)}catch(e){console.log('live run',e)}}},30);
 
 function run(x){const S=L;
+ if(x.k==='ro'){S.roT[x.n]=x.v;try{if(RO&&!RO.fin)drawRO()}catch(e){}resolveRO();return}
  if(x.k==='hello'){if(!S.host||!S.wait)return;const p=Object.assign({},x.p);['pos','base'].forEach(k=>{if(typeof p[k]==='number')p[k]=SH(p[k])});
   const d=P[1];const nm=d.name;for(const k in p){if(KEEP.includes(k))continue;d[k]=CA.includes(k)?(p[k]||[]).map(deC):p[k]}d.name=nm;d.first=1;d.via=d.via2=d.wf=null;
   try{window.setModel&&setModel(1,d.h)}catch(e){}try{window.__3&&__3.setTile&&__3.setTile(12)}catch(e){}
@@ -4960,6 +4962,7 @@ function startMyTurn(){if(!L)return;if(!L.host)round=Math.max(0,round-1);cur=1;b
   if(cur!==0)return; // only my side's hand-over moves the turn on
   if(P[0].pts>0&&P[0].sk.some(l=>l<3)){ask();setTimeout(gt(next),400);return}
   FT=null;['fgt','upm'].forEach(k=>{const e=$$(k);if(e)e.style.display='none'});
+  if(L.host&&round<1)round=1;
   cur=1;busy=1;send({k:'pass',d:Object.assign(snap(),{cur:0})});L.lastSent='';flush();render()}})();
 
 /* ---------- the AI never plays in a live match; rules sleep on the phone that is watching ---------- */
@@ -5000,6 +5003,28 @@ setInterval(()=>{if(!L||!L.started)return;
 setInterval(()=>{if(!L||!L.started||L.done)return;mref().set({['h_'+L.me]:Date.now()},{merge:true}).catch(()=>{})},4000);
 setInterval(()=>{if(!live()||over)return;if(Date.now()-L.seen>(L.ready?20000:60000))finish(1,(L.themName||'Your friend')+' left the match — you win! 🏆')},2000);
 
+
+/* ---------- roll-off: each player rolls their own die; the screen stays until both rolled and someone won ---------- */
+const escH=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function resolveRO(){const S=L;if(!S||typeof RO==='undefined'||!RO||RO.fin||RO.spin)return;const n=S.roN,a=S.roMine[n],b=S.roT[n];if(!a)return;RO.a=a;RO.b=b||0;
+ if(!b){drawRO();return}const nm=S.themName||P[1].name;
+ if(a===b){if(S.tieN===n)return;S.tieN=n;drawRO(['Tie! Roll again','#ffd166']);
+  setTimeout(()=>{if(L!==S||!RO||RO.fin)return;S.roN=n+1;RO.a=RO.b=0;drawRO();clearTimeout(RO.t);RO.t=setTimeout(gt(()=>{if(RO&&!RO.fin)doRoll()}),20000)},1500);return}
+ RO.fin=1;const me=a>b;try{roll(me?a:b)}catch(e){}drawRO([me?'You go first!':nm+' goes first!',me?'#6fe39a':'#ff8a7e']);setTimeout(gt(()=>startSeq(me)),1600)}
+(function w(){if(typeof doRoll!=='function'||typeof drawRO!=='function'||typeof startSeq!=='function'){setTimeout(w,300);return}
+ const _dr=doRoll,_draw=drawRO;
+ drawRO=function(msg){if(!live()||typeof RO==='undefined'||!RO)return _draw.apply(this,arguments);const S=L,nm=escH(S.themName||P[1].name),th=RO.b||S.roT[S.roN]||0;
+  const blk=(pl,v,mine)=>'<div class="rob '+(mine?'me':'en')+'"><div style="font-size:34px">'+pl.av+'</div><b>'+(mine?'You':nm)+'</b><div class="rod">'+(v||'?')+'</div>'+(mine?'<button class="bt" '+(RO.spin||RO.a?'disabled':'')+' onclick="doRoll()">'+(RO.spin?'Rolling…':RO.a?'Rolled':'🎲 Roll')+'</button>':'<div style="height:34px;font-size:12px;opacity:.8;line-height:34px">'+(v?'Rolled':'Waiting for '+nm+'…')+'</div>')+'</div>';
+  $$('intro').innerHTML='<div class="it" style="font-size:22px">🎲 Roll dice to see who goes first</div><div class="rrow">'+blk(P[0],RO.a,1)+blk(P[1],th,0)+'</div><div class="it" style="font-size:22px;margin-top:10px;min-height:30px;color:'+(msg?msg[1]:'#fff')+'">'+(msg?msg[0]:'')+'</div>'};
+ doRoll=function(){if(!live())return _dr.apply(this,arguments);if(typeof RO==='undefined'||!RO||RO.fin||RO.spin||RO.a)return;RO.spin=1;clearTimeout(RO.t);try{snd(300,.08,'square')}catch(e){}
+  let n=0;const g=gid,S=L,att=S.roN;const iv=setInterval(()=>{if(g!==gid||!RO||L!==S){clearInterval(iv);return}n++;RO.a=1+Math.floor(Math.random()*6);if(n<9){drawRO();return}
+   clearInterval(iv);RO.spin=0;S.roMine[att]=RO.a;send({k:'ro',n:att,v:RO.a});flush();drawRO();resolveRO()},90)}})();
+
+/* ---------- safety net: if my turn sits on "Resolving…" with nothing changing for 30 s, finish the turn ---------- */
+setInterval(()=>{if(!myTurn()||over||vis('intro')||FT||vis('upm')||!busy){if(L)L.stT=Date.now();return}
+ if(L.stJs!==L.lastSent){L.stJs=L.lastSent;L.stT=Date.now();return}
+ if(Date.now()-L.stT>30000){L.stT=Date.now();console.log('live unstick');try{end()}catch(e){}}},2000);
+
 /* ---------- start / end ---------- */
 const vis=id=>{const e=$$(id);return !!e&&getComputedStyle(e).display!=='none'};
 function stop(){if(!L)return;const S=L;S.done=1;try{flush()}catch(e){}S.un.forEach(f=>{try{f()}catch(e){}});S.un=[]}
@@ -5010,7 +5035,7 @@ function finish(win,txt){if(!L||over&&L.ended)return;L.ended=1;
 (function w(){if(typeof init!=='function'){setTimeout(w,200);return}const _i=init;
  init=function(){const pend=window.__LIVEP;window.__LIVEP=null;if(L)stop();L=null;const r=_i.apply(this,arguments);
   if(pend&&O.db){L={mid:pend.mid,host:pend.host,me:F.uid,them:pend.them,themName:pend.name,started:1,done:0,out:[],seq:0,got:{},nextN:0,q:[],off:null,lastDue:0,
-    edge:[{},{}],un:[],pend:{},gapT:0,seen:Date.now(),hb:null,wait:pend.host?1:0,lastSent:'',last:null};listen();
+    edge:[{},{}],un:[],pend:{},gapT:0,roN:0,roT:{},roMine:{},seen:Date.now(),hb:null,wait:pend.host?1:0,lastSent:'',last:null};listen();
    if(!pend.host){cur=1;busy=1;const p=serP(P[0]);p.first=1;send({k:'hello',p});flush();render()}}
   return r}})();
 setInterval(()=>{if(L&&L.host&&L.wait&&cur===0){busy=1}},100);
