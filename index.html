@@ -4660,7 +4660,7 @@ const load=(v,src)=>new Promise((ok,no)=>{const s=document.createElement('script
 const loadAll=v=>load(v,'firebase-app-compat.js').then(()=>Promise.all([load(v,'firebase-auth-compat.js'),load(v,'firebase-firestore-compat.js')]));
 if(CFG){const to=setTimeout(()=>{if(state==='loading'){state='off';status()}},15000);
  loadAll(VER[0]).catch(()=>{try{delete window.firebase}catch(e){window.firebase=undefined}return loadAll(VER[1])}).then(()=>{
-  clearTimeout(to);firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();try{auth.useDeviceLanguage()}catch(e){}
+  clearTimeout(to);firebase.initializeApp(CFG);try{firebase.setLogLevel&&firebase.setLogLevel('error')}catch(e){}try{firebase.firestore.setLogLevel&&firebase.firestore.setLogLevel('error')}catch(e){}auth=firebase.auth();db=firebase.firestore();try{auth.useDeviceLanguage()}catch(e){}
   auth.getRedirectResult().catch(e=>console.log('redirect',e));
   state='ready';status();
   setTimeout(()=>{if(!known){known=true;status()}},10000);
