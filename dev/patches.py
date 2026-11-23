@@ -35,6 +35,9 @@ P = [
  # V4 heroes from Pix's character sheet: a 7th model file m/mdl6.js sets window.__H4 = {name:{g,t}}, merged over the V3 models
  ('model part 7', "var N=6,i=0,tries=0;", "var N=7,i=0,tries=0;"),
  ('model merge v4 heroes', "try{D=JSON.parse(el.textContent)}catch(e){}", "try{D=JSON.parse(el.textContent)}catch(e){}try{if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}}catch(e){}"),
+ # new spectre (already glowing cyan): skip the old darken + pale-blue tint, keep a light glow
+ ('spectre loader tint', "(k==='spectre'?o.material.color.setRGB(.46,.5,.62)", "(k==='spectre'&&!window.__H4S?o.material.color.setRGB(.46,.5,.62)"),
+ ('spectre board tint', "m.userData.__spB=1;m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}", "m.userData.__spB=1;if(window.__H4S){if(m.emissive)m.emissive.setRGB(.08,.16,.2)}else{m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}}"),
  # board tutorial: Back / Next buttons instead of tap anywhere
  ('tutorial buttons', "'<small>Tap anywhere to continue</small></div>';try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}",
   "'<div class=\"tnv\"><button class=\"bt tbk\" '+(k?'':'disabled')+'>◀ Back</button><button class=\"bt tnx\">'+(k===STEPS.length-1?'Done ✓':'Next ▶')+'</button></div></div>';bx.querySelector('.tbk').onclick=e=>{e.stopPropagation();if(k>0){k--;show();try{snd(500,.05,'triangle')}catch(x){}}};bx.querySelector('.tnx').onclick=e=>{e.stopPropagation();k++;show();try{snd(600,.05,'triangle')}catch(x){}};try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}"),
