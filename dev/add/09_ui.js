@@ -43,4 +43,13 @@ function dots(){try{
 window.__v4dots=dots;
 (function w(){if(typeof menu!=='function'||typeof SV==='undefined'){setTimeout(w,300);return}
  const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{dots()}catch(e){}return r};setInterval(dots,4000);setTimeout(dots,500)})();
+
+/* ---------- PC mouse wheel: if the thing under the mouse can't scroll, scroll the page's main list instead ---------- */
+const canSc=(e,dy)=>{const s=getComputedStyle(e);if(!/(auto|scroll)/.test(s.overflowY))return false;if(e.scrollHeight<=e.clientHeight+1)return false;return dy>0?e.scrollTop+e.clientHeight<e.scrollHeight-1:e.scrollTop>0};
+document.addEventListener('wheel',ev=>{try{if(ev.ctrlKey||!ev.deltaY)return;const M=document.getElementById('menu');if(!M||M.style.display==='none'||!M.contains(ev.target))return;
+ const dy=ev.deltaY*(ev.deltaMode===1?40:ev.deltaMode===2?400:1);
+ const root=ev.target.closest('.mpop')||document.getElementById('mb')||M;
+ for(let e=ev.target;e&&e!==root.parentElement;e=e.parentElement){if(canSc(e,dy))return}
+ const L=[...root.querySelectorAll('*')].concat([root]).filter(e=>canSc(e,dy)&&e.offsetParent!==null);if(!L.length)return;
+ L.sort((a,b)=>b.clientHeight-a.clientHeight);L[0].scrollBy({top:dy,behavior:'auto'});ev.preventDefault()}catch(e){}},{passive:false});
 }catch(e){console.warn('v4 ui',e)}})();
