@@ -32,6 +32,9 @@ P = [
   "if(SV.rkPend===i)SV.rkPend=0;try{__sfx&&__sfx('chest')}catch(e){}try{sv()}catch(e){}__rrClose();menu();try{window.__rwShow&&window.__rwShow(bad(i),RK[i][0]+' reward!',[[U.coin,'+'+(r.gold||0),'Gold'],[U.gem,'+'+(r.gems||0),'Gems']])}catch(e){}};"),
  # mail: no simulated friend gifts when playing online (03_friends meant to switch these off, but mailInit can't be swapped from an add-on)
  ('no fake gifts online', "if(SV.mday!==day){SV.mday=day;shuf(FR)", "if(SV.mday!==day&&!(window.__FRON&&window.__FRON.on)){SV.mday=day;shuf(FR)"),
+ # V4 heroes from Pix's character sheet: a 7th model file m/mdl6.js sets window.__H4 = {name:{g,t}}, merged over the V3 models
+ ('model part 7', "var N=6,i=0,tries=0;", "var N=7,i=0,tries=0;"),
+ ('model merge v4 heroes', "try{D=JSON.parse(el.textContent)}catch(e){}", "try{D=JSON.parse(el.textContent)}catch(e){}try{if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}}catch(e){}"),
  # board tutorial: Back / Next buttons instead of tap anywhere
  ('tutorial buttons', "'<small>Tap anywhere to continue</small></div>';try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}",
   "'<div class=\"tnv\"><button class=\"bt tbk\" '+(k?'':'disabled')+'>◀ Back</button><button class=\"bt tnx\">'+(k===STEPS.length-1?'Done ✓':'Next ▶')+'</button></div></div>';bx.querySelector('.tbk').onclick=e=>{e.stopPropagation();if(k>0){k--;show();try{snd(500,.05,'triangle')}catch(x){}}};bx.querySelector('.tnx').onclick=e=>{e.stopPropagation();k++;show();try{snd(600,.05,'triangle')}catch(x){}};try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}"),
