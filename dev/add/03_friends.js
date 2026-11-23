@@ -56,7 +56,7 @@ window.addEventListener('dc-synced',()=>{if(O.user&&!prof)ensure()});
 setInterval(()=>{if(O.user&&O.synced&&!prof&&O.state==='ready')ensure()},30e3);
 
 /* ---------- what the existing friends page shows ---------- */
-const friendObj=id=>{const p=frP[id]||{};const rks=RKN();return {id:id,n:NAME_OK.test(p.name||'')?p.name:'Player',h:okH(p.h),rk:rks.includes(p.rk)?p.rk:'Bronze',g:esc(p.g||'No guild'),w:+p.w||0,l:+p.l||0,wv:0,lv:+p.lv||1,num:/^\d{8}$/.test(p.num||'')?p.num:'',real:1,on:isOnline(p)}};
+const friendObj=id=>{const p=frP[id]||{};const rks=RKN();return {id:id,n:NAME_OK.test(p.name||'')?p.name:'Player',h:okH(p.h),rk:rks.includes(p.rk)?p.rk:'Bronze',g:esc(p.g||'No guild'),w:+p.w||0,l:+p.l||0,wv:0,lv:+p.lv||1,num:/^\d{8}$/.test(p.num||'')?p.num:'',real:1,on:isOnline(p),seen:ms(p.seen)}};
 const _fr=window.__friends;
 window.__friends=function(){if(!ON())return _fr?_fr():[];return frIds.filter(id=>frP[id]).map(friendObj).sort((a,b)=>b.on-a.on||a.n.localeCompare(b.n))};
 const _isOn=window.__isOn;window.__isOn=id=>{if(ON()&&frP[id])return isOnline(frP[id]);return _isOn?_isOn(id):false};

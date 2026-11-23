@@ -28,6 +28,7 @@ const all=()=>RM.concat(sysMail());
 const find=id=>all().find(m=>m.id===id);
 const hasR=m=>!!(m.r&&((m.r.gold||0)+(m.r.gems||0)));
 const isNew=m=>m.real?!m.read:(hasR(m)&&!m.c);
+window.__mailNew=()=>all().filter(isNew).length;
 
 /* ---------- the Mail page ---------- */
 const mailUI=function(PC4){const L=all(),un=L.filter(isNew).length,uc=sysMail().filter(m=>hasR(m)&&!m.c).length;
@@ -47,9 +48,13 @@ window.mlOpen=function(id){const m=find(id);if(!m)return;
  const rw=hasR(m)?'<div class="mlr"><span class="rwd">'+(m.r.gold?'<img alt="" src="'+U.coin+'">'+m.r.gold:'')+(m.r.gems?' <img alt="" src="'+U.gem+'">'+m.r.gems:'')+'</span>'+(m.c?'<em class="cl">✓ Claimed</em>':'<button class="opr jn" onclick="mlClaim(\''+m.id+'\',1)">Claim</button>')+'</div>':'';
  const why=sys?'<div class="mlw">This is a game message — you can’t reply.</div>':(!fr?'<div class="mlw">You can only reply to friends.</div>':'');
  pop('<div class="mlv"><b class="st">Mail</b><div class="mlh'+(m.real?' tp':'')+'"'+(m.real?' onclick="mlWho(\''+m.id+'\')"':'')+'><span class="mla">'+pic+'</span><span class="mln"><b>'+esc(m.f)+'</b><small>'+(sys?'Game message':ago(m.ts))+'</small></span></div>'+
-  '<div class="mlt">'+esc(m.t)+'</div>'+rw+why+
+  '<div class="mlt">'+esc(m.t)+'</div>'+rw+why+((m.real||!hasR(m)||m.c)?'<button class="mldl" onclick="mlDel(\''+m.id+'\')">🗑 Delete mail</button>':'')+
   '<div class="us2"><button class="opr" '+(fr?'onclick="mlReply(\''+m.id+'\')"':'disabled')+'>↩ Reply</button><button class="opr rm" onclick="soClose()">Close</button></div></div>');
  try{const row=[...document.querySelectorAll('#menu .mrow')].find(r=>(r.getAttribute('onclick')||'').includes("'"+id+"'"));const e=row&&row.querySelector('.mnew');if(e){e.className='cl mopn';e.textContent='Open';row.classList.add('lk')}}catch(e){}};
+window.mlDel=function(id){const m=find(id);if(!m)return;
+ if(m.real){RM=RM.filter(x=>x.id!==id);try{D().collection('mail').doc(UID()).collection('in').doc(m.doc).delete().catch(e=>console.log('mail del',e&&e.code))}catch(e){}}
+ else{if(hasR(m)&&!m.c)return;SV.mail=(SV.mail||[]).filter(x=>x.id!==id);try{sv()}catch(e){}}
+ shut();note('Mail deleted');try{menu()}catch(e){}};
 window.mlClaim=function(id,reopen){const m=find(id);if(!m||m.real||m.c)return;try{mclaim(id)}catch(e){}try{snd(880,.08,'triangle')}catch(e){}if(reopen)mlOpen(id)};
 window.mlReply=function(id){const m=find(id);if(!m)return;shut();mlSendPop(m.from,'')};
 window.mlWho=function(id){const m=find(id);if(!m||!m.real)return;showUid(m.from,m.f,m.h)};
