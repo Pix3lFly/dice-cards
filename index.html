@@ -370,7 +370,7 @@ const look=new V.Vector3(),UP=new V.Vector3(0,1,0);
 function rz(){const w=cv.clientWidth,h=cv.clientHeight;if(!w)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}addEventListener('resize',rz);rz();
 window.sync=function(){rz();S.fog.color.set(SD?0x3a0a10:0x0b1630)};
 let t=0,last=performance.now();
-const WB=i=>{const w=W(i);if(i===0||i===12){const d=(i?.38:-.38)*1.14;w.x+=d;w.z+=d}return w};
+const WB=i=>{const w=W(i);if(i===0||i===12){const d=(i?.38:-.38)*1.14*(window.__WBk!=null?window.__WBk:0);w.x+=d;w.z+=d}return w};
 const ORB=[];function orbOf(k){if(ORB[k])return ORB[k];const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d'),g=x.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.25,'rgba(170,230,255,.95)');g.addColorStop(.6,'rgba(80,170,255,.45)');g.addColorStop(1,'rgba(40,110,255,0)');x.fillStyle=g;x.fillRect(0,0,64,64);
  const sp=new V.Sprite(new V.SpriteMaterial({map:new V.CanvasTexture(c),color:0xbfe8ff,transparent:true,blending:V.AdditiveBlending,depthWrite:false}));sp.visible=false;sp.renderOrder=5;S.add(sp);ORB[k]=sp;return sp}
 function fr(now){const dt=Math.min(.05,(now-last)/1e3);last=now;t+=dt;

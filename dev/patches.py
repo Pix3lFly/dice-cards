@@ -52,6 +52,8 @@ P = [
  ('glv online', "glv=()=>Math.min(10,1+Math.floor((SV.gp||0)/100));", "glv=()=>(window.__glv&&window.__glv())||Math.min(10,1+Math.floor((SV.gp||0)/100));"),
  # hero pictures in menus (Collection etc.) = the same 2D art as the Battle page
  ('heroShot 2D', "function heroShot(h){if(SNAP[h])return SNAP[h];", "function heroShot(h){try{const S=window.__SKI||{},k=(SV.skin&&SV.skin[h])||0,a=S['b'+k+h]||S['b0'+h];if(a)return a}catch(e){}if(SNAP[h])return SNAP[h];"),
+ # new 3D bases: the hero's base spot is the corner tile itself (the base's round platform sits there)
+ ('base spot on corner', "const d=(i?.38:-.38)*1.14;w.x+=d;w.z+=d", "const d=(i?.38:-.38)*1.14*(window.__WBk!=null?window.__WBk:0);w.x+=d;w.z+=d"),
 ]
 def apply(s):
     for t in P:
