@@ -24,7 +24,7 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
  const g=mb.querySelector('.gbs'),lk=g?g.classList.contains('lk'):!st.base;
  const ds=bdesc(b,L).split(' · ');
  const title=(n,t,arr)=>'<div class="b4t"><img alt="'+t+'" src="'+A['u_t'+n]+'">'+(arr?GARW:'')+'</div>';
- const html='<div class="b4"><div class="b4in"><button class="b4q" title="How to play" onclick="var t=document.getElementById(\'v3tq\');if(t)t.click()">?</button>'+
+ const html='<div class="b4"><div class="b4in">'+
   '<div class="b4p">'+title(1,'Choose Your Hero',!st.hero)+
   '<div class="b4r">'+hk.map(k=>'<button class="b4c'+(st.hero&&k===h?' on':'')+'" onclick="m3h(\''+k+'\')"><span class="b4cc"><img alt="" src="'+heroLogo(k)+'"></span><em>'+esc(HD[k].n)+'</em></button>').join('')+'</div>'+
   '<div class="b4s"><div class="b4st">'+
@@ -42,16 +42,17 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
     :'<div class="b4bn"><i>🏝️</i><b>Select a Base</b></div><div class="b4bl dim"><span><i>🤍</i>Pass: —</span><span><i>🤍</i>Land: —</span></div>')+'</div>'+
    (st.base?'':'<img class="b4wt" alt="" src="'+(st.hero?A.u_w2:A.u_w1)+'">')+
   '</div></div></div>'+
-  '<div class="b4g'+(lk?' b4lk':'')+'">'+'<button class="b4m" onclick="__b4go(0)"><img alt="Casual match" src="'+A.u_cas+'"></button><button class="b4m" onclick="__b4go(1)"><img alt="Ranked match" src="'+A.u_rnk+'"></button></div>'+
+  '<div class="b4g'+(lk?' b4lk':'')+'">'+'<button class="b4m" onclick="__b4go(0)"><img alt="Casual match" src="'+A.u_cas+'"></button><button class="b4q" title="How to play" onclick="__b4tut()">?</button><button class="b4m" onclick="__b4go(1)"><img alt="Ranked match" src="'+A.u_rnk+'"></button></div>'+
   '</div></div>';
  let el=mb.querySelector(':scope>.b4');if(el)el.outerHTML=html;else mb.insertAdjacentHTML('beforeend',html);fit()}
-function off(){const M=document.getElementById('menu');if(M)M.classList.remove('bt4');const mb=document.getElementById('mb');if(mb){mb.classList.remove('b4on');const e=mb.querySelector(':scope>.b4');if(e)e.remove()}}
+function off(){const M=document.getElementById('menu');if(M)M.classList.remove('bt4');const q=document.getElementById('b4q');if(q)q.remove();const mb=document.getElementById('mb');if(mb){mb.classList.remove('b4on');const e=mb.querySelector(':scope>.b4');if(e)e.remove()}}
 // scale the fixed-size design to the space between the top bar and the bottom menu
 function fit(){const mb=document.getElementById('mb'),b=mb&&mb.querySelector(':scope>.b4'),i=b&&b.querySelector('.b4in');if(!i)return;
  const W=b.clientWidth,H=b.clientHeight,s=Math.min(W/390,H/750,1.6);i.style.zoom=s.toFixed(3)}
 window.addEventListener('resize',()=>{try{fit()}catch(e){}});
 window.__b4h=d=>{const k=HK();let i=k.indexOf(SV.mine);i=(i+d+k.length)%k.length;if(!document.querySelector('#mb .prow .pb.sel'))i=Math.max(0,d>0?0:k.length-1);m3h(k[i]);try{snd(600,.04,'triangle')}catch(e){}};
 window.__b4b=d=>{if(!document.querySelector('#mb .prow .pb.sel'))return;const k=BK();let i=k.indexOf(SV.base);if(!document.querySelector('#mb .brow .pb.sel'))i=d>0?-1:k.length;i=(i+d+k.length)%k.length;m3b(k[i])};
+window.__b4tut=()=>{const t=document.getElementById('v3tq');if(t)t.click()};
 window.__b4go=r=>{const g=document.querySelectorAll('#mb .gbs .gbt');const btn=g[r];if(btn)btn.click()};
 const _m=menu;menu=function(){const x=_m.apply(this,arguments);try{if(typeof tab!=='undefined'&&tab==='main')build();else off()}catch(e){console.log('battle page',e)}return x};
 setTimeout(()=>{try{if(tab==='main')build()}catch(e){}},300);
@@ -127,7 +128,8 @@ const css=document.createElement('style');css.textContent=`
 .b4 .b4g.b4lk .b4m{filter:grayscale(.8) brightness(.7) drop-shadow(0 4px 5px #000b)}
 #menu.bt4 #v3tq{visibility:hidden!important;pointer-events:none!important}
 #mb .b4in{position:relative}
-.b4 .b4q{position:absolute;right:6px;top:0;z-index:5;width:30px;height:30px;border-radius:50%;padding:0;border:2.5px solid #6b3f0a;background:radial-gradient(circle at 40% 32%,#fff3b0,#f2c24a 55%,#c07a14);box-shadow:inset 0 -2px 0 #9a5a10,0 0 0 1.5px #ffd76a,0 3px 5px #000a;font:400 19px/1 'Lilita One',system-ui,sans-serif;color:#3a2006;cursor:pointer}
+.b4 .b4q{flex:none;align-self:center;width:38px;height:38px;margin:0 -6px;position:relative;z-index:2;border-radius:50%;padding:0;border:2.5px solid #6b3f0a;background:radial-gradient(circle at 40% 32%,#fff3b0,#f2c24a 55%,#c07a14);box-shadow:inset 0 -2px 0 #9a5a10,0 0 0 1.5px #ffd76a,0 3px 5px #000a;font:400 23px/1 'Lilita One',system-ui,sans-serif;color:#3a2006;cursor:pointer}
 .b4 .b4q:active{transform:translateY(1px)}
+.b4 .b4g.b4lk .b4q{filter:grayscale(.8) brightness(.7)}
 `;document.head.appendChild(css);
 }catch(e){console.log('v4 battle',e)}})();
