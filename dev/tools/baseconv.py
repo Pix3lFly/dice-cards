@@ -31,6 +31,10 @@ def glb(P,N,UV,F,tex,q=85,ts=1024):
 def normals(J,BIN_P):pass
 def conv(path,guess,rad,tile=.96,grow=1.6):
   J,P,UV,F,tex=glbview.load(path)
+  if 'castle' in path:   # Pix: castle should look like grey stone, not pink
+    hsv=np.asarray(tex.convert('HSV')).astype(float);rgb=np.asarray(tex).astype(float);H=hsv[...,0]*360/255;S=hsv[...,1]/255;V=hsv[...,2]/255
+    pk=((H>248)|(H<25))&(S>.08)&(S<.65)&(V>.2);g=rgb.mean(2,keepdims=True)
+    tex=Image.fromarray(np.where(pk[...,None],np.concatenate([g*1.04,g*.98,g*.88],2),rgb).clip(0,255).astype(np.uint8))
   b=open(path,'rb').read();jl=struct.unpack('<I',b[12:16])[0];o=20+jl;BIN=b[o+8:o+8+struct.unpack('<I',b[o:o+4])[0]]
   N=None
   try:
