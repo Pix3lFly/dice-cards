@@ -99,6 +99,8 @@ P = [
   ('turn arrow height', 'a.position.set(h.position.x,h.position.y+3.0+Math.sin(t*4)*.08,h.position.z)', 'a.position.set(h.position.x,h.position.y+((P[k]&&P[k].skn)?3.45:3.15)+Math.sin(t*4)*.1,h.position.z)'),
   ('turn arrow colours', 'const A=[mkA(0x4fb3ff),mkA(0xff5a4f)]', 'const A=[mkA(0x2f8cff),mkA(0xff3b30)]'),
   ('new item art', 'const tex=(V,k)=>{if(T[k])return T[k];const t=new V.TextureLoader().load(D[k]);', "const tex=(V,k)=>{if(T[k])return T[k];const t=new V.TextureLoader().load((window.__NSP&&window.__NSP[k.replace(/^shop[TRBL]$/,'shop')])||D[k]);"),
+  ('new item size', 'h=H[kk]||.7', 'h=(H[kk]||.7)*(window.__NSP?(window.__nspK||1.4):1)'),
+  ('new item centre', 'M[k]=new V.SpriteMaterial({map:tex(V,k),transparent:true,alphaTest:.15,depthWrite:true}));s=new V.Sprite(m);s.center.set(.5,.02)', 'M[k]=new V.SpriteMaterial({map:tex(V,k),transparent:true,alphaTest:.15,depthWrite:true}));s=new V.Sprite(m);s.center.set(.5,window.__NSP?(window.__nspC||.12):.02)'),
 ]
 import os
 def tile_model(s):
