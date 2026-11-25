@@ -15,6 +15,15 @@ function deco(){const pn=document.querySelector('#mb .spn2.hv3');if(!pn){const m
  const src=window.__hImg&&__hImg(SV.mine);if(!src)return;let im=st.querySelector('img.chh');
  if(!im){im=document.createElement('img');im.className='chh';im.alt='';im.style.visibility='hidden';im.onload=()=>fit(im);im.onclick=()=>{try{m3pop('h')}catch(e){}};st.insertBefore(im,st.querySelector('.hcl'))}
  if(im.getAttribute('src')!==src){im.style.visibility='hidden';im.src=src}st.classList.add('ch4on');corners(st);corners(pn.querySelector('.sk3'))}
-const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){}setTimeout(()=>{try{deco()}catch(e){}},60);return r};
-setInterval(()=>{try{const m=document.getElementById('mb');if(m&&!m.querySelector('.spn2.hv3'))m.classList.remove('ch4');else deco()}catch(e){}},700);
+function decoB(){const m=document.getElementById('mb');if(!m)return;m.classList.toggle('ct4',m.classList.contains('c3')&&!!m.querySelector('.stabs'));
+ const pn=m.querySelector('.spn2.bv3');m.classList.toggle('cb4',!!pn);if(!pn)return;const st=pn.querySelector('.bsh');if(!st)return;
+ const b=bg();if(b&&!st.dataset.bg){st.style.setProperty('background-image',b,'important');st.dataset.bg=1}corners(st);
+ const nm=st.querySelector('.bnm3');if(nm&&!nm.querySelector('img')){const k=Object.keys(BASES).find(k=>nm.textContent.toLowerCase().startsWith(String(BASES[k].n).toLowerCase())),L=window.__BEM&&__BEM[k];
+  nm.innerHTML=(L?'<img alt="" src="'+L+'">':'')+'<span>'+nm.textContent.replace(/ base$/i,' Base')+'</span>'}
+ const bp=st.querySelector('.bbp3 small');if(bp)bp.textContent='Blueprints';
+ if(!pn.querySelector('.bef4')){const w=document.createElement('div');w.className='bef4';const its=[...pn.querySelectorAll(':scope>.bfh3,:scope>.bfx3,:scope>.bupb,:scope>.bmax')];if(its.length){pn.insertBefore(w,its[0]);its.forEach(e=>w.appendChild(e));corners(w)}
+  const lv=+(((st.querySelector('.blc3')||{}).textContent||'').match(/\d+/)||[1])[0],sm=pn.querySelectorAll('.bfx3 small');if(sm[0])sm[0].textContent='Current (Lv '+lv+')';if(sm[1])sm[1].textContent='Next (Lv '+(lv+1)+')';
+  const h=pn.querySelector('.bfh3');if(h)h.innerHTML='<span>Base Effect</span>'}}
+const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco();decoB()}catch(e){}setTimeout(()=>{try{deco();decoB()}catch(e){}},60);return r};
+setInterval(()=>{try{const m=document.getElementById('mb');if(m&&!m.querySelector('.spn2.hv3'))m.classList.remove('ch4');else deco();decoB()}catch(e){}},700);
 }catch(e){console.warn('v4 coll hero',e)}})();

@@ -1,18 +1,14 @@
 /* Collection → Heroes: Battle-page look (navy + gold), Pix's mockup 26 Nov */
-html body #mb.ch4 .stabs .stb{background:linear-gradient(#2c2f48,#16182a)!important;border:2.5px solid #e8b84e!important;box-shadow:0 0 0 1.5px #3a2208,0 3px 6px #0009!important}
-html body #mb.ch4 .stabs .stb span{color:#fff6e0!important;text-shadow:0 2px 0 #000!important}
-html body #mb.ch4 .stabs .stb.on{background:linear-gradient(#ffe7a0,#f2b93c 60%,#d48d1c)!important}
-html body #mb.ch4 .stabs .stb.on span{color:#3a2006!important;text-shadow:0 1px 0 #fff3c4!important}
-html body #mb.ch4 .prow{position:relative;isolation:isolate;border:0!important;border-radius:0!important;background:linear-gradient(160deg,#fff0b0,#e8b84e 35%,#a8701c 70%,#f2c25a)!important;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);box-shadow:none!important}
-html body #mb.ch4 .prow::before{content:'';position:absolute;inset:3px;z-index:-1;background:linear-gradient(#3a2a1e,#1c1510);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
-html body #mb.ch4 .prow{padding:8px 10px!important;filter:drop-shadow(0 5px 6px #000a)}
+html body #mb.ct4 .prow{position:relative;isolation:isolate;border:0!important;border-radius:0!important;background:linear-gradient(160deg,#fff0b0,#e8b84e 35%,#a8701c 70%,#f2c25a)!important;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);box-shadow:none!important}
+html body #mb.ct4 .prow::before{content:'';position:absolute;inset:3px;z-index:-1;background:linear-gradient(#3a2a1e,#1c1510);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
+html body #mb.ct4 .prow{padding:8px 10px!important;filter:drop-shadow(0 5px 6px #000a)}
 html body #mb.ch4 .spn2.hv3{background:none!important;border:0!important;box-shadow:none!important;padding:2px 0 0!important;gap:12px!important}
 html body #mb.ch4 .spn2.hv3>.pc{display:none!important}
 html body #mb.ch4 .hv3 .hst.ch4on{container-type:inline-size;background-size:auto 170%!important;background-position:40% 30%!important;border:3px solid #e8b84e!important;border-radius:14px!important;
  box-shadow:inset 0 0 0 2px #3a2208,inset 0 0 0 4px #f2c25a55,0 0 0 2px #3a2208,0 6px 14px #000b!important;overflow:hidden;min-height:226px!important;flex:none!important;height:226px!important}
 html body #mb.ch4 .hv3 .hst.ch4on>img.isl,html body #mb.ch4 .hv3 .hst.ch4on>#hroi{display:none!important}
-html body #mb.ch4 .cco{position:absolute;width:26px;height:26px;z-index:6;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2030%2030%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff1b8%22/%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%23f2c25a%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a8701c%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath%20d%3D%22M2%2028%20L2%208%20Q2%202%208%202%20L28%202%20L28%206%20L10%206%20Q6%206%206%2010%20L6%2028%20Z%22%20fill%3D%22url%28%23g%29%22%20stroke%3D%22%233a2208%22%20stroke-width%3D%221.2%22/%3E%3Cpath%20d%3D%22M9%209%20L17%209%20L9%2017%20Z%22%20fill%3D%22url%28%23g%29%22%20stroke%3D%22%233a2208%22%20stroke-width%3D%221%22/%3E%3C/svg%3E") center/contain no-repeat}
-html body #mb.ch4 .cco.tl{left:1px;top:1px}html body #mb.ch4 .cco.tr{right:1px;top:1px;transform:scaleX(-1)}html body #mb.ch4 .cco.bl{left:1px;bottom:1px;transform:scaleY(-1)}html body #mb.ch4 .cco.br{right:1px;bottom:1px;transform:scale(-1)}
+html body #mb .cco{position:absolute;width:26px;height:26px;z-index:6;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2030%2030%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23fff1b8%22/%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%23f2c25a%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23a8701c%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath%20d%3D%22M2%2028%20L2%208%20Q2%202%208%202%20L28%202%20L28%206%20L10%206%20Q6%206%206%2010%20L6%2028%20Z%22%20fill%3D%22url%28%23g%29%22%20stroke%3D%22%233a2208%22%20stroke-width%3D%221.2%22/%3E%3Cpath%20d%3D%22M9%209%20L17%209%20L9%2017%20Z%22%20fill%3D%22url%28%23g%29%22%20stroke%3D%22%233a2208%22%20stroke-width%3D%221%22/%3E%3C/svg%3E") center/contain no-repeat}
+html body #mb .cco.tl{left:1px;top:1px}html body #mb .cco.tr{right:1px;top:1px;transform:scaleX(-1)}html body #mb .cco.bl{left:1px;bottom:1px;transform:scaleY(-1)}html body #mb .cco.br{right:1px;bottom:1px;transform:scale(-1)}
 html body #mb.ch4 .hv3 .hst .chped{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);width:62%;height:auto;z-index:1;filter:drop-shadow(0 6px 6px #0008);pointer-events:none}
 html body #mb.ch4 .hv3 .hst .chh{--fy:0%;position:absolute;left:50%;bottom:calc(30px + 5.6cqw);transform:translate(-50%,var(--fy));height:132px;width:auto;max-width:none;object-fit:contain;z-index:2;filter:drop-shadow(0 6px 5px #000a);cursor:pointer;animation:ch4f 3s ease-in-out infinite}
 @keyframes ch4f{50%{transform:translate(-50%,calc(var(--fy) - 3px))}}
@@ -44,3 +40,44 @@ html body #mb.ch4 .hv3 .sk3 b{color:#fff!important}
 html body #mb.ch4 .hv3 .sk3>div,html body #mb.ch4 .hv3 .sk3 small i{color:#e6e0f2!important}
 html body #mb.ch4 .hv3 .sk3>div+div{border-left-color:#e8b84e55!important}
 html body #mb.ch4 .hv3 .skh3,html body #mb.ch4 .hv3 .sk3{display:none!important}
+
+/* tabs (same on Heroes / Bases / Deck), Pix's mockup 26 Nov */
+html body #mb.ct4 .stabs .stb{background:linear-gradient(#6a6a72,#3a3a42 55%,#26262c)!important;border:2px solid #d9b25a!important;border-bottom:0!important;border-radius:12px 12px 0 0!important;box-shadow:inset 0 1px 0 #ffffff40,0 -1px 0 #3a2208!important}
+html body #mb.ct4 .stabs .stb span{color:#fff!important;text-shadow:0 2px 0 #000a!important}
+html body #mb.ct4 .stabs .stb.on{background:linear-gradient(#fff0a8,#f5c242 55%,#e0a020)!important;border-color:#fff0b0!important}
+html body #mb.ct4 .stabs .stb.on span{color:#3a2006!important;text-shadow:0 1px 0 #fff3c4!important}
+html body #mb.ct4 .brow{position:relative;isolation:isolate;border:0!important;border-radius:0!important;background:linear-gradient(160deg,#fff0b0,#e8b84e 35%,#a8701c 70%,#f2c25a)!important;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);box-shadow:none!important}
+html body #mb.ct4 .brow::before{content:'';position:absolute;inset:3px;z-index:-1;background:linear-gradient(#3a2a1e,#1c1510);clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
+html body #mb.ct4 .brow{padding:8px 10px!important;filter:drop-shadow(0 5px 6px #000a)}
+/* Bases page */
+html body #mb.cb4 .spn2.bv3{background:none!important;border:0!important;box-shadow:none!important;padding:2px 0 0!important;gap:0!important}
+html body #mb.cb4 .spn2.bv3>.pc{display:none!important}
+html body #mb.cb4 .bv3 .bsh{background-size:auto 150%!important;background-position:62% 34%!important;border:3px solid #e8b84e!important;border-bottom-width:0!important;border-radius:14px 14px 0 0!important;
+ box-shadow:inset 0 0 0 2px #3a2208,inset 0 0 0 4px #f2c25a55,0 0 0 2px #3a2208!important;min-height:0!important;height:300px!important;flex:none!important}
+html body #mb.cb4 .bv3 .bsh>img.isl,html body #mb.cb4 .bv3 .bsh>img.bbig{visibility:hidden}
+html body #mb.cb4 .bv3 .bsh .b2d{top:66px!important;width:250px!important;height:190px!important}
+html body #mb.cb4 .bv3 .bnm3{max-width:none!important;white-space:nowrap;left:8px!important;top:12px!important;display:flex;align-items:center;gap:6px;padding:3px 34px 4px 12px;font-size:22px!important;color:#fff!important;-webkit-text-stroke:0!important;text-shadow:0 2px 0 #071a40!important;isolation:isolate;background:linear-gradient(#fff0b0,#e8b84e 50%,#a8701c);clip-path:polygon(12px 0,88% 0,100% 50%,88% 100%,12px 100%,0 50%)}
+html body #mb.cb4 .bv3 .bnm3::before{content:'';position:absolute;inset:2.5px;z-index:-1;background:linear-gradient(#2d55b0,#14275e);clip-path:polygon(11px 0,88% 0,100% 50%,88% 100%,11px 100%,0 50%)}
+html body #mb.cb4 .bv3 .bnm3 img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+html body #mb.cb4 .bv3 .blc3{left:44px!important;top:54px!important;font-size:13px!important;padding:2px 16px!important}
+html body #mb.cb4 .bv3 .bbp3{top:16px!important;right:12px!important;background:linear-gradient(#1f4a8a,#0e2440)!important;border:2px solid #5aa8ff!important;transform:none!important}
+html body #mb.cb4 .bv3 .bbp3 small{font-size:11px!important;color:#e4f3ff!important}
+html body #mb.cb4 .bv3 .bsh .blv{left:50%!important;right:auto!important;top:auto!important;bottom:12px!important;transform:translateX(-50%)!important;padding:6px 14px!important;gap:9px!important;border-radius:16px!important;background:linear-gradient(#262838,#12131c)!important;border:2.5px solid #e8b84e!important;box-shadow:0 0 0 1.5px #3a2208,0 3px 6px #000a!important}
+html body #mb.cb4 .bv3 .blv i{width:15px!important;height:15px!important}
+html body #mb.cb4 .bv3 .stg3a{background:linear-gradient(#2a2c40,#0f1018)!important;border:2.5px solid #e8b84e!important;border-radius:9px!important;z-index:4;width:34px!important;box-shadow:0 0 0 1.5px #3a2208,0 3px 6px #000a!important;transform:none!important}
+html body #mb.cb4 .bv3 .stg3a svg path{fill:#f2c25a!important;stroke:#f2c25a!important}
+html body #mb.cb4 .bv3 .stg3a.l{left:12px!important}html body #mb.cb4 .bv3 .stg3a.r{right:12px!important}
+html body #mb.cb4 .bef4{flex:none!important;position:relative;display:flex;flex-direction:column;gap:10px;padding:14px 12px 14px;background:linear-gradient(#262a44,#161828);border:3px solid #e8b84e;border-radius:0 0 14px 14px;box-shadow:inset 0 0 0 2px #161828,inset 0 0 0 3px #e8b84e55,0 0 0 2px #3a2208,0 8px 14px #000b}
+html body #mb.cb4 .bef4::after{content:'';position:absolute;left:8px;right:8px;top:-2px;height:3px;background:linear-gradient(90deg,#0000,#fff0b0,#e8b84e,#fff0b0,#0000)}
+html body #mb.cb4 .bv3 .bfh3{align-self:center;margin:0!important;padding:4px 40px 5px!important;color:#fff!important;font-size:18px!important;text-shadow:0 2px 0 #071a40!important;position:relative;isolation:isolate;background:linear-gradient(#fff0b0,#e8b84e 50%,#a8701c);clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%)}
+html body #mb.cb4 .bv3 .bfh3::before{content:'';position:absolute;inset:2.5px;z-index:-1;background:linear-gradient(#2d55b0,#14275e);clip-path:polygon(15px 0,calc(100% - 15px) 0,100% 50%,calc(100% - 15px) 100%,15px 100%,0 50%)}
+html body #mb.cb4 .bv3 .bfx3{background:linear-gradient(#1e2036,#12131f)!important;border:2px solid #e8b84e!important;border-radius:10px!important;padding:8px 6px!important}
+html body #mb.cb4 .bv3 .bfx3 small{font:400 14px 'Lilita One',system-ui,sans-serif!important;color:#f2c25a!important;text-transform:none!important;letter-spacing:0!important;padding-bottom:4px;border-bottom:1px solid #e8b84e44;margin-bottom:5px!important;align-self:stretch}
+html body #mb.cb4 .bv3 .bfx3 span{color:#fff!important;font-size:14px!important}
+html body #mb.cb4 .bv3 .bfx3 .nx span{color:#9fe08a!important}
+html body #mb.cb4 .bv3 .bfx3 .ar3{color:#f2c25a!important;font-size:24px!important}
+html body #mb.cb4 .bv3 .bupb{min-height:66px!important;border-radius:12px!important;border:2.5px solid #7a4a0e!important;background:linear-gradient(#ffe9a6,#f5c242 50%,#d4901c)!important;box-shadow:inset 0 2px 0 #fff6d0,0 0 0 1.5px #e8b84e,0 4px 6px #0009!important}
+html body #mb.cb4 .bv3 .bupb:disabled{background:linear-gradient(#5a4c3e,#3e342a)!important;border-color:#2a2018!important}
+html body #mb.cb4 .bv3 .bupb .u1{font-size:20px!important}
+html body #mb.cb4 .bv3 .bupb .u2{font-size:13px!important}
+html body #mb.cb4 .bv3 .bmax{background:linear-gradient(#1e2036,#12131f)!important;border-color:#e8b84e!important}
