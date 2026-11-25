@@ -14,7 +14,7 @@ function start(G){const V=G.V,R=window.__R;
  function brighten(m){if(done.has(m))return;done.add(m);m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{const g=mt&&mt.gradientMap;if(!g||!g.image||!g.image.data||g.userData.__vb)return;const d=g.image.data;if(d.length!==LIFT.length)return;g.userData.__vb=1;for(let i=0;i<d.length;i++)d[i]=LIFT[i];g.needsUpdate=true})})}
  let CG=null;const celDone=new WeakSet();
  function cel(m){if(!CG){CG=new V.DataTexture(new Uint8Array(window.__celB||[110,110,205,205,255,255]),6,1,V.LuminanceFormat);CG.minFilter=CG.magFilter=V.NearestFilter;CG.generateMipmaps=false;CG.needsUpdate=true}
-  m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(mt&&mt.isMeshToonMaterial&&mt.gradientMap!==CG){mt.gradientMap=CG;if(mt.emissive){const e=window.__celE!=null?window.__celE:.03;mt.emissive.setRGB(e,e,e);if(mt.map)mt.emissiveMap=mt.map}mt.needsUpdate=true}})})}
+  m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(mt&&mt.isMeshToonMaterial&&mt.gradientMap!==CG){mt.gradientMap=CG;if(mt.emissive&&!mt.userData.__spB){const e=window.__celE!=null?window.__celE:.03;mt.emissive.setRGB(e,e,e);if(mt.map)mt.emissiveMap=mt.map}mt.needsUpdate=true}})})}
  function bases(){[0,12].forEach(i=>{const o=G.tiles&&G.tiles[i];if(!o||!o.g)return;o.g.traverse(c=>{if(!c.isMesh||!c.userData.__nb)return;const u=c.material&&c.material.uniforms;if(u&&u.tn&&!c.material.userData.__vbb){c.material.userData.__vbb=1;u.tn.value.multiplyScalar(1.18)}})})}
  const RC=[0x4fc8ff,0xff5a5a],rings=[null,null];
  function ring(h,k,t){let r=rings[k];if(!r||r.parent!==h){const g=new V.Group();

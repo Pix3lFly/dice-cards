@@ -28,7 +28,7 @@ const loadSkin=(key,cb)=>{if(LD[key]===1){cb&&cb(1);return}(WT[key]=WT[key]||[])
  const fin=ok=>{LD[key]=ok?1:undefined;const q=WT[key]||[];WT[key]=[];q.forEach(f=>{try{f&&f(ok)}catch(e){}})};
  const go=()=>{const d=window.__SKD&&window.__SKD[key];if(!d||!window.__addGM)return fin(0);window.__addGM(key,d,ok=>{try{delete window.__SKD[key]}catch(e){}fin(ok)})};
  if(window.__SKD&&window.__SKD[key])return go();
- const sc=document.createElement('script');sc.src='m/sk_'+key+'.js';sc.onload=go;sc.onerror=()=>{console.warn('skin file',key);fin(0)};document.head.appendChild(sc)};
+ const sc=document.createElement('script');sc.src='m/sk_'+key+'.js';sc.onload=go;sc.onerror=()=>{sc.remove();if(!LD['r'+key]){LD['r'+key]=1;setTimeout(()=>{const s2=document.createElement('script');s2.src='m/sk_'+key+'.js?r='+Date.now();s2.onload=go;s2.onerror=()=>{console.log('skin file not loaded',key);fin(0)};document.head.appendChild(s2)},3000);return}fin(0)};document.head.appendChild(sc)};
 window.__loadSkin=loadSkin;
 window.__skinKey=h=>{try{const k=window.__skinFor,p=typeof P!=='undefined'&&P&&P[k],n=p&&p.skn;return n&&LD[h+n]===1?h+n:null}catch(e){return null}};
 const wrap=()=>{const o=window.setModel;if(typeof o!=='function'||o.__sk)return;const f=function(k,h){

@@ -37,7 +37,7 @@ P = [
  ('model merge v4 heroes', "try{D=JSON.parse(el.textContent)}catch(e){}", "try{D=JSON.parse(el.textContent)}catch(e){}try{if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}}catch(e){}"),
  # new spectre (already glowing cyan): skip the old darken + pale-blue tint, keep a light glow
  ('spectre loader tint', "(k==='spectre'?o.material.color.setRGB(.46,.5,.62)", "(k==='spectre'&&!window.__H4S?o.material.color.setRGB(.46,.5,.62)"),
- ('spectre board tint', "m.userData.__spB=1;m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}", "m.userData.__spB=1;if(window.__H4S){if(m.emissive)m.emissive.setRGB(.08,.16,.2)}else{m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}}"),
+ ('spectre board tint', "m.userData.__spB=1;m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}", "m.userData.__spB=1;if(window.__H4S){const sv=window.__specL||.55;m.color.setRGB(sv,sv,sv*1.04);if(m.emissive){m.emissive.setRGB(.1,.1,.1);if(m.map)m.emissiveMap=m.map}}else{m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}}"),
  # sudden death: the big V4 banner instead of the small one
  ('sudden death banner', "try{window.__bigPop&&window.__bigPop('Sudden death!',false)}catch(e){}", "try{window.__sdPop?window.__sdPop():window.__bigPop&&window.__bigPop('Sudden death!',false)}catch(e){}"),
  # daily quests only on Journal → Rewards (not on Achievements)
