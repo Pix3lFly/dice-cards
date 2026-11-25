@@ -80,10 +80,10 @@ P = [
  ('tile smooth rock', 'if(rock){vec3 fn=normalize(cross(dFdx(vW),dFdy(vW)));float h=fract(sin(dot(floor(fn*3.),vec3(12.9,78.2,37.7)))*43758.5);float fd=dot(fn,normalize(vec3(.55,.35,.75)));float fs=fd>.45?1.08:fd>.0?.86:.64;vec3 rc=mix(vec3(.88,.55,.3),vec3(.8,.47,.24),h);', 'if(rock){vec3 fn=sm>.5?normalize(vN):normalize(cross(dFdx(vW),dFdy(vW)));float h=sm>.5?clamp(.45-vY*.9,0.,1.):fract(sin(dot(floor(fn*3.),vec3(12.9,78.2,37.7)))*43758.5);float fd=dot(fn,normalize(vec3(.55,.35,.75)));float fs=sm>.5?(fd>.3?1.1:fd>-.15?.92:.74):(fd>.45?1.08:fd>.0?.86:.64);vec3 rc=sm>.5?mix(vec3(.96,.64,.36),vec3(.74,.41,.21),h):mix(vec3(.88,.55,.3),vec3(.8,.47,.24),h);'),
  ('tile smooth on', 'tgM=mkTex(T.map,0xffffff,.06);tgMe=mkTex(T.map,0xcdb68a,.06);tgM.userData.__ct=tgMe.userData.__ct=1}', 'tgM=mkTex(T.map,0xffffff,.06);tgMe=mkTex(T.map,0xcdb68a,.06);tgM.userData.__ct=tgMe.userData.__ct=1;if(window.__TSM!==0)[tgM,tgMe].forEach(m=>{m.uniforms.sm.value=1;m.uniforms.cq.value=28;m.uniforms.ck.value=.75;if(window.__TNEW){m.uniforms.ry.value=-99;m.uniforms.ck.value=window.__tileCk||1;m.uniforms.cq.value=window.__tileCq||9;if(window.__TOY!==0&&m.uniforms.ty){m.uniforms.ty.value=1;m.uniforms.tb.value=window.__toyTb||.9;m.uniforms.yr.value.set(-.3,.28)}m.uniforms.tn.value.multiplyScalar(1.12)}})}'),
  # new tile: taller (chunky block) and a little wider (smaller gaps); top stays at the same height
- ('tile size', "top.scale.set(sx,sx,sx);top.position.y=.565-bb.max.y*sx;", "{const kw=window.__TNEW?(window.__tileW||.96):1,kh=window.__TNEW?1.45:1;top.scale.set(sx*kw,sx*kh,sx*kw);top.position.y=.565-bb.max.y*sx*kh}"),
+ ('tile size', "top.scale.set(sx,sx,sx);top.position.y=.565-bb.max.y*sx;", "{const kw=window.__TNEW?(window.__tileW||.96):1,kh=window.__TNEW?(window.__TTOY?(window.__tileH||1.75):1.45):1;top.scale.set(sx*kw,sx*kh,sx*kw);top.position.y=.565-bb.max.y*sx*kh}"),
  # tiles: flat even light on the top (no dark triangle from the model's top faces)
  ('tile flat top', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);if(sm>.5&&vN.y>.45)s=1.04;'),
-  ('tile top solid', "vec3 c=texture2D(mp,vU).rgb*tn;bool gr", "vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5&&vN.y>.85&&vY>.28)c=vec3(.975,.83,.59)*tn;bool gr"),
+  ('tile top solid', "vec3 c=texture2D(mp,vU).rgb*tn;bool gr", "vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5&&vN.y>(ty>.5?.55:.85)&&vY>.28)c=vec3(.975,.83,.59)*tn;bool gr"),
   ('turn min 1', "<div class=\"tn\">Turn<br>${round}", "<div class=\"tn\">Turn<br>${Math.max(1,round)}"),
   ('no cliff spikes on new tiles', "if(hs(i,7,7)>.35){const cl=new V.Mesh(cliffG,cliffM)", "if(!window.__TNEW&&hs(i,7,7)>.35){const cl=new V.Mesh(cliffG,cliffM)"),
   ('skin model', "MOD[h]=()=>mk(HM[h],2.62,'h')||f0()", "MOD[h]=()=>{let sk=null;try{sk=window.__skinKey?window.__skinKey(h):null}catch(e){}const HS=window.__heroS||.87;return (sk&&GM[sk]&&mk(sk,2.62*HS*(window.__skinS||1.1),'h'))||mk(HM[h],2.62*HS*(h==='s'?(window.__specS||.9):1),'h')||f0()}"),
@@ -105,18 +105,21 @@ P = [
   ('base tex smooth d', 'uniform float sm;varying', 'uniform float sm;uniform float tb;varying'),
   ('base tex smooth s', 'vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5', 'vec3 c=texture2D(mp,vU,tb).rgb*tn;if(sm>.5'),
   ('tile side soft', 'float l=dot(c,vec3(.299,.587,.114));float d=dot(normalize(vN)', 'if(sm>.5&&vN.y<=.45)c=mix(c,vec3(.92,.64,.42),.3);float l=dot(c,vec3(.299,.587,.114));float d=dot(normalize(vN)'),
-  ('tile outline thin', 'o.cBlk=top;outline(top);', 'o.cBlk=top;outline(top);try{const ol=top.children.find(c=>c.userData.__olc);if(ol){if(!window.__OUTT){window.__OUTT=mkOut(V);window.__OUTT.uniforms.uW.value=window.__tileOW||.0025;window.__OUTT.uniforms.uC.value.set(0x4a2c18)}ol.material=window.__OUTT}}catch(e){}'),
+  ('tile outline thin', 'o.cBlk=top;outline(top);', 'o.cBlk=top;outline(top);try{const ol=top.children.find(c=>c.userData.__olc);if(ol&&window.__TTOY&&window.__toyOL!==1)ol.visible=false;if(ol){if(!window.__OUTT){window.__OUTT=mkOut(V);window.__OUTT.uniforms.uW.value=window.__tileOW||.0025;window.__OUTT.uniforms.uC.value.set(0x4a2c18)}ol.material=window.__OUTT}}catch(e){}'),
   ('cage smaller', 'cg.scale.setScalar(1.3);S.add(cg)', 'cg.scale.setScalar(1.3*(window.__cageS||.75));S.add(cg)'),
   ('toy u', 'sm:{value:0},tb:{value:0}}', 'sm:{value:0},tb:{value:0},ty:{value:0},yr:{value:new V.Vector2(-.3,.3)}}'),
   ('toy d', 'uniform float tb;varying', 'uniform float tb;uniform float ty;uniform vec2 yr;varying'),
   ('toy s', "c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex", "if(ty>.5){if(gr)c=min(c*1.12+vec3(.02,.05,0.),vec3(1.));if(vN.y>.3&&vN.y<.93)s*=1.1;if(vN.y<=.3){float a=clamp((vY-yr.x)/(yr.y-yr.x),0.,1.);s*=mix(.68,1.03,a*a*(3.-2.*a));}}c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex"),
+  ('toy island merge', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}if(D&&window.__TOYM){Object.assign(D,window.__TOYM);window.__TOYI=1;window.__TOYM=null}'),
+  ('toy island place', "if(GM.cisland){const m=mk('cisland',5.51);if(m){m.rotation.y=-Math.PI/2;const k=5.51/.9541;m.position.y+=.13-.4618*k;", "if(GM.cisland){const m=mk('cisland',5.51);if(m){const TI=window.__TOYI;m.rotation.y=TI?-.04:-Math.PI/2;const k=5.51/(TI?.951:.9541);m.position.y+=.13-(TI?.377:.4618)*k;"),
 ]
 import os
 def tile_model(s):
     # new Meshy tile (25 Nov) replaces the V3 tile GLB; it keeps its own painted cliffs (no procedural rock)
     k='<script id="v3_22">(function(){const B=\'';i=s.find(k);assert i>0,'tile model';i+=len(k);j=s.find("'",i)
-    nb=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'assets','tile.b64')).read().strip()
-    s=s[:i]+nb+s[j:];return s.replace('<script id="v3_22">','<script>window.__TNEW=1</script><script id="v3_22">',1)
+    TOY=True  # toy pass tile (25 Nov); False = previous Meshy tile
+    nb=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'assets','tile_toy.b64' if TOY else 'tile.b64')).read().strip()
+    s=s[:i]+nb+s[j:];return s.replace('<script id="v3_22">',('<script>window.__TNEW=1;window.__TTOY=1</script>' if TOY else '<script>window.__TNEW=1</script>')+'<script id="v3_22">',1)
 def apply(s):
     s=tile_model(s)
     for t in P:

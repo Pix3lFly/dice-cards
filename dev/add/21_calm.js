@@ -3,7 +3,7 @@
 (function(){const done=new WeakSet();let FILL=null;setInterval(()=>{try{const G=window.__3;if(!G||!G.tiles)return;
  G.tiles.forEach((o,i)=>{if(!o||i===0||i===12||i===6||i===18)return;
   if(o.cBlk&&(o.cBlk.receiveShadow||o.cBlk.castShadow)){o.cBlk.receiveShadow=false;o.cBlk.castShadow=false;o.cBlk.traverse(c=>{c.receiveShadow=false;c.castShadow=false})}
-  if(o.cBlk&&o.cBlk.material&&!o.cBlk.userData.__fill&&window.__TNEW){o.cBlk.userData.__fill=1;if(!FILL){FILL=new G.V.PlaneGeometry(.75,.74);FILL.rotateX(-Math.PI/2);FILL.translate(-.004,.3035,0);const u=FILL.attributes.uv;for(let k=0;k<u.count;k++)u.setXY(k,.42,.47)}
+  if(o.cBlk&&o.cBlk.material&&!o.cBlk.userData.__fill&&window.__TNEW&&!window.__TTOY){o.cBlk.userData.__fill=1;if(!FILL){FILL=new G.V.PlaneGeometry(.75,.74);FILL.rotateX(-Math.PI/2);FILL.translate(-.004,.3035,0);const u=FILL.attributes.uv;for(let k=0;k<u.count;k++)u.setXY(k,.42,.47)}
    const f=new G.V.Mesh(FILL,o.cBlk.material);f.userData.__mine=1;f.userData.__wd=1;o.cBlk.add(f);o.__fill=f}
   if(o.__fill&&o.cBlk&&o.__fill.material!==o.cBlk.material)o.__fill.material=o.cBlk.material;
   if(o.top&&o.top.visible&&!window.__calmKeepTop)o.top.visible=false;if(o.__sprSh&&o.__sprSh.visible)o.__sprSh.visible=false;if(o.top){o.top.scale.setScalar(window.__calmS||.58);if(o.top.position.y<.575)o.top.position.y=.575;if(o.top.receiveShadow){o.top.receiveShadow=false;if(o.top.material)o.top.material.needsUpdate=true}const m=o.top.material;if(m&&!done.has(m)){done.add(m);m.transparent=true;m.opacity=window.__calmO||.45;if(m.emissiveIntensity!=null)m.emissiveIntensity*=.5;m.needsUpdate=true}}
