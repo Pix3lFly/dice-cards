@@ -5940,11 +5940,12 @@ function askCode(){const o=shell();o.innerHTML='<div class="uc opk"><b class="st
  const i=document.getElementById('opc');i.focus();i.onkeydown=e=>{if(e.key==='Enter')window.__opCode()}}
 window.__opCode=()=>{const v=(document.getElementById('opc')||{}).value;if(v===CODE){ding(784);openP()}else{document.getElementById('opm').textContent='Wrong code.';try{snd(200,.1,'square')}catch(e){}}};
 const shell=()=>{let o=document.getElementById('ownp');if(!o){o=document.createElement('div');o.id='ownp';document.body.appendChild(o)}return o};
-window.__opClose=()=>{PEND=null;const o=document.getElementById('ownp');if(o)o.remove();if(CU){CU();CU=null}};
+window.__opX=()=>{if(BACK){const b=BACK;BACK=null;__opTab(b);return}__opClose()};
+window.__opClose=()=>{PEND=null;BACK=null;const o=document.getElementById('ownp');if(o)o.remove();if(CU){CU();CU=null}};
 let PEND=null;
-function openP(){const o=shell();o.innerHTML='<div class="uc opw"><div class="oph"><b class="st">'+(isOwner()?'👑 Owner panel':'🛡 Moderator panel')+'</b><button class="opx" onclick="__opClose()">✕</button></div><div class="opt"></div><div class="opb"></div></div>';tabs();if(PEND){const f=PEND;PEND=null;f()}else show(PT)}
+function openP(){const o=shell();o.innerHTML='<div class="uc opw"><div class="oph"><b class="st">'+(isOwner()?'👑 Owner panel':'🛡 Moderator panel')+'</b><button class="opx" onclick="__opX()">✕</button></div><div class="opt"></div><div class="opb"></div></div>';tabs();if(PEND){const f=PEND;PEND=null;f();BACK=null}else show(PT)}
 function tabs(){const t=document.querySelector('#ownp .opt');if(!t)return;const T=TABS();if(!T.some(x=>x[0]===PT))PT='pl';t.innerHTML=T.map(([k,l])=>'<button class="'+(PT===k?'on':'')+'" onclick="__opTab(\''+k+'\')">'+l+'</button>').join('')}
-window.__opTab=k=>{PT=k;if(CU){CU();CU=null}tabs();show(k)};
+window.__opTab=k=>{BACK=null;PT=k;if(CU){CU();CU=null}tabs();show(k)};
 const body=h=>{const b=document.querySelector('#ownp .opb');if(b)b.innerHTML=h;return b};
 const busy=()=>body('<div class="dnt">Loading…</div>');
 async function show(k){try{({pl:pPlayers,bw:pBW,gu:pGuilds,ch:pChat,cd:pCodes,rk:pRank,al:pAlerts,md:pMods,me:pMe}[k]||pPlayers)()}catch(e){console.log('panel',e);body('<div class="dnt">Something went wrong.</div>')}}
@@ -5953,14 +5954,15 @@ async function show(k){try{({pl:pPlayers,bw:pBW,gu:pGuilds,ch:pChat,cd:pCodes,rk
 function pPlayers(){body('<div class="opr2"><input id="opq" class="sin" placeholder="Name, player number or UID" value="'+esc(PQ)+'"><button class="opr" onclick="__opFind()">Find</button></div><div id="opres">'+(P?'':'<div class="dnt">Search for a player to warn, ban or make moderator.</div>')+'</div>');
  const i=document.getElementById('opq');i.onkeydown=e=>{if(e.key==='Enter')window.__opFind()};if(P)card(P)}
 window.__opFind=async()=>{PQ=(document.getElementById('opq')||{}).value||'';const r=document.getElementById('opres');if(r)r.innerHTML='<div class="dnt">Searching…</div>';const p=await findP(PQ);P=p;if(!p){if(r)r.innerHTML='<div class="dnt">No player found.</div>';return}card(p)};
-window.__opPlayer=async u=>{PT='pl';tabs();PQ=u;body('<div class="dnt">Loading…</div>');P=await findP(u);pPlayers()};
+let BACK=null;
+window.__opPlayer=async u=>{if(document.querySelector('#ownp .opw')&&PT!=='pl')BACK=PT;PT='pl';tabs();PQ=u;body('<div class="dnt">Loading…</div>');P=await findP(u);pPlayers()};
 async function card(p){const r=document.getElementById('opres');if(!r)return;r.innerHTML='<div class="dnt">Loading…</div>';const D=db();let ban=null,warns=[],mod=false;
  try{const b=await D.collection('bans').doc(p.uid).get();ban=b.exists?b.data():null}catch(e){}
  try{const q=await D.collection('warns').where('uid','==',p.uid).get();warns=q.docs.map(d=>d.data()).sort((a,b)=>b.t-a.t)}catch(e){}
  try{const m=await D.collection('mods').doc(p.uid).get();mod=m.exists}catch(e){}
  const own=isOwner(p.uid),banned=ban&&(!ban.until||ban.until>Date.now()),seen=ms(p.seen);
  const st=(l,v)=>'<div><small>'+l+'</small><b>'+v+'</b></div>';
- r.innerHTML='<div class="opc"><div class="opn"><b>'+esc(p.name||'Player')+(own?' 👑':mod?' 🛡':'')+'</b><span>#'+esc(p.num||'—')+' · '+(seen&&Date.now()-seen<3*60e3?'<i class="on">● online</i>':'last seen '+when(seen))+'</span><small class="uid">'+esc(p.uid)+'</small></div>'+
+ r.innerHTML=(BACK?'<button class="opr sm" onclick="__opX()">◀ Back</button>':'')+'<div class="opc"><div class="opn"><b>'+esc(p.name||'Player')+(own?' 👑':mod?' 🛡':'')+'</b><span>#'+esc(p.num||'—')+' · '+(seen&&Date.now()-seen<3*60e3?'<i class="on">● online</i>':'last seen '+when(seen))+'</span><small class="uid">'+esc(p.uid)+'</small></div>'+
   '<div class="gst">'+st('Rank',esc(p.rk||'—'))+st('Level',p.lv||1)+st('Wins',(p.w||0)+' W · '+(p.l||0)+' L')+st('Gold',p.gd!=null?p.gd:'—')+st('Gems',p.gm!=null?p.gm:'—')+st('Upgrades',p.up!=null?p.up:'—')+st('Play time',p.pt!=null?Math.round(p.pt/60*10)/10+' h':'—')+st('Guild',esc(p.g||'—'))+st('Warnings',warns.length)+'</div>'+
   (banned?'<div class="opban">⛔ Banned'+(ban.until?' until '+when(ban.until):' forever')+' — '+esc(ban.reason||'')+' <small>by '+esc(ban.byName||'?')+'</small></div>':'')+
   (warns.length?'<div class="opwl">'+warns.map(x=>'<div>⚠️ '+esc(x.reason)+' <small>'+when(x.t)+' · '+esc(x.byName||'')+(x.seen?' · seen':' · not seen yet')+'</small></div>').join('')+'</div>':'')+
@@ -6048,10 +6050,15 @@ async function pMods(){busy();let M=[],L=[];try{M=(await db().collection('mods')
 function pMe(){const f=SV.ofree!==false;
  body('<div class="opc"><div class="opn"><b>'+esc(myName())+' 👑</b><span>Owner number #'+OWN[UID()]+'</span></div>'+
   '<label class="fr3 st opsw"><b>Free shop for my account</b><input type="checkbox" class="sw" '+(f?'checked':'')+' onchange="SV.ofree=this.checked;try{localStorage.setItem(\'dc7\',JSON.stringify(SV))}catch(e){}"></label><p class="bns">When on, shop items, refreshes, chest skips and gem packs cost you nothing.</p></div>'+
-  '<div class="frh">Give myself</div><div class="opa wrap"><button class="opr" onclick="__opGive(\'g\')">+10,000 gold</button><button class="opr" onclick="__opGive(\'m\')">+1,000 gems</button><button class="opr" onclick="__opGive(\'s\')">+100 shards (all heroes)</button><button class="opr" onclick="__opGive(\'b\')">+20 blueprints (all bases)</button></div>')}
+  '<div class="frh">Give myself</div><div class="opa wrap"><button class="opr" onclick="__opGive(\'g\')">+10,000 gold</button><button class="opr" onclick="__opGive(\'m\')">+1,000 gems</button><button class="opr" onclick="__opGive(\'s\')">+100 shards (all heroes)</button><button class="opr" onclick="__opGive(\'b\')">+20 blueprints (all bases)</button></div>'+
+  '<div class="frh">🧪 Test tools</div><div class="opa wrap"><button class="opr" onclick="__opMax()">Max account stats</button><button class="opr rm" onclick="__opReset()">Reset account</button></div>')}
 window.__opGive=k=>{if(!isOwner())return;if(k==='g')SV.gold+=1e4;if(k==='m')SV.gems+=1e3;if(k==='s')Object.keys(HD).forEach(h=>SV.sh[h]=(SV.sh[h]||0)+100);if(k==='b'){SV.bs=SV.bs||{};Object.keys(BASES).forEach(b=>SV.bs[b]=(SV.bs[b]||0)+20)}
  try{localStorage.setItem('dc7',JSON.stringify(SV))}catch(e){}note('👑 Added');ding(784)};
 
+/* ---------- test tools: removed from everyone's Settings, kept in the owner panel ---------- */
+const _st=window.__stW;if(_st)window.__stW=function(){let h=_st.apply(this,arguments);try{const i=h.indexOf('<div class="ttl">🧪');if(i>=0){const k=h.indexOf('tstResetAsk',i),e=h.indexOf('</button></div></div>',k);if(k>0&&e>0)h=h.slice(0,i)+h.slice(e+'</button></div></div>'.length)}}catch(e){}return h};
+window.__opMax=()=>{if(!isOwner())return;tstMax();note('Account stats maxed (test)')};
+window.__opReset=()=>ask('Reset my account?','<p>This deletes <b>all</b> your progress and starts the game fresh. This can’t be undone.</p>',()=>{__opClose();tstReset()});
 /* ---------- entry: Settings page button + Moderate button on profiles + owner badge ---------- */
 const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{entry()}catch(e){}return r};
 function entry(){if(!staff()||tab!=='comm'||CMT!=='st')return;const l=document.querySelector('#mb .sset')||document.querySelector('#mb .flst');if(!l||l.querySelector('.opent'))return;
@@ -6078,8 +6085,8 @@ const css=document.createElement('style');css.textContent=`
 #ownp .opw{width:min(96vw,620px);height:min(92svh,820px);display:flex;flex-direction:column;padding:12px!important;overflow:hidden}
 #ownp .oph{display:flex;align-items:center;justify-content:space-between;flex:none}#ownp .oph .st{margin:0!important;flex:1;text-align:center}
 #ownp .opx{width:34px;height:34px;border-radius:50%;border:2px solid #6b3f0a;background:#e86a5a;color:#fff;font:900 16px system-ui;cursor:pointer;flex:none}
-#ownp .opt{flex:none;display:flex;gap:5px;overflow-x:auto;padding:6px 0 8px}
-#ownp .opt button{flex:none;height:30px;padding:0 10px;border-radius:15px;border:1.5px solid #c99436;background:#2a1a0bcc;color:#fff2d8;font:700 12px system-ui;cursor:pointer;white-space:nowrap}
+#ownp .opt{flex:none;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;padding:6px 0 8px}
+#ownp .opt button{flex:none;height:28px;padding:0 9px;border-radius:15px;border:1.5px solid #c99436;background:#2a1a0bcc;color:#fff2d8;font:700 12px system-ui;cursor:pointer;white-space:nowrap}
 #ownp .opt button.on{background:linear-gradient(#ffe08a,#e9a43a);color:#3a2006;border-color:#6b3f0a}
 #ownp .opb{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:6px;position:relative;padding-right:2px}
 #ownp .dnt{font:600 12.5px system-ui;color:#e8d6b4;text-align:center;padding:6px}
