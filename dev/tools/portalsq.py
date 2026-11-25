@@ -29,6 +29,9 @@ P2[:,0]+=cp[0]-c3[0];P2[:,2]+=cp[1]-c3[2];P2[:,1]+=(platP-.008)-platF*k
 # forest: keep only the island (faces whose top is not above its ground) -> drops tree, rocks, lamps, flag
 keepF=(P2[Ff][:,:,1].max(1)<platP+.004)
 F2=Ff[keepF];F1=Fp[keepP]
+# 25 Nov: clip the portal's own paving to the forest island's square (rotated 45 deg = a diamond), so the tile stays square
+iv=P2[np.unique(F2)];cx,cz=(iv[:,0].max()+iv[:,0].min())/2,(iv[:,2].max()+iv[:,2].min())/2;RD=np.percentile(np.abs(iv[:,0]-cx)+np.abs(iv[:,2]-cz),99.5)
+cc=Pp[F1].mean(1);inD=(np.abs(cc[:,0]-cx)+np.abs(cc[:,2]-cz))<=RD*.97;print('diamond',round(cx,3),round(cz,3),round(RD,3),'portal faces cut',int((~inD).sum()),'of',len(F1));F1=F1[inD]
 # merge; atlas textures side by side
 n1=len(Pp);P=np.vstack([Pp,P2]);N=np.vstack([Np,N2])
 UV=np.vstack([np.c_[UVp[:,0]%1*.5,UVp[:,1]%1],np.c_[UVf[:,0]%1*.5+.5,UVf[:,1]%1]])
