@@ -5576,14 +5576,14 @@ const st=document.createElement('style');st.textContent=`
 </script><script id="v4_16_skins">/* V4 hero skins: a "Skins" button to the right of the hero on the Battle page; window with the 3 skins
    (Basic, Champion = 100 wins with this hero, Legendary = paid). Equip stores SV.skin[h] (1|2); the board uses the
    skin's Meshy model (m/sk_<h><n>.js, loaded on demand into GM via window.__addGM); owned skins' logos become
-   profile pictures (window.__POR keys like 'k1', 'v2'). The two owner accounts own every skin (for testing). */
+   profile pictures (window.__POR keys like 'k1', 'v2'). Owners and moderators own every skin. */
 (function w(){if(typeof menu!=='function'||typeof SV==='undefined'||typeof HD==='undefined'){setTimeout(w,400);return}try{
 const POR=()=>window.__POR||{};
 const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero.'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
 const img=(h,i,b)=>{const S=window.__SKI||{};return i||b?(S[(b?'b':'l')+i+h]||POR()[h]||''):(POR()[h]||'')};
 let sel=1;
 const wins=h=>{try{return (SV.st&&SV.st.hw&&SV.st.hw[h])||0}catch(e){return 0}};
-const isOwn=()=>{try{const F=window.__FRON;return !!(F&&F.uid&&window.__isOwnerUid&&window.__isOwnerUid(F.uid))}catch(e){return false}};
+const isOwn=()=>{try{if(window.__isStaff&&window.__isStaff())return true;const F=window.__FRON;return !!(F&&F.uid&&window.__isOwnerUid&&window.__isOwnerUid(F.uid))}catch(e){return false}};
 const owned=(h,i)=>i===0||isOwn()||(i===1&&wins(h)>=100)||(i===2&&!!(SV.skb&&SV.skb[h]));
 const eqOf=h=>{try{const n=(SV.skin&&SV.skin[h])||0;return owned(h,n)?n:0}catch(e){return 0}};
 window.__skinOwned=owned;window.__skinOf=eqOf;
@@ -5878,7 +5878,7 @@ const css=document.createElement('style');css.textContent=`
 const OWN={'OXfHFDesUtZ3tgB6vFJJzYyFTlH2':'00000001','7q77Kz5M8Ad4hhlTvFbTOVvbVT43':'00000002'};
 const CODE='1337';
 const FR=window.__FRON,ON=()=>!!(FR.on&&FR.uid),UID=()=>FR.uid,db=()=>window.__ON.db,FV=()=>firebase.firestore.FieldValue;
-const isOwner=u=>!!OWN[u||UID()];let MOD=false;const staff=()=>ON()&&(isOwner()||MOD);
+const isOwner=u=>!!OWN[u||UID()];let MOD=false;const staff=()=>ON()&&(isOwner()||MOD);window.__isStaff=()=>{try{return !!staff()}catch(e){return false}};
 window.__isOwnerUid=u=>!!OWN[u];
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const note=t=>{const n=document.createElement('div');n.className='m3note';n.textContent=t;document.body.appendChild(n);setTimeout(()=>n.remove(),2400)};

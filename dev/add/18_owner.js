@@ -5,7 +5,7 @@
 const OWN={'OXfHFDesUtZ3tgB6vFJJzYyFTlH2':'00000001','7q77Kz5M8Ad4hhlTvFbTOVvbVT43':'00000002'};
 const CODE='1337';
 const FR=window.__FRON,ON=()=>!!(FR.on&&FR.uid),UID=()=>FR.uid,db=()=>window.__ON.db,FV=()=>firebase.firestore.FieldValue;
-const isOwner=u=>!!OWN[u||UID()];let MOD=false;const staff=()=>ON()&&(isOwner()||MOD);
+const isOwner=u=>!!OWN[u||UID()];let MOD=false;const staff=()=>ON()&&(isOwner()||MOD);window.__isStaff=()=>{try{return !!staff()}catch(e){return false}};
 window.__isOwnerUid=u=>!!OWN[u];
 const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const note=t=>{const n=document.createElement('div');n.className='m3note';n.textContent=t;document.body.appendChild(n);setTimeout(()=>n.remove(),2400)};
