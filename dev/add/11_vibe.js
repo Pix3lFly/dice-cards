@@ -23,13 +23,19 @@ function start(G){const V=G.V,R=window.__R;
    a.rotation.x=b.rotation.x=-Math.PI/2;a.renderOrder=b.renderOrder=2;g.add(b);g.add(a);g.position.y=.03;g.userData.__ring=1;h.add(g);rings[k]=r=g}
   const busy=!!(G.hop&&G.hop[k]);r.visible=!busy&&h.visible!==false;
   const p=.5+.5*Math.sin(t*3+k*1.3);r.children[1].material.opacity=.45+.3*p;r.children[0].material.opacity=.1+.1*p;const s=1+.04*p;r.scale.set(s,1,s)}
+ /* flat, hard-edged cel shadow under each hero's feet (Pix 25 Nov: heroes looked like they float) */
+ const shd=[null,null];let SHM=null;
+ function shadow(h,k){let s=shd[k];if(!s||s.parent!==h){if(!SHM)SHM=new V.MeshBasicMaterial({color:0x2a1608,transparent:true,opacity:.38,depthWrite:false,fog:false});
+   s=new V.Mesh(new V.CircleGeometry(.42,32),SHM);s.rotation.x=-Math.PI/2;s.scale.set(1,.8,1);s.position.y=.012;s.renderOrder=1;s.userData.__shd=1;h.add(s);shd[k]=s}
+  const busy=!!(G.hop&&G.hop[k]);s.visible=!busy&&h.visible!==false&&window.__heroShd!==0}
  const t0=performance.now();
  function tick(){const t=(performance.now()-t0)/1000;
   if(C.base)try{bases()}catch(e){}
   (G.H||[]).forEach((h,k)=>{if(!h||k>1)return;const m=h.userData&&h.userData.m;
    if(m&&C.bright)brighten(m);
    if(m&&C.cel)cel(m);
-   if(m&&C.bob&&!m.userData.rig){const inner=m.children&&m.children.find(c=>!c.userData.__ring);if(inner){if(!inner.userData.__bs)inner.userData.__bs=inner.scale.clone();const bs=inner.userData.__bs,busy=!!(G.hop&&G.hop[k]),s=busy?0:Math.sin(t*2.6+k*1.7);inner.scale.set(bs.x*(1-.022*s),bs.y*(1+.032*s),bs.z*(1-.022*s))}}
+   if(m&&C.bob&&!m.userData.rig){const inner=m.children&&m.children.find(c=>!c.userData.__ring&&!c.userData.__shd);if(inner){if(!inner.userData.__bs)inner.userData.__bs=inner.scale.clone();const bs=inner.userData.__bs,busy=!!(G.hop&&G.hop[k]),s=busy?0:Math.sin(t*2.6+k*1.7);inner.scale.set(bs.x*(1-.022*s),bs.y*(1+.032*s),bs.z*(1-.022*s))}}
+   try{shadow(h,k)}catch(e){}
    if(C.ring)ring(h,k,t);else if(rings[k]){rings[k].visible=false}})}
  const rr=R.render.bind(R);R.render=function(a,b){if(a===G.S){try{tick()}catch(e){}}return rr(a,b)};
 }
