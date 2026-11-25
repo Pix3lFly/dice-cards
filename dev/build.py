@@ -5,6 +5,8 @@ import sys;sys.path.insert(0,'/home/claude/v4');import patches;s=patches.apply(s
 parts=[]
 early=[];head=[]
 for f in sorted(glob.glob('/home/claude/v4/add/*')):
+    if os.path.basename(f).startswith('H') and f.endswith('.js'):
+        head.append('<script id="v4_'+os.path.basename(f).split('.')[0]+'">'+open(f,encoding='utf-8').read()+'</script>');continue
     if os.path.basename(f).startswith('H'):
         head.append('<style id="v4_'+os.path.basename(f).split('.')[0]+'">'+open(f,encoding='utf-8').read()+'</style>');continue
     if os.path.basename(f).startswith('E'):

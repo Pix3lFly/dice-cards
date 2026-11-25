@@ -31,7 +31,7 @@ const isNew=m=>m.real?!m.read:(hasR(m)&&!m.c);
 window.__mailNew=()=>all().filter(isNew).length;
 
 /* ---------- the Mail page ---------- */
-const mailUI=function(PC4){const L=all(),un=L.filter(isNew).length,uc=sysMail().filter(m=>hasR(m)&&!m.c).length;
+const mailUI=function(PC4){const L=all().map((m,i)=>[m,i]).sort((a,b)=>((!hasR(b[0])&&isNew(b[0]))-(!hasR(a[0])&&isNew(a[0])))||a[1]-b[1]).map(x=>x[0]),un=L.filter(isNew).length,uc=sysMail().filter(m=>hasR(m)&&!m.c).length;
  const row=m=>{const rw=hasR(m)?'<span class="rwd">'+(m.r.gold?'<img alt="" src="'+U.coin+'">'+m.r.gold:'')+(m.r.gems?' <img alt="" src="'+U.gem+'">'+m.r.gems:'')+'</span>':'';
   const pic=m.real&&POR()[m.h]?'<div class="fp mlp"><img alt="" src="'+POR()[m.h]+'"></div>':'<img class="mic" alt="" src="'+U.m_mail+'">';
   const right=hasR(m)?(m.c?'<em class="cl">✓ Claimed</em>':'<button class="opr jn" onclick="event.stopPropagation();mlClaim(\''+m.id+'\')">Claim</button>'):(isNew(m)?'<em class="mnew">New</em>':'<em class="cl mopn">Open</em>');

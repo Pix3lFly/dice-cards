@@ -40,6 +40,10 @@ P = [
  ('spectre board tint', "m.userData.__spB=1;m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}", "m.userData.__spB=1;if(window.__H4S){if(m.emissive)m.emissive.setRGB(.08,.16,.2)}else{m.color.lerp(new G.V.Color(0xdff6ff),.6);if(m.emissive){m.emissive.setRGB(.22,.32,.38)}}"),
  # sudden death: the big V4 banner instead of the small one
  ('sudden death banner', "try{window.__bigPop&&window.__bigPop('Sudden death!',false)}catch(e){}", "try{window.__sdPop?window.__sdPop():window.__bigPop&&window.__bigPop('Sudden death!',false)}catch(e){}"),
+ # daily quests only on Journal → Rewards (not on Achievements)
+ ('dq not on achievements', "if(tab==='jour'){const sp=document.querySelector('#mb .spn2');if(sp&&!document.querySelector('#mb .dq3'))", "if(tab==='jour'&&(()=>{try{return JT!=='ach'}catch(e){return true}})()){const sp=document.querySelector('#mb .spn2');if(sp&&!document.querySelector('#mb .dq3'))"),
+ # journal tutorial: a step for daily quests
+ ('journal tutorial dq', "{s:'rew',t:()=>$q('.csh'),m:'<b>Chests</b>", "{s:'rew',t:()=>$q('.dq3'),m:'<b>Daily quests</b>: 3 new quests every day. Play matches to finish them, then tap <b>CLAIM</b> for gold or gems. New quests come at midnight.'},\n   {s:'rew',t:()=>$q('.csh'),m:'<b>Chests</b>"),
  # board tutorial: Back / Next buttons instead of tap anywhere
  ('tutorial buttons', "'<small>Tap anywhere to continue</small></div>';try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}",
   "'<div class=\"tnv\"><button class=\"bt tbk\" '+(k?'':'disabled')+'>◀ Back</button><button class=\"bt tnx\">'+(k===STEPS.length-1?'Done ✓':'Next ▶')+'</button></div></div>';bx.querySelector('.tbk').onclick=e=>{e.stopPropagation();if(k>0){k--;show();try{snd(500,.05,'triangle')}catch(x){}}};bx.querySelector('.tnx').onclick=e=>{e.stopPropagation();k++;show();try{snd(600,.05,'triangle')}catch(x){}};try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}"),
