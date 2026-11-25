@@ -24,7 +24,7 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
  const g=mb.querySelector('.gbs'),lk=g?g.classList.contains('lk'):!st.base;
  const ds=bdesc(b,L).split(' · ');
  const title=(n,t,arr)=>'<div class="b4t"><img alt="'+t+'" src="'+A['u_t'+n]+'">'+(arr?GARW:'')+'</div>';
- const html='<div class="b4"><div class="b4in">'+
+ const html='<div class="b4"><div class="b4in"><button class="b4q" title="How to play" onclick="var t=document.getElementById(\'v3tq\');if(t)t.click()">?</button>'+
   '<div class="b4p">'+title(1,'Choose Your Hero',!st.hero)+
   '<div class="b4r">'+hk.map(k=>'<button class="b4c'+(st.hero&&k===h?' on':'')+'" onclick="m3h(\''+k+'\')"><span class="b4cc"><img alt="" src="'+heroLogo(k)+'"></span><em>'+esc(HD[k].n)+'</em></button>').join('')+'</div>'+
   '<div class="b4s"><div class="b4st">'+
@@ -125,6 +125,9 @@ const css=document.createElement('style');css.textContent=`
 .b4 .b4m img{display:block;width:100%;height:auto}
 .b4 .b4m:active{transform:translateY(2px)}
 .b4 .b4g.b4lk .b4m{filter:grayscale(.8) brightness(.7) drop-shadow(0 4px 5px #000b)}
-#menu.bt4 #v3tq{transform:translate(6px,-14px)}
+#menu.bt4 #v3tq{visibility:hidden!important;pointer-events:none!important}
+#mb .b4in{position:relative}
+.b4 .b4q{position:absolute;right:6px;top:0;z-index:5;width:30px;height:30px;border-radius:50%;padding:0;border:2.5px solid #6b3f0a;background:radial-gradient(circle at 40% 32%,#fff3b0,#f2c24a 55%,#c07a14);box-shadow:inset 0 -2px 0 #9a5a10,0 0 0 1.5px #ffd76a,0 3px 5px #000a;font:400 19px/1 'Lilita One',system-ui,sans-serif;color:#3a2006;cursor:pointer}
+.b4 .b4q:active{transform:translateY(1px)}
 `;document.head.appendChild(css);
 }catch(e){console.log('v4 battle',e)}})();
