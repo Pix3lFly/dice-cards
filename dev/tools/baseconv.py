@@ -33,6 +33,11 @@ def conv(path,guess,rad,tile=.96,grow=1.6):
   if path.endswith('.pkl'):
     import pickle;dd=pickle.load(open(path,'rb'));P,N0,UV,F=dd['P'],dd['N'],dd['UV'],dd['F'];tex=Image.open('/tmp/psq_tex.png');J=None
   else:J,P,UV,F,tex=glbview.load(path);N0=None
+  if path.endswith('fire.glb'):   # Pix: back of the fire base should look like the lava, not a black wall
+    hsv=np.asarray(tex.convert('HSV')).astype(float);rgb=np.asarray(tex).astype(float);H=hsv[...,0]*360/255;S=hsv[...,1]/255;V=hsv[...,2]/255
+    dk=(V<.42)&~((H<55)&(S>.55)&(V>.3));l=(V/.42).clip(0,1)[...,None]
+    lava=np.concatenate([95+150*l,25+80*l*l,10+20*l],2)
+    tex=Image.fromarray(np.where(dk[...,None],lava,rgb).clip(0,255).astype(np.uint8))
   if 'castle' in path:   # Pix: castle should look like grey stone, not pink
     hsv=np.asarray(tex.convert('HSV')).astype(float);rgb=np.asarray(tex).astype(float);H=hsv[...,0]*360/255;S=hsv[...,1]/255;V=hsv[...,2]/255
     pk=((H>238)|(H<28))&(S>.05)&(S<.7)&(V>.18);g=rgb.mean(2,keepdims=True)
