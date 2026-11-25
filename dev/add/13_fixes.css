@@ -12,3 +12,11 @@ html body #mb .spn2:has(.gpk3) .omed,html body #mb .spn2:has(.gpk3) .omed.big{wi
 html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!important;min-height:19px;white-space:nowrap}
 /* slow/haste badge on a card: below the title so the title stays readable (25 Nov) */
 #hand .c .v3ef{top:27px!important;right:6px!important}
+/* floating numbers (-3 HP etc.): above everything and fully visible most of their time (25 Nov) */
+.fl{z-index:65!important;animation-name:up4!important}
+@keyframes up4{0%{opacity:1;transform:translate(-50%,0)}70%{opacity:1;transform:translate(-50%,-34px)}100%{opacity:0;transform:translate(-50%,-50px)}}
+/* status badges: compact when a player has 4 or more, so the panel stays short (25 Nov) */
+#hud .stc:has(span:nth-child(4)){gap:1px!important}
+#hud .stc:has(span:nth-child(4)) span{padding:1px 1px!important;border-radius:5px}
+#hud .stc:has(span:nth-child(4)) img.sti{height:14px!important;width:14px!important;margin-right:0!important;vertical-align:-3px}
+#hud .stc:has(span:nth-child(4)) span sub{font-size:8px}

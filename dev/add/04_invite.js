@@ -23,9 +23,9 @@ const bar=()=>'<div class="ivb" style="height:8px;margin:8px 6px 2px;border-radi
 const runBar=(p,t0,onEnd)=>{const tk=()=>{const left=Math.max(0,WAIT-Math.floor((Date.now()-t0)/1000)),i=p.querySelector('.ivb i'),s=p.querySelector('.ivs');if(i)i.style.width=(100*left/WAIT)+'%';if(s)s.textContent=left+'s';if(left<=0){onEnd();return}later(250,tk)};tk()};
 const vs=(foe,rk)=>'<div class="vs3"><div class="av"><img alt="" src="'+((window.__myPic&&__myPic())||POR()[SV.mine]||'')+'"></div><b>VS</b><div class="av en"><img alt="" src="'+(POR()[okH(foe.h)]||'')+'"></div></div><div class="nm3"><span>'+esc(SV.pname||'You')+'<small>'+esc(rnk())+'</small></span><span style="text-align:right">'+esc(foe.n)+'<small>'+esc(foe.rk||'')+'</small></span></div>';
 /* the countdown + match start, exactly like the old "Request accepted!" */
-const start=(foe,title,lv)=>{const p=box(title,vs(foe,foe.rk)+'<div class="cd3">3</div><p>Match starting…</p>');let n=3;
+const start=(foe,title,lv,md)=>{const p=box(title,vs(foe,foe.rk)+'<div class="cd3">3</div><p>Match starting…</p>');let n=3;
  const tick=()=>{const c=p.querySelector('.cd3');if(c)c.textContent=n;try{snd(n?880:1320,.06,'sine',.08)}catch(e){}
-  if(n===0){close();window.__foe={n:foe.n,h:okH(foe.h)};window.__frM=1;if(lv){window.__LIVEP=lv;if(!SV.m1){SV.m1=1;try{sv()}catch(e){}}}window.__mmOK=1;try{go('casual')}finally{window.__mmOK=0}return}n--;later(1000,tick)};tick()};
+  if(n===0){close();window.__foe={n:foe.n,h:okH(foe.h)};window.__frM=1;if(lv){window.__LIVEP=lv;if(!SV.m1){SV.m1=1;try{sv()}catch(e){}}}window.__mmOK=1;try{go(md||'casual')}finally{window.__mmOK=0}return}n--;later(1000,tick)};tick()};
 const result=(f,msg)=>{box('Battle request',av(f.h)+'<p class="bad">'+msg+'</p><div class="bts3"><button onclick="__ivClose()">OK</button></div>');snd2(330,.12)};
 window.__ivClose=()=>close();
 
@@ -71,4 +71,34 @@ function show(ref,id,d,age){clr();cur={id,k:d.k};const t0=Date.now()-Math.max(0,
  runBar(p,t0,()=>{if(cur&&cur.k===d.k){cur=null;close()}})}
 window.addEventListener('dc-auth',()=>{stopMine();if(unIn){unIn();unIn=null}seenK={};cur=null});
 setInterval(()=>{if(ON()&&!unIn){unIn=db().collection('invites').where('to','==',F.uid).onSnapshot(onInv,e=>{console.log('invites',e&&e.code);unIn=null})}},1000);
+
+/* ---------- real matchmaking (25 Nov): Casual/Ranked search pairs two real players, else an AI opponent after ~10 s ----------
+   mm/{uid} {uid,n,h,rk,mode,st:'wait'|'host'|'paired',k,mid,by,byN,byH,byRk,c,t}. The finder writes its own doc's mid,
+   creates matches/{mid} (rules allow it because mm/{me}.mid == mid) and pairs the other doc in a transaction; it hosts. */
+let MM=null;const MMW=10000;
+const mmDoc=u=>db().collection('mm').doc(u);
+window.__mmStop=()=>{if(!MM)return;const S=MM;MM=null;S.dead=1;try{S.un&&S.un()}catch(e){}clearTimeout(S.to);clearTimeout(S.pt);if(!S.done)mmDoc(F.uid).delete().catch(()=>{})};
+window.__mmReal=function(m,baseLater,AI,baseClose){if(!ON()||window.__mmOff)return false;window.__mmStop();
+ const k=Math.random().toString(36).slice(2,10),me=mmDoc(F.uid),S={k};MM=S;
+ const found=(foe,lv)=>{if(MM!==S||S.done)return;S.done=1;try{S.un&&S.un()}catch(e){}clearTimeout(S.to);clearTimeout(S.pt);MM=null;
+  setTimeout(()=>me.delete().catch(()=>{}),8000);try{baseClose&&baseClose()}catch(e){}clr();snd2(784);
+  box('Opponent found!',vs(foe,foe.rk)+'<p style="margin-top:8px!important">Get ready…</p>');later(1600,()=>start(foe,'Opponent found!',lv,m))};
+ const giveUp=()=>{if(MM!==S||S.done)return;window.__mmStop();AI()};
+ const pair=async()=>{if(MM!==S||S.done)return;
+  try{const q=await db().collection('mm').where('mode','==',m).get();if(MM!==S||S.done)return;
+   const c=q.docs.map(d=>d.data()).filter(d=>d&&d.uid&&d.uid!==F.uid&&d.st==='wait'&&Date.now()-(+d.c||0)<20000).sort((a,b)=>(a.c||0)-(b.c||0))[0];
+   if(c){const mid='mm_'+F.uid.slice(0,8)+'_'+c.uid.slice(0,8)+'_'+k;
+    await me.set({st:'host',mid},{merge:true});
+    let ok=false;try{await db().collection('matches').doc(mid).set({a:F.uid,b:c.uid,t:FV().serverTimestamp()});
+     ok=await db().runTransaction(async tx=>{const r=mmDoc(c.uid),s=await tx.get(r),d=s.exists?s.data():null;if(!d||d.st!=='wait'||d.k!==c.k)return false;tx.update(r,{st:'paired',mid,by:F.uid,byN:SV.pname||'Player',byH:okH(SV.mine),byRk:rnk()});return true})}catch(e){console.log('mm pair',e&&e.code)}
+    if(ok&&MM===S&&!S.done){found({n:c.n||'Player',h:c.h,rk:c.rk||''},{mid,host:1,them:c.uid,name:c.n||'Player'});return}
+    db().collection('matches').doc(mid).delete().catch(()=>{});if(MM===S&&!S.done)await me.set({st:'wait',mid:''},{merge:true})}}
+  catch(e){console.log('mm search',e&&e.code)}
+  if(MM===S&&!S.done)S.pt=setTimeout(pair,1500+Math.random()*1500)};
+ me.set({uid:F.uid,n:SV.pname||'Player',h:okH(SV.mine),rk:rnk(),mode:m,st:'wait',k,mid:'',c:Date.now(),t:FV().serverTimestamp()}).then(()=>{
+  if(MM!==S)return;
+  S.un=me.onSnapshot(s=>{const d=s.exists?s.data():null;if(!d||MM!==S||S.done)return;if(d.st==='paired'&&d.mid&&d.k===k&&d.by)found({n:d.byN||'Player',h:d.byH,rk:d.byRk||''},{mid:d.mid,host:0,them:d.by,name:d.byN||'Player'})},e=>console.log('mm watch',e&&e.code));
+  S.pt=setTimeout(pair,400+Math.random()*900)}).catch(e=>{console.log('mm join',e&&e.code);giveUp()});
+ S.to=setTimeout(giveUp,MMW);return true};
+window.addEventListener('dc-auth',()=>window.__mmStop());
 }catch(e){console.warn('v4 invite',e)}})();

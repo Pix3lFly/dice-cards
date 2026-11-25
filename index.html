@@ -379,7 +379,7 @@ function fr(now){const dt=Math.min(.05,(now-last)/1e3);last=now;t+=dt;
   if(o.t==='free'){p.position.y=(p.userData.glb?.62:.95)+Math.sin(t*3+i)*(p.userData.glb?.015:.08)}else if(o.t==='gold')p.rotation.y+=dt*(p.userData.glb?.25:2.5);else if(o.t==='base'){const sp3=p.userData.sp;sp3.children[sp3.children.length-1].rotation.y+=dt*1.5}else if(o.t==='mon')p.position.y=.62+Math.abs(Math.sin(t*3+i))*.07;else if(o.t==='heal')p.position.y=.62+Math.sin(t*2+i)*.04;else if(o.t==='portal'){}});
  [0,1].forEach(k=>{const h=H[k],p=P&&P[k];if(!p)return;const o=window.__offK?window.__offK(k,offs):offs[k];
   const tg=window.__vt&&window.__vt[k]!=null?window.__vt[k]:(p.via!=null?p.via:p.pos);
-  if(!hop[k]&&!TP[k]&&p.via!=null&&p.via2!=null&&vis[k]===p.via){TP[k]={ph:0,t:0,a:WB(vis[k]),b:WB(p.via2)}}
+  if(!hop[k]&&!TP[k]&&p.via!=null&&p.via2!=null&&vis[k]===p.via){TP[k]={ph:0,t:0,a:(window.__portSpotL&&window.__portSpotL(k,vis[k]))||WB(vis[k]),b:(window.__portSpotL&&window.__portSpotL(k,p.via2))||WB(p.via2)}}
   if(TP[k]){const q=TP[k],ob=orbOf(k);q.t+=dt;const A=q.a,B=q.b,dist=Math.hypot(B.x-A.x,B.z-A.z),fd=Math.max(.6,Math.min(1.5,dist/6));
    if(q.ph===0){const u=Math.min(1,q.t/.28);h.position.set(A.x+o[0],.56,A.z+o[1]);h.scale.setScalar(.95*(1-u));ob.visible=true;ob.position.set(A.x+o[0],.95,A.z+o[1]);ob.scale.setScalar(.2+u*1.1);if(u>=1){q.ph=1;q.t=0;h.visible=false;try{snd(880,.12,'sine')}catch(e){}}}
    else if(q.ph===1){const u=Math.min(1,q.t/fd),e=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;ob.position.set(A.x+(B.x-A.x)*e+o[0],.95+Math.sin(u*Math.PI)*1.6,A.z+(B.z-A.z)*e+o[1]);ob.scale.setScalar(1.3+Math.sin(t*20)*.08);if(u>=1){q.ph=2;q.t=0;vis[k]=p.via2;h.visible=true}}
@@ -4355,10 +4355,10 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
   clr();const t0=Date.now(),wait=2500+Math.random()*3500;
   const p=box(m==='rank'?'Ranked match':'Casual match','<div class="spin3"></div><p>Searching for an opponent…</p><div class="tm3">0:00</div><div class="bts3"><button class="sec" onclick="__mmCancel()">Cancel</button></div>');
   const tk=()=>{const s=Math.floor((Date.now()-t0)/1000),e=p.querySelector('.tm3');if(e)e.textContent='0:'+String(s).padStart(2,'0');later(250,tk)};tk();
-  later(wait,()=>{clr();const foe={n:NM[Math.floor(Math.random()*NM.length)]+(Math.random()<.5?Math.floor(Math.random()*90+10):''),h:(()=>{const hs=HS.filter(x=>x!==SV.mine);return hs[Math.floor(Math.random()*hs.length)]||HS[0]})()};window.__frM=0;
+  const AI=()=>{clr();const foe={n:NM[Math.floor(Math.random()*NM.length)]+(Math.random()<.5?Math.floor(Math.random()*90+10):''),h:(()=>{const hs=HS.filter(x=>x!==SV.mine);return hs[Math.floor(Math.random()*hs.length)]||HS[0]})()};window.__frM=0;
    const rp=Math.max(0,(SV.rp||0)+Math.round((Math.random()-.5)*120));try{snd(784,.1,'triangle',.1);setTimeout(()=>snd(1047,.14,'triangle',.1),110)}catch(e){}
-   const q=box('Opponent found!',vs(foe,rnk(rp))+'<p style="margin-top:8px!important">Get ready…</p>');later(1600,()=>start(m,foe,rnk(rp),'Opponent found!'))})};
- window.__mmCancel=()=>close();
+   const q=box('Opponent found!',vs(foe,rnk(rp))+'<p style="margin-top:8px!important">Get ready…</p>');later(1600,()=>start(m,foe,rnk(rp),'Opponent found!'))};if(window.__mmReal&&window.__mmReal(m,later,AI,close))return;later(wait,AI)};
+ window.__mmCancel=()=>{try{window.__mmStop&&window.__mmStop()}catch(e){}close()};
  // friend battle requests: first two tries "already in a game", then accepted
  fbat=window.fbat=function(id){const f=(window.__friends?window.__friends():FR).find(x=>x.id===id);if(!f)return;clr();
   SV.fbN=(SV.fbN||0)+1;try{sv()}catch(e){}const ok=SV.fbN>=3;
@@ -4884,9 +4884,9 @@ const bar=()=>'<div class="ivb" style="height:8px;margin:8px 6px 2px;border-radi
 const runBar=(p,t0,onEnd)=>{const tk=()=>{const left=Math.max(0,WAIT-Math.floor((Date.now()-t0)/1000)),i=p.querySelector('.ivb i'),s=p.querySelector('.ivs');if(i)i.style.width=(100*left/WAIT)+'%';if(s)s.textContent=left+'s';if(left<=0){onEnd();return}later(250,tk)};tk()};
 const vs=(foe,rk)=>'<div class="vs3"><div class="av"><img alt="" src="'+((window.__myPic&&__myPic())||POR()[SV.mine]||'')+'"></div><b>VS</b><div class="av en"><img alt="" src="'+(POR()[okH(foe.h)]||'')+'"></div></div><div class="nm3"><span>'+esc(SV.pname||'You')+'<small>'+esc(rnk())+'</small></span><span style="text-align:right">'+esc(foe.n)+'<small>'+esc(foe.rk||'')+'</small></span></div>';
 /* the countdown + match start, exactly like the old "Request accepted!" */
-const start=(foe,title,lv)=>{const p=box(title,vs(foe,foe.rk)+'<div class="cd3">3</div><p>Match starting…</p>');let n=3;
+const start=(foe,title,lv,md)=>{const p=box(title,vs(foe,foe.rk)+'<div class="cd3">3</div><p>Match starting…</p>');let n=3;
  const tick=()=>{const c=p.querySelector('.cd3');if(c)c.textContent=n;try{snd(n?880:1320,.06,'sine',.08)}catch(e){}
-  if(n===0){close();window.__foe={n:foe.n,h:okH(foe.h)};window.__frM=1;if(lv){window.__LIVEP=lv;if(!SV.m1){SV.m1=1;try{sv()}catch(e){}}}window.__mmOK=1;try{go('casual')}finally{window.__mmOK=0}return}n--;later(1000,tick)};tick()};
+  if(n===0){close();window.__foe={n:foe.n,h:okH(foe.h)};window.__frM=1;if(lv){window.__LIVEP=lv;if(!SV.m1){SV.m1=1;try{sv()}catch(e){}}}window.__mmOK=1;try{go(md||'casual')}finally{window.__mmOK=0}return}n--;later(1000,tick)};tick()};
 const result=(f,msg)=>{box('Battle request',av(f.h)+'<p class="bad">'+msg+'</p><div class="bts3"><button onclick="__ivClose()">OK</button></div>');snd2(330,.12)};
 window.__ivClose=()=>close();
 
@@ -4932,6 +4932,36 @@ function show(ref,id,d,age){clr();cur={id,k:d.k};const t0=Date.now()-Math.max(0,
  runBar(p,t0,()=>{if(cur&&cur.k===d.k){cur=null;close()}})}
 window.addEventListener('dc-auth',()=>{stopMine();if(unIn){unIn();unIn=null}seenK={};cur=null});
 setInterval(()=>{if(ON()&&!unIn){unIn=db().collection('invites').where('to','==',F.uid).onSnapshot(onInv,e=>{console.log('invites',e&&e.code);unIn=null})}},1000);
+
+/* ---------- real matchmaking (25 Nov): Casual/Ranked search pairs two real players, else an AI opponent after ~10 s ----------
+   mm/{uid} {uid,n,h,rk,mode,st:'wait'|'host'|'paired',k,mid,by,byN,byH,byRk,c,t}. The finder writes its own doc's mid,
+   creates matches/{mid} (rules allow it because mm/{me}.mid == mid) and pairs the other doc in a transaction; it hosts. */
+let MM=null;const MMW=10000;
+const mmDoc=u=>db().collection('mm').doc(u);
+window.__mmStop=()=>{if(!MM)return;const S=MM;MM=null;S.dead=1;try{S.un&&S.un()}catch(e){}clearTimeout(S.to);clearTimeout(S.pt);if(!S.done)mmDoc(F.uid).delete().catch(()=>{})};
+window.__mmReal=function(m,baseLater,AI,baseClose){if(!ON()||window.__mmOff)return false;window.__mmStop();
+ const k=Math.random().toString(36).slice(2,10),me=mmDoc(F.uid),S={k};MM=S;
+ const found=(foe,lv)=>{if(MM!==S||S.done)return;S.done=1;try{S.un&&S.un()}catch(e){}clearTimeout(S.to);clearTimeout(S.pt);MM=null;
+  setTimeout(()=>me.delete().catch(()=>{}),8000);try{baseClose&&baseClose()}catch(e){}clr();snd2(784);
+  box('Opponent found!',vs(foe,foe.rk)+'<p style="margin-top:8px!important">Get ready…</p>');later(1600,()=>start(foe,'Opponent found!',lv,m))};
+ const giveUp=()=>{if(MM!==S||S.done)return;window.__mmStop();AI()};
+ const pair=async()=>{if(MM!==S||S.done)return;
+  try{const q=await db().collection('mm').where('mode','==',m).get();if(MM!==S||S.done)return;
+   const c=q.docs.map(d=>d.data()).filter(d=>d&&d.uid&&d.uid!==F.uid&&d.st==='wait'&&Date.now()-(+d.c||0)<20000).sort((a,b)=>(a.c||0)-(b.c||0))[0];
+   if(c){const mid='mm_'+F.uid.slice(0,8)+'_'+c.uid.slice(0,8)+'_'+k;
+    await me.set({st:'host',mid},{merge:true});
+    let ok=false;try{await db().collection('matches').doc(mid).set({a:F.uid,b:c.uid,t:FV().serverTimestamp()});
+     ok=await db().runTransaction(async tx=>{const r=mmDoc(c.uid),s=await tx.get(r),d=s.exists?s.data():null;if(!d||d.st!=='wait'||d.k!==c.k)return false;tx.update(r,{st:'paired',mid,by:F.uid,byN:SV.pname||'Player',byH:okH(SV.mine),byRk:rnk()});return true})}catch(e){console.log('mm pair',e&&e.code)}
+    if(ok&&MM===S&&!S.done){found({n:c.n||'Player',h:c.h,rk:c.rk||''},{mid,host:1,them:c.uid,name:c.n||'Player'});return}
+    db().collection('matches').doc(mid).delete().catch(()=>{});if(MM===S&&!S.done)await me.set({st:'wait',mid:''},{merge:true})}}
+  catch(e){console.log('mm search',e&&e.code)}
+  if(MM===S&&!S.done)S.pt=setTimeout(pair,1500+Math.random()*1500)};
+ me.set({uid:F.uid,n:SV.pname||'Player',h:okH(SV.mine),rk:rnk(),mode:m,st:'wait',k,mid:'',c:Date.now(),t:FV().serverTimestamp()}).then(()=>{
+  if(MM!==S)return;
+  S.un=me.onSnapshot(s=>{const d=s.exists?s.data():null;if(!d||MM!==S||S.done)return;if(d.st==='paired'&&d.mid&&d.k===k&&d.by)found({n:d.byN||'Player',h:d.byH,rk:d.byRk||''},{mid:d.mid,host:0,them:d.by,name:d.byN||'Player'})},e=>console.log('mm watch',e&&e.code));
+  S.pt=setTimeout(pair,400+Math.random()*900)}).catch(e=>{console.log('mm join',e&&e.code);giveUp()});
+ S.to=setTimeout(giveUp,MMW);return true};
+window.addEventListener('dc-auth',()=>window.__mmStop());
 }catch(e){console.warn('v4 invite',e)}})();
 </script><script id="v4_05_live">
 /* ===== v4: live friend matches — the player whose turn it is runs the rules on their phone and streams
@@ -5474,6 +5504,14 @@ html body #mb .spn2:has(.gpk3) .omed,html body #mb .spn2:has(.gpk3) .omed.big{wi
 html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!important;min-height:19px;white-space:nowrap}
 /* slow/haste badge on a card: below the title so the title stays readable (25 Nov) */
 #hand .c .v3ef{top:27px!important;right:6px!important}
+/* floating numbers (-3 HP etc.): above everything and fully visible most of their time (25 Nov) */
+.fl{z-index:65!important;animation-name:up4!important}
+@keyframes up4{0%{opacity:1;transform:translate(-50%,0)}70%{opacity:1;transform:translate(-50%,-34px)}100%{opacity:0;transform:translate(-50%,-50px)}}
+/* status badges: compact when a player has 4 or more, so the panel stays short (25 Nov) */
+#hud .stc:has(span:nth-child(4)){gap:1px!important}
+#hud .stc:has(span:nth-child(4)) span{padding:1px 1px!important;border-radius:5px}
+#hud .stc:has(span:nth-child(4)) img.sti{height:14px!important;width:14px!important;margin-right:0!important;vertical-align:-3px}
+#hud .stc:has(span:nth-child(4)) span sub{font-size:8px}
 </style><script id="v4_13_fixes">/* V4 25 Nov board fixes:
    1. win/lose window waits until the last hit has landed (the HP bar shows 0)
    2. Sudden death: big banner + "the board has changed" line
@@ -6403,4 +6441,103 @@ setInterval(()=>{try{tick()}catch(e){ERR='tick: '+(e&&e.message||e)}
   if(o.__fill&&o.cBlk&&o.__fill.material!==o.cBlk.material)o.__fill.material=o.cBlk.material;
   if(o.top&&o.top.visible&&!window.__calmKeepTop)o.top.visible=false;if(o.__sprSh&&o.__sprSh.visible)o.__sprSh.visible=false;if(o.top){o.top.scale.setScalar(window.__calmS||.58);if(o.top.position.y<.575)o.top.position.y=.575;if(o.top.receiveShadow){o.top.receiveShadow=false;if(o.top.material)o.top.material.needsUpdate=true}const m=o.top.material;if(m&&!done.has(m)){done.add(m);m.transparent=true;m.opacity=window.__calmO||.45;if(m.emissiveIntensity!=null)m.emissiveIntensity*=.5;m.needsUpdate=true}}
   if(o.go!=null&&o.__calmT!==o.t){o.__calmT=o.t;o.go*=.4}})}catch(e){}},300)})();
+</script><script id="v4_22_social">/* ===== v4 (25 Nov): gifts, AI friends, friend suggestions, recent opponents (online friends page) =====
+   Gifts: 25 gold each; send up to 5 a day (one per friend), claim up to 5 a day.
+   Real friends: Firestore gifts/{to}/in/{from}_{day} {from,fromName,fromH,day,t}; claiming deletes the doc.
+   AI friends (SV.aiFr): local only — added from suggestions or recent opponents; each sends you one gift a day.
+   Suggestions show when you have 2 friends or fewer: recently-seen real players + AI players.
+   Recent opponents: last 6 opponents (SV.recent), real ones carry their uid. */
+(function w(){if(typeof menu!=='function'||typeof SV==='undefined'||!window.__FRON||!window.__ON){setTimeout(w,400);return}try{
+const O=window.__ON,F=window.__FRON,ON=()=>F.on,db=()=>O.db,FV=()=>firebase.firestore.FieldValue;
+const GOLD=25,MAXS=5,MAXC=5;
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const day=()=>Math.floor(Date.now()/864e5);
+const okH=h=>{try{return HD[h]||(/^[kvsfih][12]$/.test(h)&&(window.__POR||{})[h])?h:'k'}catch(e){return 'k'}};
+const POR=()=>window.__POR||{};
+const pic=h=>POR()[okH(h)]?'<img alt="" src="'+POR()[okH(h)]+'">':'';
+const toast=t=>{try{const n=document.createElement('div');n.className='m3note';n.textContent=t;document.body.appendChild(n);setTimeout(()=>n.remove(),2000)}catch(e){}};
+const ding=f=>{try{snd(f||784,.08,'triangle')}catch(e){}};
+const RKS=()=>{try{return RK.map(x=>x[0])}catch(e){return ['Bronze']}};
+const gs=()=>{const d=day();if(!SV.gft||SV.gft.d!==d)SV.gft={d,to:[],got:0};return SV.gft};
+const save=()=>{try{sv()}catch(e){}};
+const redraw=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='undefined'&&CMT==='fr'&&!document.querySelector('#menu .mpop')&&document.getElementById('menu').style.display!=='none')menu()}catch(e){}};
+
+/* ---------- AI players ---------- */
+const N1=['Luna','Grim','Pyra','Frost','Brix','Nyx','Thorne','Juno','Dax','Elwin','Fenna','Rook','Ivy','Kael','Saffi','Wren','Taro','Quill','Lyra','Moss','Edda','Finch','Vex','Tobin'];
+const hsh=t=>{let h=7;for(const c of String(t))h=(h*31+c.charCodeAt(0))%1000003;return h};
+const aiMake=(seed,n,h)=>{const k=hsh(seed),rk=RKS();const lv=1+k%18;return {id:'ai_'+(n||N1[k%N1.length]+(10+(k>>5)%90)).replace(/\W/g,''),n:n||N1[k%N1.length]+(10+(k>>5)%90),h:okH(h||'kvsfih'[k%6]),rk:rk[Math.min(rk.length-1,(k>>3)%4)],lv,w:5+k%60,l:3+(k>>2)%40}};
+const aiList=()=>{SV.aiFr=Array.isArray(SV.aiFr)?SV.aiFr:[];return SV.aiFr};
+const aiObj=a=>({id:a.id,n:a.n,h:okH(a.h),rk:a.rk||'Bronze',g:'No guild',w:a.w||0,l:a.l||0,wv:0,lv:a.lv||1,num:'',real:0,ai:1,on:((hsh(a.id)+Math.floor(Date.now()/9e5))%3)!==0,seen:Date.now()-((hsh(a.id)%50)*6e4)});
+const isAI=id=>/^ai_/.test(String(id||''));
+const aiAdd=a=>{const L=aiList();if(L.some(x=>x.id===a.id))return;L.push({id:a.id,n:a.n,h:a.h,rk:a.rk,lv:a.lv,w:a.w,l:a.l,t:Date.now()});save();toast(a.n+' is now your friend');ding(660)};
+/* AI friends appear in the friends list (online) */
+const _fr=window.__friends;
+window.__friends=function(){const L=_fr?_fr():[];if(!ON())return L;return L.concat(aiList().map(aiObj))};
+/* removing / battling an AI friend */
+const _del=window.frDel;window.frDel=function(id){if(isAI(id)){SV.aiFr=aiList().filter(x=>x.id!==id);save();const p=document.querySelector('#menu .mpop');if(p)p.remove();redraw();return}return _del&&_del.apply(this,arguments)};
+const _fb=window.fbat;window.fbat=function(id){if(isAI(id)){const a=aiList().find(x=>x.id===id);if(!a)return;window.__foe={n:a.n,h:okH(a.h)};window.__frM=1;window.__mmOK=1;try{go('casual')}finally{window.__mmOK=0}return}return _fb&&_fb.apply(this,arguments)};
+try{fbat=window.fbat;frDel=window.frDel}catch(e){}
+
+/* ---------- gifts ---------- */
+let inbox=[],unIn=null,inUid=null;
+function listen(){if(!ON()){if(unIn){unIn();unIn=null;inUid=null;inbox=[]}return}if(unIn&&inUid===F.uid)return;if(unIn)unIn();inUid=F.uid;
+ unIn=db().collection('gifts').doc(F.uid).collection('in').onSnapshot(q=>{inbox=q.docs.map(d=>Object.assign({id:d.id,ref:d.ref},d.data()));redraw()},e=>{console.log('gifts',e&&e.code);unIn=null})}
+setInterval(listen,1500);
+const aiGifts=()=>{const d=day();SV.aiGd=SV.aiGd||{};return aiList().filter(a=>SV.aiGd[a.id]!==d).map(a=>({id:'aig_'+a.id,ai:a.id,fromName:a.n,fromH:a.h}))};
+const waiting=()=>inbox.concat(aiGifts());
+window.__giftTo=async function(id){const g=gs();if(g.to.includes(id))return;if(g.to.length>=MAXS){toast('You can send '+MAXS+' gifts a day');return}
+ if(isAI(id)){g.to.push(id);save();ding();toast('Gift sent!');redraw();return}
+ try{await db().collection('gifts').doc(id).collection('in').doc(F.uid+'_'+g.d).set({from:F.uid,fromName:SV.pname||(F.prof&&F.prof.name)||'Player',fromH:okH(SV.pav||SV.mine),day:g.d,t:FV().serverTimestamp()});
+  g.to.push(id);save();ding();toast('Gift sent!');redraw()}catch(e){console.log('gift',e&&e.code);toast(e&&e.code==='unavailable'?'No internet connection':'Could not send the gift')}};
+window.__giftClaim=async function(){const g=gs(),W=waiting();if(!W.length)return;let n=0;
+ for(const x of W){if(g.got>=MAXC)break;
+  if(x.ai){SV.aiGd=SV.aiGd||{};SV.aiGd[x.ai]=g.d;g.got++;n++;continue}
+  try{await x.ref.delete();g.got++;n++}catch(e){console.log('claim',e&&e.code)}}
+ if(n){SV.gold=(SV.gold||0)+GOLD*n;save();ding(988);toast('+'+(GOLD*n)+' gold from '+n+' gift'+(n>1?'s':''))}
+ else if(g.got>=MAXC)toast('You already claimed '+MAXC+' gifts today');
+ try{menu()}catch(e){}};
+
+/* ---------- recent opponents ---------- */
+try{const _i=init;init=function(){const lv=window.__LIVEP;const r=_i.apply(this,arguments);try{if((mode==='casual'||mode==='rank')&&P&&P[1]&&P[1].name){
+  SV.recent=Array.isArray(SV.recent)?SV.recent:[];const o={n:String(P[1].name).slice(0,16),h:okH(P[1].h),t:Date.now()};if(lv&&lv.them)o.uid=lv.them;
+  SV.recent=[o].concat(SV.recent.filter(x=>x.n!==o.n)).slice(0,6);save()}}catch(e){}return r}}catch(e){}
+
+/* ---------- suggestions ---------- */
+let sug=[],sugT=0;
+async function loadSug(){if(!ON()||Date.now()-sugT<60e3)return;sugT=Date.now();
+ try{let q=db().collection('profiles');q=q.orderBy?q.orderBy('seen','desc'):q;q=q.limit?q.limit(15):q;const s=await q.get();const ids=(F.ids?F.ids():[]);
+  sug=s.docs.filter(d=>d.id!==F.uid&&!ids.includes(d.id)&&d.data()&&/^[A-Za-z0-9_]{3,16}$/.test(d.data().name||'')).slice(0,4).map(d=>({uid:d.id,n:d.data().name,h:okH(d.data().h),rk:d.data().rk||'Bronze'}));redraw()}catch(e){console.log('suggest',e&&e.code)}}
+const aiSug=()=>{const k=day(),L=aiList().map(a=>a.id),out=[];for(let i=0;out.length<3&&i<12;i++){const a=aiMake('s'+k+'_'+i);if(!L.includes(a.id)&&!out.some(x=>x.id===a.id))out.push(a)}return out};
+const SG={};
+window.__sgAdd=function(key){const x=SG[key];if(!x)return;if(x.uid){if(F.reqTo)F.reqTo(x.uid).then(()=>redraw());return}aiAdd(x.a);redraw()};
+const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp">'+pic(x.h)+'</div><div class="ff"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
+function deco(){if(!ON()||typeof tab==='undefined'||tab!=='comm'||typeof CMT==='undefined'||CMT!=='fr')return;const mb=document.getElementById('mb');if(!mb)return;const lst=mb.querySelector('.flst');if(!lst||lst.querySelector('.gf3'))return;
+ const g=gs(),W=waiting(),left=Math.max(0,MAXC-g.got);
+ lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b></span>'+(W.length&&left?'<button class="opr gcl" onclick="__giftClaim()">Claim '+Math.min(W.length,left)+' gift'+(Math.min(W.length,left)>1?'s':'')+'</button>':'')+'</div>');
+ /* gift button on every friend row (real + AI) */
+ lst.querySelectorAll('.fr3:not(.rq):not(.sg3)').forEach(r=>{const st=r.querySelector('.fst'),m=st&&(st.getAttribute('onclick')||'').match(/fav\('([^']+)'\)/);if(!m||r.querySelector('.fgx'))return;const id=m[1],sent=g.to.includes(id),full=g.to.length>=MAXS;
+  const b=document.createElement('button');b.className='fgf fgx';b.disabled=sent||(full&&!sent);b.innerHTML='<img alt="" src="'+((typeof U!=='undefined'&&U.coin)||'')+'"><small>'+(sent?'Sent':'Gift')+'</small>';b.onclick=e=>{e.stopPropagation();window.__giftTo(id)};
+  const fb=r.querySelector('.fbt');if(fb)r.insertBefore(b,fb);else r.appendChild(b);
+  if(isAI(id)){const lso=r.querySelector('.lso');if(lso)lso.textContent='AI player'}});
+ /* suggestions (2 friends or fewer) */
+ const nf=(F.ids?F.ids().length:0)+aiList().length;let h='';
+ if(nf<=2){loadSug();const fids=F.ids?F.ids():[];const S2=sug.filter(x=>!fids.includes(x.uid)).slice(0,3).map(x=>({k:'u'+x.uid,x})).concat(aiSug().map(a=>({k:'a'+a.id,x:a,a})));
+  if(S2.length){h+='<div class="frh lst sgh">Suggested players</div>'+S2.map(o=>{SG[o.k]=o.a?{a:o.a}:{uid:o.x.uid};const pend=o.x.uid&&F.sentTo&&F.sentTo(o.x.uid);
+   return row(o.k,o.x,o.a?'Lv '+o.x.lv+' · W-L '+o.x.w+'-'+o.x.l:'Played recently',pend?'<button class="opr jn" disabled>Sent</button>':'<button class="opr jn" onclick="__sgAdd(\''+o.k+'\')">＋ Add</button>')}).join('')}}
+ /* recent opponents */
+ const ids=F.ids?F.ids():[],an=aiList().map(a=>a.n);const R=(Array.isArray(SV.recent)?SV.recent:[]).filter(x=>!(x.uid&&(ids.includes(x.uid)||x.uid===F.uid))&&!(!x.uid&&an.includes(x.n)));
+ if(R.length){h+='<div class="frh lst sgh">Recent opponents</div>'+R.map((x,i)=>{const k='r'+i;SG[k]=x.uid?{uid:x.uid}:{a:aiMake('r_'+x.n,x.n,x.h)};const pend=x.uid&&F.sentTo&&F.sentTo(x.uid);
+   const ago=Math.max(1,Math.round((Date.now()-(x.t||0))/6e4)),when=ago<60?ago+' min ago':ago<1440?Math.round(ago/60)+' h ago':Math.round(ago/1440)+' d ago';
+   return row(k,x,'Played '+when,pend?'<button class="opr jn" disabled>Sent</button>':'<button class="opr jn" onclick="__sgAdd(\''+k+'\')">＋ Add</button>')}).join('')}
+ if(h){const f0=lst.querySelector('.fr0');lst.insertAdjacentHTML('beforeend',h)}}
+const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){console.log('social deco',e)}return r};
+const css=document.createElement('style');css.textContent=`
+#menu .gf3{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 6px;padding:7px 10px;border-radius:12px;background:#2a1a0bcc;border:1.5px solid #8a6326;font:700 12.5px system-ui;color:#f3e2bf}
+#menu .gf3 b{color:#ffe08a}
+#menu .gf3 .gcl{height:30px;padding:0 12px;font-size:13px;animation:gcP 1.4s ease-in-out infinite}
+@keyframes gcP{50%{transform:scale(1.06)}}
+#menu .sgh{margin-top:10px}
+#menu .fr3.sg3 .opr.jn{min-width:70px}
+`;document.head.appendChild(css);
+}catch(e){console.warn('v4 social',e)}})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>

@@ -113,6 +113,9 @@ P = [
   ('toy island merge', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}if(D&&window.__TOYM){Object.assign(D,window.__TOYM);window.__TOYI=1;window.__TOYM=null}'),
   ('toy island place', "if(GM.cisland){const m=mk('cisland',5.51);if(m){m.rotation.y=-Math.PI/2;const k=5.51/.9541;m.position.y+=.13-.4618*k;", "if(GM.cisland){const m=mk('cisland',5.51);if(m){const TI=window.__TOYI;m.rotation.y=TI?-.04:-Math.PI/2;const k=5.51/(TI?.951:.9541);m.position.y+=.13-(TI?.377:.4618)*k;"),
   ('cage fits hero', 'cg.position.set(h.position.x,cg.userData.y,h.position.z);cg.visible=cg.userData.y<4.8}}', 'cg.position.set(h.position.x,cg.userData.y,h.position.z);cg.visible=cg.userData.y<4.8;try{const mm=h.userData.m;if(mm&&cg.userData.fm!==mm){cg.userData.fm=mm;const b=new V.Box3().setFromObject(mm),hh=b.max.y-b.min.y;if(hh>0)cg.scale.setScalar(Math.max(1.3*(window.__cageS||.75),hh*1.1/1.55))}}catch(e){}}}'),
+  ('mm real a', 'later(wait,()=>{clr();const foe={n:NM[', 'const AI=()=>{clr();const foe={n:NM['),
+  ('mm real b', "later(1600,()=>start(m,foe,rnk(rp),'Opponent found!'))})};\n window.__mmCancel=()=>close();", "later(1600,()=>start(m,foe,rnk(rp),'Opponent found!'))};if(window.__mmReal&&window.__mmReal(m,later,AI,close))return;later(wait,AI)};\n window.__mmCancel=()=>{try{window.__mmStop&&window.__mmStop()}catch(e){}close()};"),
+  ('portal jump spots', 'TP[k]={ph:0,t:0,a:WB(vis[k]),b:WB(p.via2)}', 'TP[k]={ph:0,t:0,a:(window.__portSpotL&&window.__portSpotL(k,vis[k]))||WB(vis[k]),b:(window.__portSpotL&&window.__portSpotL(k,p.via2))||WB(p.via2)}'),
 ]
 import os
 def tile_model(s):
