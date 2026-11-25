@@ -4,10 +4,18 @@
    profile pictures (window.__POR keys like 'k1', 'v2'). Owners and moderators own every skin. */
 (function w(){if(typeof menu!=='function'||typeof SV==='undefined'||typeof HD==='undefined'){setTimeout(w,400);return}try{
 const POR=()=>window.__POR||{};
-const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero.'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
+const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero (daily quests help).'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
 const img=(h,i,b)=>{const S=window.__SKI||{};return i||b?(S[(b?'b':'l')+i+h]||POR()[h]||''):(POR()[h]||'')};
 let sel=1;
-const wins=h=>{try{return (SV.st&&SV.st.hw&&SV.st.hw[h])||0}catch(e){return 0}};
+const wins=h=>{try{return ((SV.st&&SV.st.hw&&SV.st.hw[h])||0)+((SV.skp&&SV.skp[h])||0)}catch(e){return 0}};
+/* daily skin quests (25 Nov, trial): finishing one adds Champion progress to the hero you played */
+const QD=[{k:'play',n:3,r:3,t:'Play 3 games'},{k:'win',n:2,r:5,t:'Win 2 games'},{k:'mon',n:1,r:2,t:'Beat a monster'}];
+const qs=()=>{const d=Math.floor(Date.now()/864e5);if(!SV.skq||SV.skq.d!==d)SV.skq={d,c:{play:0,win:0,mon:0},ok:{}};return SV.skq};
+const qAdd=(k,h)=>{try{if(window.__skq===0)return;const q=qs();q.c[k]=(q.c[k]||0)+1;const Q=QD.find(x=>x.k===k);if(Q&&!q.ok[k]&&q.c[k]>=Q.n){q.ok[k]=1;SV.skp=SV.skp||{};SV.skp[h]=(SV.skp[h]||0)+Q.r;
+  const n=document.createElement('div');n.className='m3note';n.textContent='Quest done! +'+Q.r+' Champion progress for '+((HD[h]||{}).n||'your hero');document.body.appendChild(n);setTimeout(()=>n.remove(),2600)}try{sv()}catch(e){}}catch(e){}};
+try{const _f=fin;fin=function(win){try{if((mode==='casual'||mode==='rank')&&P&&P[0]){const h=P[0].h;qAdd('play',h);if(win)qAdd('win',h)}}catch(e){}return _f.apply(this,arguments)}}catch(e){}
+(function wm(){const o=window.__monFx;if(typeof o!=='function'||o.__q){setTimeout(wm,1000);return}const f=function(i,ML,ok){try{if(i===0&&ok&&P&&P[0])qAdd('mon',P[0].h)}catch(e){}return o.apply(this,arguments)};f.__q=1;window.__monFx=f;setTimeout(wm,3000)})();
+const qHtml=()=>{if(window.__skq===0)return '';const q=qs();return '<div class="skq3"><b>Daily quests · Champion progress</b>'+QD.map(Q=>{const c=Math.min(Q.n,q.c[Q.k]||0),ok=!!q.ok[Q.k];return '<div class="'+(ok?'ok':'')+'"><span>'+(ok?'✓ ':'')+Q.t+'</span><em>'+(ok?'done':c+'/'+Q.n)+' · +'+Q.r+'</em></div>'}).join('')+'</div>'};
 const isOwn=()=>{try{if(window.__isStaff&&window.__isStaff())return true;const F=window.__FRON;return !!(F&&F.uid&&window.__isOwnerUid&&window.__isOwnerUid(F.uid))}catch(e){return false}};
 const owned=(h,i)=>i===0||isOwn()||(i===1&&wins(h)>=100)||(i===2&&!!(SV.skb&&SV.skb[h]));
 const eqOf=h=>{try{const n=(SV.skin&&SV.skin[h])||0;return owned(h,n)?n:0}catch(e){return 0}};
@@ -39,10 +47,10 @@ setTimeout(function pre(){try{if(!window.__addGM)return setTimeout(pre,2000);con
 function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp bd"><img alt="" src="'+img(h,s.id,1)+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
 window.__skinPop=function(){const h=SV.mine,eq=eqOf(h),M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();
  const s=SK[sel],ow=owned(h,sel),hw=wins(h);
- const st=sel===eq?'<span class="sko">✓ Equipped</span>':ow?'<span class="sko">✓ Unlocked'+(sel?' · logo is a profile picture':'')+'</span>':sel===1?'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 wins</span></div>':'<span class="skpr">$19.99</span>';
+ const st=sel===eq?'<span class="sko">✓ Equipped</span>':ow?'<span class="sko">✓ Unlocked'+(sel?' · logo is a profile picture':'')+'</span>':sel===1?'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 progress</span></div>':'<span class="skpr">$19.99</span>';
  p=document.createElement('div');p.className='mpop spop';p.innerHTML='<div class="uc skw"><b class="st">'+(HD[h].nm||HD[h].n)+' skins</b>'+
   '<div class="skcmp">'+card(h,SK[eq],1)+'<div class="skar">➜</div>'+card(h,s,1)+'</div>'+
-  '<div class="skd">'+s.d+'</div>'+st+
+  '<div class="skd">'+s.d+'</div>'+st+(sel===1&&!ow?qHtml():'')+
   '<div class="skl">'+SK.map(x=>'<button class="skt'+(x.id===sel?' on':'')+'" onclick="__skinSel('+x.id+')"><img alt="" class="'+(x.id?'lg':'')+'" src="'+img(h,x.id,0)+'"><span>'+x.n+'</span>'+(owned(h,x.id)?'':'<i>🔒</i>')+'</button>').join('')+'</div>'+
   '<div class="us2"><button class="opr rm" onclick="soClose()">Close</button><button class="opr"'+(sel===eq||(sel===1&&!ow)?' disabled style="opacity:.5"':'')+' onclick="__skinEq()">'+(sel===2&&!ow?'Buy':sel===eq?'Equipped':'Equip')+'</button></div></div>';
  p.onclick=e=>{if(e.target===p)p.remove()};M.appendChild(p)};
@@ -72,6 +80,11 @@ const css=document.createElement('style');css.textContent=`
 #menu .skd{font:600 13px system-ui,sans-serif;color:#fff2d8;margin:2px 0 6px}
 #menu .sko{display:inline-block;font:800 13px system-ui;color:#8fe37a;margin-bottom:6px}
 #menu .skpr{display:inline-block;font:400 18px 'Lilita One',system-ui,sans-serif;color:#7dff9a;margin-bottom:6px}
+#menu .skq3{margin:-2px 10px 8px;padding:6px 8px;border-radius:10px;background:#00000040;border:1px solid #8a6326;text-align:left}
+#menu .skq3 b{display:block;font:800 11.5px system-ui;color:#ffe08a;margin-bottom:3px}
+#menu .skq3 div{display:flex;justify-content:space-between;font:600 12px system-ui;color:#f3e2bf;padding:1px 0}
+#menu .skq3 div em{font-style:normal;color:#ffd27a}
+#menu .skq3 div.ok span,#menu .skq3 div.ok em{color:#8fe37a}
 #menu .skbar{position:relative;height:18px;border-radius:9px;background:#1c120a;border:1.5px solid #8a6326;overflow:hidden;margin:0 10px 8px}
 #menu .skbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(#ffe38e,#e9ac2e)}
 #menu .skbar span{position:relative;font:800 11px/16px system-ui;color:#fff;text-shadow:0 1px 2px #000}

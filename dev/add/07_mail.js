@@ -36,7 +36,7 @@ const mailUI=function(PC4){const L=all().map((m,i)=>[m,i]).sort((a,b)=>((!hasR(b
   const pic=m.real&&POR()[m.h]?'<div class="fp mlp"><img alt="" src="'+POR()[m.h]+'"></div>':'<img class="mic" alt="" src="'+U.m_mail+'">';
   const right=hasR(m)?(m.c?'<em class="cl">✓ Claimed</em>':'<button class="opr jn" onclick="event.stopPropagation();mlClaim(\''+m.id+'\')">Claim</button>'):(isNew(m)?'<em class="mnew">New</em>':'<em class="cl mopn">Open</em>');
   return '<div class="fr3 mrow '+(isNew(m)?'':'lk')+'" onclick="mlOpen(\''+m.id+'\')">'+pic+'<div class="ff"><b>'+esc(m.f)+'</b><span class="wr">'+esc(m.t.length>60?m.t.slice(0,58)+'…':m.t)+'</span>'+rw+'</div>'+right+'</div>'};
- return '<div class="spn2">'+PC4+'<div class="shd"><div class="spl">Mail'+(un?' · '+un+' new':'')+'</div></div><div class="flst top"><div class="frtop"><button class="opr addf" onclick="mlSendPop()">✉ Send mail</button></div><div class="frh lst">Received</div>'+(L.length?L.map(row).join(''):'<div class="dnt">No mail yet.</div>')+'</div>'+(uc>1?'<button class="opr all" onclick="mclaim()">Claim all ('+uc+')</button>':'')+'</div>'};
+ return '<div class="spn2">'+PC4+'<div class="shd"><div class="spl">Mail'+(un?' · '+un+' new':'')+'</div></div><div class="flst top"><div class="frtop"><button class="opr addf" onclick="mlSendPop()">✉ Send mail</button></div><div class="frh lst">Received</div>'+(L.length?L.map(row).join(''):'<div class="dnt">No mail yet.</div>')+'</div>'+(uc>1?'<button class="opr all" onclick="mclaim()">Claim all ('+uc+')</button>':(!uc&&sysMail().some(m=>hasR(m)&&m.c))?'<button class="opr all" onclick="mlDelGifts()">Delete all gift mails</button>':'')+'</div>'};
 
 /* the base page code can't be swapped (block-scoped), so redraw the Mail panel after each menu() */
 const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{if(inMail()){const sp=document.querySelector('#mb .spn2');if(sp&&sp.querySelector('.flst')){const kp=sp.querySelector('.flst').scrollTop;sp.outerHTML=mailUI([...sp.querySelectorAll(':scope > .pc')].map(e=>e.outerHTML).join(''));const nl=document.querySelector('#mb .flst');if(nl&&kp)nl.scrollTop=kp}}}catch(e){console.log('mail ui',e)}return r};
@@ -56,6 +56,7 @@ window.mlDel=function(id){const m=find(id);if(!m)return;
  else{if(hasR(m)&&!m.c)return;SV.mail=(SV.mail||[]).filter(x=>x.id!==id);try{sv()}catch(e){}}
  shut();note('Mail deleted');try{menu()}catch(e){}};
 window.mlClaim=function(id,reopen){const m=find(id);if(!m||m.real||m.c)return;try{mclaim(id)}catch(e){}try{snd(880,.08,'triangle')}catch(e){}if(reopen)mlOpen(id)};
+window.mlDelGifts=function(){SV.mail=(SV.mail||[]).filter(m=>!(hasR(m)&&m.c));try{sv()}catch(e){}try{snd(520,.06,'triangle')}catch(e){}try{menu()}catch(e){}};
 window.mlReply=function(id){const m=find(id);if(!m)return;shut();mlSendPop(m.from,'')};
 window.mlWho=function(id){const m=find(id);if(!m||!m.real)return;showUid(m.from,m.f,m.h)};
 

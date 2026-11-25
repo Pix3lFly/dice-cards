@@ -1,6 +1,6 @@
 /* ===== v4 (25 Nov): gifts, AI friends, friend suggestions, recent opponents (online friends page) =====
-   Gifts: 25 gold each; send up to 5 a day (one per friend), claim up to 5 a day.
-   Real friends: Firestore gifts/{to}/in/{from}_{day} {from,fromName,fromH,day,t}; claiming deletes the doc.
+   Gifts: 25 gold each; send up to 5 a day (one per friend), claim up to 5 a day — in Mail.
+   Real friends: Firestore gifts/{to}/in/{from}_{day} {from,fromName,fromH,day,t}; it is moved into SV.mail (id gf_…, g:1) and deleted.
    AI friends (SV.aiFr): local only — added from suggestions or recent opponents; each sends you one gift a day.
    Suggestions show when you have 2 friends or fewer: recently-seen real players + AI players.
    Recent opponents: last 6 opponents (SV.recent), real ones carry their uid. */
@@ -38,22 +38,25 @@ try{fbat=window.fbat;frDel=window.frDel}catch(e){}
 /* ---------- gifts ---------- */
 let inbox=[],unIn=null,inUid=null;
 function listen(){if(!ON()){if(unIn){unIn();unIn=null;inUid=null;inbox=[]}return}if(unIn&&inUid===F.uid)return;if(unIn)unIn();inUid=F.uid;
- unIn=db().collection('gifts').doc(F.uid).collection('in').onSnapshot(q=>{inbox=q.docs.map(d=>Object.assign({id:d.id,ref:d.ref},d.data()));redraw()},e=>{console.log('gifts',e&&e.code);unIn=null})}
+ unIn=db().collection('gifts').doc(F.uid).collection('in').onSnapshot(q=>{inbox=q.docs.map(d=>Object.assign({id:d.id,ref:d.ref},d.data()));if(inbox.length)pull()},e=>{console.log('gifts',e&&e.code);unIn=null})}
 setInterval(listen,1500);
-const aiGifts=()=>{const d=day();SV.aiGd=SV.aiGd||{};return aiList().filter(a=>SV.aiGd[a.id]!==d).map(a=>({id:'aig_'+a.id,ai:a.id,fromName:a.n,fromH:a.h}))};
-const waiting=()=>inbox.concat(aiGifts());
+/* gifts arrive as Mail (like the AI mails): moved into SV.mail with a 25-gold reward, claimed there */
+const pull=()=>{try{if(typeof mailInit==='function')mailInit()}catch(e){}SV.mail=SV.mail||[];let n=0;const d=day();
+ inbox.forEach(x=>{const id='gf_'+x.id;if(!SV.mail.some(m=>m.id===id)){SV.mail.unshift({id,f:String(x.fromName||'Player').slice(0,16),t:'sent you a gift! 🎁',r:{gold:GOLD},g:1});n++}try{x.ref.delete()}catch(e){}});
+ SV.aiGd=SV.aiGd||{};aiList().forEach(a=>{if(SV.aiGd[a.id]===d)return;SV.aiGd[a.id]=d;SV.mail.unshift({id:'ga_'+a.id+'_'+d,f:a.n,t:'sent you a gift! 🎁',r:{gold:GOLD},g:1});n++});
+ if(n){save();try{if(typeof tab!=='undefined'&&tab==='comm'&&!document.querySelector('#menu .mpop'))menu()}catch(e){}}};
+window.__giftPull=pull;
+setInterval(()=>{if(ON()&&(inbox.length||aiList().some(a=>(SV.aiGd||{})[a.id]!==day())))pull()},2000);
 window.__giftTo=async function(id){const g=gs();if(g.to.includes(id))return;if(g.to.length>=MAXS){toast('You can send '+MAXS+' gifts a day');return}
  if(isAI(id)){g.to.push(id);save();ding();toast('Gift sent!');redraw();return}
  try{await db().collection('gifts').doc(id).collection('in').doc(F.uid+'_'+g.d).set({from:F.uid,fromName:SV.pname||(F.prof&&F.prof.name)||'Player',fromH:okH(SV.pav||SV.mine),day:g.d,t:FV().serverTimestamp()});
   g.to.push(id);save();ding();toast('Gift sent!');redraw()}catch(e){console.log('gift',e&&e.code);toast(e&&e.code==='unavailable'?'No internet connection':'Could not send the gift')}};
-window.__giftClaim=async function(){const g=gs(),W=waiting();if(!W.length)return;let n=0;
- for(const x of W){if(g.got>=MAXC)break;
-  if(x.ai){SV.aiGd=SV.aiGd||{};SV.aiGd[x.ai]=g.d;g.got++;n++;continue}
-  try{await x.ref.delete();g.got++;n++}catch(e){console.log('claim',e&&e.code)}}
- if(n){SV.gold=(SV.gold||0)+GOLD*n;save();ding(988);toast('+'+(GOLD*n)+' gold from '+n+' gift'+(n>1?'s':''))}
- else if(g.got>=MAXC)toast('You already claimed '+MAXC+' gifts today');
- try{menu()}catch(e){}};
-
+/* claiming in Mail: at most 5 gift mails a day */
+(function wc(){if(typeof window.mclaim!=='function'){setTimeout(wc,500);return}const o=window.mclaim;if(o.__g)return;
+ const f=function(id){const g=gs();let blocked=0;const L=(SV.mail||[]).filter(m=>!m.c&&(!id||m.id===id));
+  L.forEach(m=>{if(!m.g)return;if(g.got>=MAXC){m.__hold=1;blocked++}else{g.got++}});
+  const keep=(SV.mail||[]).filter(m=>m.__hold);keep.forEach(m=>{m.c=1});const r=o.apply(this,arguments);keep.forEach(m=>{m.c=0;delete m.__hold});
+  if(blocked)toast('You can claim '+MAXC+' gifts a day — the rest wait for tomorrow');save();return r};f.__g=1;window.mclaim=f;try{mclaim=f}catch(e){}})();
 /* ---------- recent opponents ---------- */
 try{const _i=init;init=function(){const lv=window.__LIVEP;const r=_i.apply(this,arguments);try{if((mode==='casual'||mode==='rank')&&P&&P[1]&&P[1].name){
   SV.recent=Array.isArray(SV.recent)?SV.recent:[];const o={n:String(P[1].name).slice(0,16),h:okH(P[1].h),t:Date.now()};if(lv&&lv.them)o.uid=lv.them;
@@ -69,8 +72,8 @@ const SG={};
 window.__sgAdd=function(key){const x=SG[key];if(!x)return;if(x.uid){if(F.reqTo)F.reqTo(x.uid).then(()=>redraw());return}aiAdd(x.a);redraw()};
 const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp">'+pic(x.h)+'</div><div class="ff"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
 function deco(){if(!ON()||typeof tab==='undefined'||tab!=='comm'||typeof CMT==='undefined'||CMT!=='fr')return;const mb=document.getElementById('mb');if(!mb)return;const lst=mb.querySelector('.flst');if(!lst||lst.querySelector('.gf3'))return;
- const g=gs(),W=waiting(),left=Math.max(0,MAXC-g.got);
- lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b></span>'+(W.length&&left?'<button class="opr gcl" onclick="__giftClaim()">Claim '+Math.min(W.length,left)+' gift'+(Math.min(W.length,left)>1?'s':'')+'</button>':'')+'</div>');
+ const g=gs();
+ lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b> · gifts arrive in Mail</span></div>');
  /* gift button on every friend row (real + AI) */
  lst.querySelectorAll('.fr3:not(.rq):not(.sg3)').forEach(r=>{const st=r.querySelector('.fst'),m=st&&(st.getAttribute('onclick')||'').match(/fav\('([^']+)'\)/);if(!m||r.querySelector('.fgx'))return;const id=m[1],sent=g.to.includes(id),full=g.to.length>=MAXS;
   const b=document.createElement('button');b.className='fgf fgx';b.disabled=sent||(full&&!sent);b.innerHTML='<img alt="" src="'+((typeof U!=='undefined'&&U.coin)||'')+'"><small>'+(sent?'Sent':'Gift')+'</small>';b.onclick=e=>{e.stopPropagation();window.__giftTo(id)};

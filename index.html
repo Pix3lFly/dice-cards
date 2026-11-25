@@ -193,7 +193,7 @@ img.cimg{max-width:100%;max-height:100%;object-fit:contain}
 <div id="ov"><div><h2 id="ovt"></h2><p id="ovr"></p><button class="bt" onclick="menu()">Continue</button></div></div><div id="menu"></div><div id="upm"></div><div id="fgt"></div><div id="splash"><svg class="lgo" viewBox="0 0 240 240" width="230" height="230" role="img" aria-label="Dice Cards logo"><circle cx="120" cy="120" r="108" fill="#0e2a40" stroke="#ffd166" stroke-width="4"/><rect x="150" y="170" width="58" height="34" rx="5" fill="#8a5a2b" stroke="#3b2412" stroke-width="3"/><path d="M150 172q29-24 58 0z" fill="#a8703a" stroke="#3b2412" stroke-width="3"/><path d="M150 182h58" stroke="#ffd166" stroke-width="5"/><rect x="174" y="176" width="10" height="12" rx="2" fill="#ffd166" stroke="#a8791a"/><g fill="#ffd166" stroke="#a8791a" stroke-width="2"><circle cx="42" cy="186" r="11"/><circle cx="62" cy="198" r="11"/><circle cx="80" cy="186" r="11"/><circle cx="196" cy="160" r="8"/><circle cx="52" cy="168" r="8"/></g><rect x="28" y="118" width="28" height="28" rx="6" fill="#fff7e0" stroke="#8a6a3d" stroke-width="2" transform="rotate(-15 42 132)"/><circle cx="42" cy="132" r="3.2" fill="#b3261e"/><path d="M72 118q0-38 48-38q48 0 48 38q0 22-14 30v14q0 6-6 6h-56q-6 0-6-6v-14q-14-8-14-30z" fill="#f4efe2" stroke="#2a2433" stroke-width="3"/><ellipse cx="100" cy="120" rx="13" ry="15" fill="#1b1626"/><ellipse cx="140" cy="120" rx="13" ry="15" fill="#1b1626"/><circle cx="102" cy="120" r="5" fill="#5fd4ff"/><circle cx="138" cy="120" r="5" fill="#5fd4ff"/><path d="M120 132l-6 12h12z" fill="#1b1626"/><path d="M96 154h48M104 148v12M112 148v12M120 148v12M128 148v12M136 148v12" stroke="#2a2433" stroke-width="3"/><ellipse cx="120" cy="84" rx="92" ry="19" fill="#3a1f5c" stroke="#1d0f30" stroke-width="3"/><path d="M80 82q4-54 40-58q36 4 40 58z" fill="#4b2a78" stroke="#1d0f30" stroke-width="3"/><path d="M81 70q39 12 78 0v10q-39 12-78 0z" fill="#ffd166"/><path d="M158 152q12-6 18-24" stroke="#f4efe2" stroke-width="8" stroke-linecap="round" fill="none"/><g transform="rotate(12 188 108)"><rect x="168" y="88" width="40" height="40" rx="8" fill="#e23b3b" stroke="#6b1414" stroke-width="3"/><g fill="#fff"><circle cx="178" cy="98" r="3.5"/><circle cx="198" cy="98" r="3.5"/><circle cx="188" cy="108" r="3.5"/><circle cx="178" cy="118" r="3.5"/><circle cx="198" cy="118" r="3.5"/></g></g></svg><div class="lg" style="font-size:42px;margin:0">DICE CARDS</div><div style="opacity:.8;font-size:14px;margin-top:-8px">Roll, play your cards, and take down your rival</div><button class="bt" id="bgn" onclick="$('splash').style.display='none';snd(523,.15,'triangle');setTimeout(()=>snd(784,.2,'triangle'),120)">▶ Begin Game</button></div><div id="trn"></div><div id="tipq" class="tip"></div><div id="tipc" class="tip"></div><button id="logt" class="bt sm" onclick="togLog()"></button><div id="toast"></div><div id="tb"></div><div id="intro"></div><div id="xq"><div class="uc"><b style="font-size:17px">Leave the match?</b><div style="margin:8px 0;font-size:13px;opacity:.85">Are you sure you want to exit? Your current match will be lost.</div><div class="us"><button onclick="$('xq').style.display='none'">Stay</button><button onclick="leaveGame()">Leave</button></div></div></div><button id="qb" onclick="$('help').style.display='flex'">?</button><div id="help" onclick="this.style.display='none'"><div class="uc" style="text-align:left"><b style="font-size:17px">Tiles — quick guide</b><div style="font-size:13px;line-height:1.7;margin-top:6px">⚔️ <b>Attack</b>: hits the enemy for your AP<br>🍹 <b>Heal</b>: +4 HP<br>💰 <b>Gold</b>: +5 gold<br>💣 <b>Trap</b>: you lose 3 HP (6 in sudden death)<br>🃏 <b>Free card</b>: draw a card<br>🦀 <b>Monster</b>: beat it with a dice card to level up<br>🛍️ <b>Shop</b>: buy 1 of 3 cards<br>📖 <b>Magic book</b>: random spell<br>🌀 <b>Portal</b>: teleports you to the other portal<br>🏰 <b>Base</b>: yours = level up, enemy's = you get jailed<br>⬜ <b>Empty</b>: used up, changes after you leave<br>⛓️ Land on the enemy and they are jailed at your base</div><div style="text-align:center;margin-top:8px;opacity:.7;font-size:11px">Tap anywhere to close</div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script>(function(){var N=7,i=0,tries=0;function nx(){if(i>=N){var e=document.createElement('script');e.type='application/json';e.id='mdl';e.textContent=window.__MD.join('');window.__MD=null;document.body.appendChild(e);if(window.__mdlRun)window.__mdlRun();return}var s=document.createElement('script');s.src='m/mdl'+i+'.js?v=3'+(tries?'&r='+tries:'');window.__mdlI=i;s.onload=function(){if(window.__MD&&window.__MD[i]!=null){i++;tries=0;nx()}else retry()};s.onerror=retry;document.head.appendChild(s)}function retry(){tries++;if(tries>6)window.__mdlSlow=1;setTimeout(nx,Math.min(4000,800*tries))}nx()})();</script>
+<script>(function(){var N=7,got=0,done=0;window.__MD=window.__MD||[];function fin(){if(done)return;for(var q=0;q<N;q++)if(window.__MD[q]==null)return;done=1;var e=document.createElement('script');e.type='application/json';e.id='mdl';e.textContent=window.__MD.join('');window.__MD=null;document.body.appendChild(e);if(window.__mdlRun)window.__mdlRun()}function one(i,tries){var s=document.createElement('script');s.src='m/mdl'+i+'.js?v=4'+(tries?'&r='+tries:'');s.onload=function(){if(window.__MD&&window.__MD[i]!=null)fin();else retry(i,tries)};s.onerror=function(){retry(i,tries)};document.head.appendChild(s)}function retry(i,tries){tries++;if(tries>6)window.__mdlSlow=1;setTimeout(function(){one(i,tries)},Math.min(4000,800*tries))}for(var k=0;k<N;k++)one(k,0)})();</script>
 <script>(function(){const L=[];function show(m){m=String(m);if(/metamask|ethereum|web3|phantom|wallet|chrome-extension:|moz-extension:|safari-extension:|extension:\/\/|inpage\.js|contentscript|solana|tronlink|coinbase/i.test(m))return;L.push(m);try{(window.__dbgQ=window.__dbgQ||[]).push({m:m.slice(0,400),t:Date.now()});if(window.__dbgQ.length>60)window.__dbgQ.shift()}catch(e){}if(!(window.__dbgOK&&window.__dbgOK()))return;let d=document.getElementById('dbgbox');if(!d){d=document.createElement('div');d.id='dbgbox';d.style.cssText='position:fixed;left:6px;right:6px;top:40%;z-index:99999;background:rgba(0,0,0,.85);color:#ffd166;font:12px monospace;padding:8px;border:1px solid #ffd166;border-radius:8px;white-space:pre-wrap;max-height:30vh;overflow:auto';d.onclick=()=>d.remove();document.body.appendChild(d)}d.textContent='Debug (tap to close):\n'+L.slice(-8).join('\n')}
 window.addEventListener('error',e=>show('ERR '+e.message+' @'+(e.lineno||'')));window.addEventListener('unhandledrejection',e=>show('PROMISE '+e.reason));
 const w=console.warn;console.warn=function(){try{show('WARN '+[].map.call(arguments,String).join(' '))}catch(e){}return w.apply(console,arguments)};
@@ -1061,7 +1061,7 @@ function frUI(){const day=Math.floor(Date.now()/864e5);if(!SV.gift||SV.gift.d!==
 function fav(id){SV.fav=SV.fav.includes(id)?SV.fav.filter(x=>x!==id):SV.fav.concat(id);sv();menu()}
 function gift(id){if(SV.gift.ids.length<10&&!SV.gift.ids.includes(id)){SV.gift.ids.push(id);sv()}menu()}
 function fbat(id){window.__foe=FR.find(f=>f.id===id);go('casual')}
-function mailInit(){const day=Math.floor(Date.now()/864e5);SV.mail=SV.mail||[];if(!SV.mwel){SV.mwel=1;SV.mail.unshift({id:'wel',f:'Dice Cards',t:'Welcome! Here is a starter gift.',r:{gold:200,gems:5}})}if(SV.mday!==day&&!(window.__FRON&&window.__FRON.on)){SV.mday=day;shuf(FR).slice(0,2).forEach((f,k)=>SV.mail.unshift({id:'g'+day+k,f:f.n,t:'sent you a friendly gift.',r:{gold:20}}))}SV.mail=SV.mail.slice(0,8)}
+function mailInit(){const day=Math.floor(Date.now()/864e5);SV.mail=SV.mail||[];if(!SV.mwel){SV.mwel=1;SV.mail.unshift({id:'wel',f:'Dice Cards',t:'Welcome! Here is a starter gift.',r:{gold:200,gems:5}})}if(SV.mday!==day&&!(window.__FRON&&window.__FRON.on)){SV.mday=day;shuf(FR).slice(0,2).forEach((f,k)=>SV.mail.unshift({id:'g'+day+k,f:f.n,t:'sent you a friendly gift.',r:{gold:20}}))}SV.mail=SV.mail.filter((m,i)=>i<30||(m.g&&!m.c))}
 function mailUI(){mailInit();const un=SV.mail.filter(m=>!m.c).length;return '<div class="pn"><b>✉️ Mail</b> · '+un+' unclaimed '+(un?'<button class="bt" onclick="mclaim()">Claim all</button>':'')+'<div class="flist">'+(SV.mail.length?SV.mail.map(m=>`<div class="frow ${m.c?'dim':''}"><span class="fe">✉️</span><div class="fi"><b>${m.f}</b> <small>${m.t}</small><br><small>${m.r.gold?'🪙 '+m.r.gold+' ':''}${m.r.gems?'💎 '+m.r.gems:''}</small></div>${m.c?'<small>Claimed</small>':`<button class="bt" onclick="mclaim('${m.id}')">Claim</button>`}</div>`).join(''):'<small>No mail yet.</small>')+'</div></div>'}
 function mclaim(id){SV.mail.forEach(m=>{if(!m.c&&(!id||m.id===id)){m.c=1;SV.gold+=m.r.gold||0;SV.gems+=m.r.gems||0}});sv();menu()}
 const GU=[{n:'Moonblades',e:'🌙',m:18},{n:'Iron Dice',e:'🎲',m:24},{n:'Crimson Crows',e:'🦅',m:12}],GPK=[[2,'Loot box timers -10%',0],[3,'+1 starting AP',1],[4,'+2 starting HP',1],[5,'+5 starting gold',1],[6,'Deck points +1',0],[7,'More guild members',0],[9,'Shard shop discount',0]],glv=()=>(window.__glv&&window.__glv())||Math.min(10,1+Math.floor((SV.gp||0)/100));
@@ -3068,7 +3068,7 @@ setInterval(()=>{try{const M=$('menu'),b=document.getElementById('v3tq');if(tab=
    if(mv){w.userData.mvT=.25;play(w,'walk')}else{w.userData.mvT=Math.max(0,(w.userData.mvT||0)-dt);if(!w.userData.mvT)play(w,'idle')}})}catch(e){}}
  const rr=R.render.bind(R);R.render=function(a,b){if(a===S){try{tick()}catch(e){}}return rr(a,b)};
  /* load the files */
- const files=Object.values(HERO).concat(MON,['bat']);
+ const files=window.__RIGHERO?Object.values(HERO).concat(MON,['bat']):['bat'];
  const got=f=>{if(buf[f])return;const s64=window.__RIG&&window.__RIG[f];if(!s64)return;try{const bin=atob(s64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);buf[f]=u.buffer;window.__RIG[f]=null}catch(e){console.warn('rig decode',f,e);return}
   const h=Object.keys(HERO).find(x=>HERO[x]===f);if(h)refill(h);const j=MON.indexOf(f);if(j>=0)loadMon(j);if(f==='bat')loadBat()};
  window.__rigGot=got;
@@ -5237,7 +5237,7 @@ const mailUI=function(PC4){const L=all().map((m,i)=>[m,i]).sort((a,b)=>((!hasR(b
   const pic=m.real&&POR()[m.h]?'<div class="fp mlp"><img alt="" src="'+POR()[m.h]+'"></div>':'<img class="mic" alt="" src="'+U.m_mail+'">';
   const right=hasR(m)?(m.c?'<em class="cl">✓ Claimed</em>':'<button class="opr jn" onclick="event.stopPropagation();mlClaim(\''+m.id+'\')">Claim</button>'):(isNew(m)?'<em class="mnew">New</em>':'<em class="cl mopn">Open</em>');
   return '<div class="fr3 mrow '+(isNew(m)?'':'lk')+'" onclick="mlOpen(\''+m.id+'\')">'+pic+'<div class="ff"><b>'+esc(m.f)+'</b><span class="wr">'+esc(m.t.length>60?m.t.slice(0,58)+'…':m.t)+'</span>'+rw+'</div>'+right+'</div>'};
- return '<div class="spn2">'+PC4+'<div class="shd"><div class="spl">Mail'+(un?' · '+un+' new':'')+'</div></div><div class="flst top"><div class="frtop"><button class="opr addf" onclick="mlSendPop()">✉ Send mail</button></div><div class="frh lst">Received</div>'+(L.length?L.map(row).join(''):'<div class="dnt">No mail yet.</div>')+'</div>'+(uc>1?'<button class="opr all" onclick="mclaim()">Claim all ('+uc+')</button>':'')+'</div>'};
+ return '<div class="spn2">'+PC4+'<div class="shd"><div class="spl">Mail'+(un?' · '+un+' new':'')+'</div></div><div class="flst top"><div class="frtop"><button class="opr addf" onclick="mlSendPop()">✉ Send mail</button></div><div class="frh lst">Received</div>'+(L.length?L.map(row).join(''):'<div class="dnt">No mail yet.</div>')+'</div>'+(uc>1?'<button class="opr all" onclick="mclaim()">Claim all ('+uc+')</button>':(!uc&&sysMail().some(m=>hasR(m)&&m.c))?'<button class="opr all" onclick="mlDelGifts()">Delete all gift mails</button>':'')+'</div>'};
 
 /* the base page code can't be swapped (block-scoped), so redraw the Mail panel after each menu() */
 const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{if(inMail()){const sp=document.querySelector('#mb .spn2');if(sp&&sp.querySelector('.flst')){const kp=sp.querySelector('.flst').scrollTop;sp.outerHTML=mailUI([...sp.querySelectorAll(':scope > .pc')].map(e=>e.outerHTML).join(''));const nl=document.querySelector('#mb .flst');if(nl&&kp)nl.scrollTop=kp}}}catch(e){console.log('mail ui',e)}return r};
@@ -5257,6 +5257,7 @@ window.mlDel=function(id){const m=find(id);if(!m)return;
  else{if(hasR(m)&&!m.c)return;SV.mail=(SV.mail||[]).filter(x=>x.id!==id);try{sv()}catch(e){}}
  shut();note('Mail deleted');try{menu()}catch(e){}};
 window.mlClaim=function(id,reopen){const m=find(id);if(!m||m.real||m.c)return;try{mclaim(id)}catch(e){}try{snd(880,.08,'triangle')}catch(e){}if(reopen)mlOpen(id)};
+window.mlDelGifts=function(){SV.mail=(SV.mail||[]).filter(m=>!(hasR(m)&&m.c));try{sv()}catch(e){}try{snd(520,.06,'triangle')}catch(e){}try{menu()}catch(e){}};
 window.mlReply=function(id){const m=find(id);if(!m)return;shut();mlSendPop(m.from,'')};
 window.mlWho=function(id){const m=find(id);if(!m||!m.real)return;showUid(m.from,m.f,m.h)};
 
@@ -5638,10 +5639,18 @@ const st=document.createElement('style');st.textContent=`
    profile pictures (window.__POR keys like 'k1', 'v2'). Owners and moderators own every skin. */
 (function w(){if(typeof menu!=='function'||typeof SV==='undefined'||typeof HD==='undefined'){setTimeout(w,400);return}try{
 const POR=()=>window.__POR||{};
-const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero.'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
+const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero (daily quests help).'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
 const img=(h,i,b)=>{const S=window.__SKI||{};return i||b?(S[(b?'b':'l')+i+h]||POR()[h]||''):(POR()[h]||'')};
 let sel=1;
-const wins=h=>{try{return (SV.st&&SV.st.hw&&SV.st.hw[h])||0}catch(e){return 0}};
+const wins=h=>{try{return ((SV.st&&SV.st.hw&&SV.st.hw[h])||0)+((SV.skp&&SV.skp[h])||0)}catch(e){return 0}};
+/* daily skin quests (25 Nov, trial): finishing one adds Champion progress to the hero you played */
+const QD=[{k:'play',n:3,r:3,t:'Play 3 games'},{k:'win',n:2,r:5,t:'Win 2 games'},{k:'mon',n:1,r:2,t:'Beat a monster'}];
+const qs=()=>{const d=Math.floor(Date.now()/864e5);if(!SV.skq||SV.skq.d!==d)SV.skq={d,c:{play:0,win:0,mon:0},ok:{}};return SV.skq};
+const qAdd=(k,h)=>{try{if(window.__skq===0)return;const q=qs();q.c[k]=(q.c[k]||0)+1;const Q=QD.find(x=>x.k===k);if(Q&&!q.ok[k]&&q.c[k]>=Q.n){q.ok[k]=1;SV.skp=SV.skp||{};SV.skp[h]=(SV.skp[h]||0)+Q.r;
+  const n=document.createElement('div');n.className='m3note';n.textContent='Quest done! +'+Q.r+' Champion progress for '+((HD[h]||{}).n||'your hero');document.body.appendChild(n);setTimeout(()=>n.remove(),2600)}try{sv()}catch(e){}}catch(e){}};
+try{const _f=fin;fin=function(win){try{if((mode==='casual'||mode==='rank')&&P&&P[0]){const h=P[0].h;qAdd('play',h);if(win)qAdd('win',h)}}catch(e){}return _f.apply(this,arguments)}}catch(e){}
+(function wm(){const o=window.__monFx;if(typeof o!=='function'||o.__q){setTimeout(wm,1000);return}const f=function(i,ML,ok){try{if(i===0&&ok&&P&&P[0])qAdd('mon',P[0].h)}catch(e){}return o.apply(this,arguments)};f.__q=1;window.__monFx=f;setTimeout(wm,3000)})();
+const qHtml=()=>{if(window.__skq===0)return '';const q=qs();return '<div class="skq3"><b>Daily quests · Champion progress</b>'+QD.map(Q=>{const c=Math.min(Q.n,q.c[Q.k]||0),ok=!!q.ok[Q.k];return '<div class="'+(ok?'ok':'')+'"><span>'+(ok?'✓ ':'')+Q.t+'</span><em>'+(ok?'done':c+'/'+Q.n)+' · +'+Q.r+'</em></div>'}).join('')+'</div>'};
 const isOwn=()=>{try{if(window.__isStaff&&window.__isStaff())return true;const F=window.__FRON;return !!(F&&F.uid&&window.__isOwnerUid&&window.__isOwnerUid(F.uid))}catch(e){return false}};
 const owned=(h,i)=>i===0||isOwn()||(i===1&&wins(h)>=100)||(i===2&&!!(SV.skb&&SV.skb[h]));
 const eqOf=h=>{try{const n=(SV.skin&&SV.skin[h])||0;return owned(h,n)?n:0}catch(e){return 0}};
@@ -5673,10 +5682,10 @@ setTimeout(function pre(){try{if(!window.__addGM)return setTimeout(pre,2000);con
 function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp bd"><img alt="" src="'+img(h,s.id,1)+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
 window.__skinPop=function(){const h=SV.mine,eq=eqOf(h),M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();
  const s=SK[sel],ow=owned(h,sel),hw=wins(h);
- const st=sel===eq?'<span class="sko">✓ Equipped</span>':ow?'<span class="sko">✓ Unlocked'+(sel?' · logo is a profile picture':'')+'</span>':sel===1?'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 wins</span></div>':'<span class="skpr">$19.99</span>';
+ const st=sel===eq?'<span class="sko">✓ Equipped</span>':ow?'<span class="sko">✓ Unlocked'+(sel?' · logo is a profile picture':'')+'</span>':sel===1?'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 progress</span></div>':'<span class="skpr">$19.99</span>';
  p=document.createElement('div');p.className='mpop spop';p.innerHTML='<div class="uc skw"><b class="st">'+(HD[h].nm||HD[h].n)+' skins</b>'+
   '<div class="skcmp">'+card(h,SK[eq],1)+'<div class="skar">➜</div>'+card(h,s,1)+'</div>'+
-  '<div class="skd">'+s.d+'</div>'+st+
+  '<div class="skd">'+s.d+'</div>'+st+(sel===1&&!ow?qHtml():'')+
   '<div class="skl">'+SK.map(x=>'<button class="skt'+(x.id===sel?' on':'')+'" onclick="__skinSel('+x.id+')"><img alt="" class="'+(x.id?'lg':'')+'" src="'+img(h,x.id,0)+'"><span>'+x.n+'</span>'+(owned(h,x.id)?'':'<i>🔒</i>')+'</button>').join('')+'</div>'+
   '<div class="us2"><button class="opr rm" onclick="soClose()">Close</button><button class="opr"'+(sel===eq||(sel===1&&!ow)?' disabled style="opacity:.5"':'')+' onclick="__skinEq()">'+(sel===2&&!ow?'Buy':sel===eq?'Equipped':'Equip')+'</button></div></div>';
  p.onclick=e=>{if(e.target===p)p.remove()};M.appendChild(p)};
@@ -5706,6 +5715,11 @@ const css=document.createElement('style');css.textContent=`
 #menu .skd{font:600 13px system-ui,sans-serif;color:#fff2d8;margin:2px 0 6px}
 #menu .sko{display:inline-block;font:800 13px system-ui;color:#8fe37a;margin-bottom:6px}
 #menu .skpr{display:inline-block;font:400 18px 'Lilita One',system-ui,sans-serif;color:#7dff9a;margin-bottom:6px}
+#menu .skq3{margin:-2px 10px 8px;padding:6px 8px;border-radius:10px;background:#00000040;border:1px solid #8a6326;text-align:left}
+#menu .skq3 b{display:block;font:800 11.5px system-ui;color:#ffe08a;margin-bottom:3px}
+#menu .skq3 div{display:flex;justify-content:space-between;font:600 12px system-ui;color:#f3e2bf;padding:1px 0}
+#menu .skq3 div em{font-style:normal;color:#ffd27a}
+#menu .skq3 div.ok span,#menu .skq3 div.ok em{color:#8fe37a}
 #menu .skbar{position:relative;height:18px;border-radius:9px;background:#1c120a;border:1.5px solid #8a6326;overflow:hidden;margin:0 10px 8px}
 #menu .skbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(#ffe38e,#e9ac2e)}
 #menu .skbar span{position:relative;font:800 11px/16px system-ui;color:#fff;text-shadow:0 1px 2px #000}
@@ -6444,8 +6458,8 @@ setInterval(()=>{try{tick()}catch(e){ERR='tick: '+(e&&e.message||e)}
   if(o.top&&o.top.visible&&!window.__calmKeepTop)o.top.visible=false;if(o.__sprSh&&o.__sprSh.visible)o.__sprSh.visible=false;if(o.top){o.top.scale.setScalar(window.__calmS||.58);if(o.top.position.y<.575)o.top.position.y=.575;if(o.top.receiveShadow){o.top.receiveShadow=false;if(o.top.material)o.top.material.needsUpdate=true}const m=o.top.material;if(m&&!done.has(m)){done.add(m);m.transparent=true;m.opacity=window.__calmO||.45;if(m.emissiveIntensity!=null)m.emissiveIntensity*=.5;m.needsUpdate=true}}
   if(o.go!=null&&o.__calmT!==o.t){o.__calmT=o.t;o.go*=.4}})}catch(e){}},300)})();
 </script><script id="v4_22_social">/* ===== v4 (25 Nov): gifts, AI friends, friend suggestions, recent opponents (online friends page) =====
-   Gifts: 25 gold each; send up to 5 a day (one per friend), claim up to 5 a day.
-   Real friends: Firestore gifts/{to}/in/{from}_{day} {from,fromName,fromH,day,t}; claiming deletes the doc.
+   Gifts: 25 gold each; send up to 5 a day (one per friend), claim up to 5 a day — in Mail.
+   Real friends: Firestore gifts/{to}/in/{from}_{day} {from,fromName,fromH,day,t}; it is moved into SV.mail (id gf_…, g:1) and deleted.
    AI friends (SV.aiFr): local only — added from suggestions or recent opponents; each sends you one gift a day.
    Suggestions show when you have 2 friends or fewer: recently-seen real players + AI players.
    Recent opponents: last 6 opponents (SV.recent), real ones carry their uid. */
@@ -6483,22 +6497,25 @@ try{fbat=window.fbat;frDel=window.frDel}catch(e){}
 /* ---------- gifts ---------- */
 let inbox=[],unIn=null,inUid=null;
 function listen(){if(!ON()){if(unIn){unIn();unIn=null;inUid=null;inbox=[]}return}if(unIn&&inUid===F.uid)return;if(unIn)unIn();inUid=F.uid;
- unIn=db().collection('gifts').doc(F.uid).collection('in').onSnapshot(q=>{inbox=q.docs.map(d=>Object.assign({id:d.id,ref:d.ref},d.data()));redraw()},e=>{console.log('gifts',e&&e.code);unIn=null})}
+ unIn=db().collection('gifts').doc(F.uid).collection('in').onSnapshot(q=>{inbox=q.docs.map(d=>Object.assign({id:d.id,ref:d.ref},d.data()));if(inbox.length)pull()},e=>{console.log('gifts',e&&e.code);unIn=null})}
 setInterval(listen,1500);
-const aiGifts=()=>{const d=day();SV.aiGd=SV.aiGd||{};return aiList().filter(a=>SV.aiGd[a.id]!==d).map(a=>({id:'aig_'+a.id,ai:a.id,fromName:a.n,fromH:a.h}))};
-const waiting=()=>inbox.concat(aiGifts());
+/* gifts arrive as Mail (like the AI mails): moved into SV.mail with a 25-gold reward, claimed there */
+const pull=()=>{try{if(typeof mailInit==='function')mailInit()}catch(e){}SV.mail=SV.mail||[];let n=0;const d=day();
+ inbox.forEach(x=>{const id='gf_'+x.id;if(!SV.mail.some(m=>m.id===id)){SV.mail.unshift({id,f:String(x.fromName||'Player').slice(0,16),t:'sent you a gift! 🎁',r:{gold:GOLD},g:1});n++}try{x.ref.delete()}catch(e){}});
+ SV.aiGd=SV.aiGd||{};aiList().forEach(a=>{if(SV.aiGd[a.id]===d)return;SV.aiGd[a.id]=d;SV.mail.unshift({id:'ga_'+a.id+'_'+d,f:a.n,t:'sent you a gift! 🎁',r:{gold:GOLD},g:1});n++});
+ if(n){save();try{if(typeof tab!=='undefined'&&tab==='comm'&&!document.querySelector('#menu .mpop'))menu()}catch(e){}}};
+window.__giftPull=pull;
+setInterval(()=>{if(ON()&&(inbox.length||aiList().some(a=>(SV.aiGd||{})[a.id]!==day())))pull()},2000);
 window.__giftTo=async function(id){const g=gs();if(g.to.includes(id))return;if(g.to.length>=MAXS){toast('You can send '+MAXS+' gifts a day');return}
  if(isAI(id)){g.to.push(id);save();ding();toast('Gift sent!');redraw();return}
  try{await db().collection('gifts').doc(id).collection('in').doc(F.uid+'_'+g.d).set({from:F.uid,fromName:SV.pname||(F.prof&&F.prof.name)||'Player',fromH:okH(SV.pav||SV.mine),day:g.d,t:FV().serverTimestamp()});
   g.to.push(id);save();ding();toast('Gift sent!');redraw()}catch(e){console.log('gift',e&&e.code);toast(e&&e.code==='unavailable'?'No internet connection':'Could not send the gift')}};
-window.__giftClaim=async function(){const g=gs(),W=waiting();if(!W.length)return;let n=0;
- for(const x of W){if(g.got>=MAXC)break;
-  if(x.ai){SV.aiGd=SV.aiGd||{};SV.aiGd[x.ai]=g.d;g.got++;n++;continue}
-  try{await x.ref.delete();g.got++;n++}catch(e){console.log('claim',e&&e.code)}}
- if(n){SV.gold=(SV.gold||0)+GOLD*n;save();ding(988);toast('+'+(GOLD*n)+' gold from '+n+' gift'+(n>1?'s':''))}
- else if(g.got>=MAXC)toast('You already claimed '+MAXC+' gifts today');
- try{menu()}catch(e){}};
-
+/* claiming in Mail: at most 5 gift mails a day */
+(function wc(){if(typeof window.mclaim!=='function'){setTimeout(wc,500);return}const o=window.mclaim;if(o.__g)return;
+ const f=function(id){const g=gs();let blocked=0;const L=(SV.mail||[]).filter(m=>!m.c&&(!id||m.id===id));
+  L.forEach(m=>{if(!m.g)return;if(g.got>=MAXC){m.__hold=1;blocked++}else{g.got++}});
+  const keep=(SV.mail||[]).filter(m=>m.__hold);keep.forEach(m=>{m.c=1});const r=o.apply(this,arguments);keep.forEach(m=>{m.c=0;delete m.__hold});
+  if(blocked)toast('You can claim '+MAXC+' gifts a day — the rest wait for tomorrow');save();return r};f.__g=1;window.mclaim=f;try{mclaim=f}catch(e){}})();
 /* ---------- recent opponents ---------- */
 try{const _i=init;init=function(){const lv=window.__LIVEP;const r=_i.apply(this,arguments);try{if((mode==='casual'||mode==='rank')&&P&&P[1]&&P[1].name){
   SV.recent=Array.isArray(SV.recent)?SV.recent:[];const o={n:String(P[1].name).slice(0,16),h:okH(P[1].h),t:Date.now()};if(lv&&lv.them)o.uid=lv.them;
@@ -6514,8 +6531,8 @@ const SG={};
 window.__sgAdd=function(key){const x=SG[key];if(!x)return;if(x.uid){if(F.reqTo)F.reqTo(x.uid).then(()=>redraw());return}aiAdd(x.a);redraw()};
 const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp">'+pic(x.h)+'</div><div class="ff"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
 function deco(){if(!ON()||typeof tab==='undefined'||tab!=='comm'||typeof CMT==='undefined'||CMT!=='fr')return;const mb=document.getElementById('mb');if(!mb)return;const lst=mb.querySelector('.flst');if(!lst||lst.querySelector('.gf3'))return;
- const g=gs(),W=waiting(),left=Math.max(0,MAXC-g.got);
- lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b></span>'+(W.length&&left?'<button class="opr gcl" onclick="__giftClaim()">Claim '+Math.min(W.length,left)+' gift'+(Math.min(W.length,left)>1?'s':'')+'</button>':'')+'</div>');
+ const g=gs();
+ lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b> · gifts arrive in Mail</span></div>');
  /* gift button on every friend row (real + AI) */
  lst.querySelectorAll('.fr3:not(.rq):not(.sg3)').forEach(r=>{const st=r.querySelector('.fst'),m=st&&(st.getAttribute('onclick')||'').match(/fav\('([^']+)'\)/);if(!m||r.querySelector('.fgx'))return;const id=m[1],sent=g.to.includes(id),full=g.to.length>=MAXS;
   const b=document.createElement('button');b.className='fgf fgx';b.disabled=sent||(full&&!sent);b.innerHTML='<img alt="" src="'+((typeof U!=='undefined'&&U.coin)||'')+'"><small>'+(sent?'Sent':'Gift')+'</small>';b.onclick=e=>{e.stopPropagation();window.__giftTo(id)};
