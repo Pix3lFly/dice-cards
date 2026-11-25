@@ -17,7 +17,7 @@ const close=()=>{const p=document.getElementById('menu').querySelector('.mpop');
 const onG=()=>typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='undefined'&&CMT==='gu';
 const redraw=()=>{try{if(onG()&&!document.querySelector('#menu .mpop')&&document.getElementById('menu').style.display!=='none')menu()}catch(e){}};
 const myLv=()=>1+Math.floor((SV.played||0)/3);
-const meEntry=role=>({n:(FR.prof&&FR.prof.name)||SV.pname||'Player',h:HD[SV.pav||SV.mine]?(SV.pav||SV.mine):'k',rp:SV.rp||0,lv:myLv(),w:SV.wins||0,gp:SV.gp||0,role:role||'m',s:Date.now()});
+const meEntry=role=>({n:(FR.prof&&FR.prof.name)||SV.pname||'Player',h:(HD[SV.pav||SV.mine]||/^[kvsfih][12]$/.test(SV.pav||''))?(SV.pav||SV.mine):'k',rp:SV.rp||0,lv:myLv(),w:SV.wins||0,gp:SV.gp||0,role:role||'m',s:Date.now()});
 const lvlOf=gp=>Math.min(10,1+Math.floor(gp/500));
 const reqTxt=g=>{const a=[];if(g.mw)a.push(g.mw+'+ wins');if(g.mr)a.push(RK[g.mr][0]+' rank+');return (g.type==='open'?'Open':g.type==='req'?'Request to join':'Invite only')+(a.length?' · '+a.join(' · '):' · no requirements')};
 const meets=g=>(SV.wins||0)>=(g.mw||0)&&rkOf(SV.rp||0)>=(g.mr||0);

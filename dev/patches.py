@@ -86,6 +86,9 @@ P = [
   ('tile top solid', "vec3 c=texture2D(mp,vU).rgb*tn;bool gr", "vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5&&vN.y>.85&&vY>.28)c=vec3(.975,.83,.59)*tn;bool gr"),
   ('turn min 1', "<div class=\"tn\">Turn<br>${round}", "<div class=\"tn\">Turn<br>${Math.max(1,round)}"),
   ('no cliff spikes on new tiles', "if(hs(i,7,7)>.35){const cl=new V.Mesh(cliffG,cliffM)", "if(!window.__TNEW&&hs(i,7,7)>.35){const cl=new V.Mesh(cliffG,cliffM)"),
+  ('skin model', "MOD[h]=()=>mk(HM[h],2.62,'h')||f0()", "MOD[h]=()=>{let sk=null;try{sk=window.__skinKey?window.__skinKey(h):null}catch(e){}return (sk&&GM[sk]&&mk(sk,2.62,'h'))||mk(HM[h],2.62,'h')||f0()}"),
+  ('skin loader', "window.__mdlRun=function(){window.__mdlRun=null;if(V.GLTFLoader){", "window.__addGM=(k,d,cb)=>{try{const s=atob(d.g),u=new Uint8Array(s.length);for(let j=0;j<s.length;j++)u[j]=s.charCodeAt(j);const img=new Image(),tx=new V.Texture(img);tx.flipY=false;tx.encoding=V.LinearEncoding;img.onload=()=>{tx.needsUpdate=true};img.src='data:image/jpeg;base64,'+d.t;new V.GLTFLoader().parse(u.buffer,'',g=>{g.scene.traverse(o=>{if(o.isMesh&&o.material){o.material.map=tx;o.material.color&&o.material.color.setRGB(1,1,1);o.material.metalness=0;o.material.roughness=.85;o.material.needsUpdate=true}});GM[k]=g.scene;cb&&cb(1)},e=>{console.warn('skin model',k,e);cb&&cb(0)})}catch(e){console.warn('skin model',k,e);cb&&cb(0)}};window.__mdlRun=function(){window.__mdlRun=null;if(V.GLTFLoader){"),
+  ('pfp only owned', "Object.keys(POR()).map(k=>", "Object.keys(POR()).filter(k=>!window.__pfOK||window.__pfOK(k)).map(k=>"),
 ]
 import os
 def tile_model(s):

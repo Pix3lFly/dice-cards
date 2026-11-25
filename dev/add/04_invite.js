@@ -7,7 +7,7 @@ const FV=()=>firebase.firestore.FieldValue,db=()=>O.db,ON=()=>F.on;
 const ms=v=>v&&v.toMillis?v.toMillis():(+v||0);
 const WAIT=30;
 const POR=()=>window.__POR||{};
-const okH=h=>{try{return HD[h]?h:'k'}catch(e){return 'k'}};
+const okH=h=>{try{return HD[h]||(/^[kvsfih][12]$/.test(h)&&(window.__POR||{})[h])?h:'k'}catch(e){return 'k'}};
 const rnk=()=>{try{let r=0;RK.forEach((x,i)=>{if((SV.rp||0)>=x[1])r=i});return RK[r][0]}catch(e){return ''}};
 const vis=id=>{const e=document.getElementById(id);return !!e&&getComputedStyle(e).display!=='none'};
 const inGame=()=>!vis('menu')&&!vis('splash');
