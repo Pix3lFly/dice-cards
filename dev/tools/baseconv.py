@@ -65,7 +65,8 @@ if __name__=='__main__':
   G={'forest':(-.33,.35),'mine':(0,.33),'fire':(.31,.34),'ice':(-.27,.33),'castle':(0,.33),'electric':(-.33,.35),'market':(-.33,.33)}
   RAD={'forest':.115,'mine':.12,'fire':.11,'ice':.10,'castle':.10,'electric':.12,'market':.11}
   out={};meta={}
+  G['portal2']=(0,.29);RAD['portal2']=.10
   for k,gs in G.items():
-    g,M,c,d=conv('/mnt/user-data/uploads/DiceCardsModels/v4_bases/%s.glb'%k,gs,RAD[k]);out[k]=base64.b64encode(g).decode();meta[k]=M
+    g,M,c,d=conv('/mnt/user-data/uploads/DiceCardsModels/v4_bases/%s.glb'%(k if k!='portal2' else 'portal'),gs,RAD[k]);out[k]=base64.b64encode(g).decode();meta[k]=M
     print(k,'plat %.3f'%M['plat'],'center',c.round(3),'dir',d.round(2),'ext %.3f'%M['ext'],'kB',len(g)//1024)
   json.dump({'D':out,'M':meta},open('/tmp/nb_new.json','w'))

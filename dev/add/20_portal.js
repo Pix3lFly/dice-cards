@@ -1,0 +1,36 @@
+/* V4: Pix's new 3D portal (Meshy, 25 Nov) on both portal corners (tiles 6 and 18).
+   The old portal (floor + arch built by V3's "fixed portal layout") is hidden; the new model is placed like the new bases:
+   its round platform sits on the corner tile, facing the middle island, at the same height and size as the base platforms.
+   The hero's portal landing spot (window.__portSpot) is moved onto the round platform. */
+(function(){try{
+const PI=[6,18];let built={},spotFn=null;
+const G3=()=>window.__3;
+function ref(){const g=G3();let r=null;[0,12].forEach(i=>{const o=g.tiles&&g.tiles[i];if(!o||!o.g||r)return;o.g.traverse(m=>{if(!r&&m.isMesh&&m.userData.__nb)r={m,bt:o.__nbk}})});return r}
+function TP(i){const g=G3(),V=g.V,t=g.tiles[i],v=new V.Vector3();t.g.updateMatrixWorld(true);t.g.getWorldPosition(v);return v}
+function make(i,R){const g=G3(),V=g.V,S=g.S,B=window.__BG.portal2,Mt=window.__BGM.portal2;
+ const mat=R.m.material.clone();if(mat.uniforms&&mat.uniforms.mp)mat.uniforms.mp.value=B.map;if(mat.uniforms&&mat.uniforms.ry)mat.uniforms.ry.value=-99;mat.userData.__ct=1;
+ const m=new V.Mesh(B.geo,mat);m.castShadow=m.receiveShadow=true;m.userData.__mine=1;m.userData.__np4=i;
+ // same size as the bases (they get ×1.2 on the board)
+ const bs=R.m.userData.__bs||1.2,s=2.15/Mt.ext*bs;
+ // platform height = the base platform height
+ const RM=window.__BGM[R.bt];let py=null;if(RM){R.m.updateMatrixWorld(true);py=R.m.localToWorld(new V.Vector3(RM.px,RM.plat,RM.pz)).y}
+ const w0=TP(i);if(py==null)py=w0.y+.06;
+ const wa=TP((i+1)%24),wz=TP((i+23)%24),nl=v=>{const l=Math.hypot(v[0],v[1])||1;return[v[0]/l,v[1]/l]},A=nl([wa.x-w0.x,wa.z-w0.z]),Z=nl([wz.x-w0.x,wz.z-w0.z]);
+ const rot=(v,r)=>[v[0]*Math.cos(r)+v[1]*Math.sin(r),-v[0]*Math.sin(r)+v[1]*Math.cos(r)];let best=null;
+ for(const sx of[1,-1])for(const sw of[0,1]){const p1=sw?Mt.p2:Mt.p1,p2=sw?Mt.p1:Mt.p2,q2=[p2[0]*sx,p2[1]],q1=[p1[0]*sx,p1[1]];const r=Math.atan2(Z[0],Z[1])-Math.atan2(q2[0],q2[1]);const v1=rot(q1,r),sc=v1[0]*A[0]+v1[1]*A[1];if(!best||sc>best.sc+1e-6)best={sc,sx,r}}
+ m.scale.set(s*best.sx,s,s);m.rotation.y=best.r;const l=rot([Mt.px*best.sx*s,Mt.pz*s],best.r);
+ const wp=new V.Vector3(w0.x-l[0],py-Mt.plat*s,w0.z-l[1]);S.updateMatrixWorld(true);m.position.copy(S.worldToLocal(wp.clone()));
+ // cartoon outline like the bases
+ R.m.children.forEach(c=>{if(c.isMesh&&c.userData.__olc&&!m.userData.__ol){const ol=new V.Mesh(B.geo,c.material);ol.userData.__olc=1;ol.raycast=()=>{};m.add(ol);m.userData.__ol=1}});
+ S.add(m);return {m,spot:new V.Vector3(w0.x,py,w0.z)}}
+function hideOld(){const S=G3().S;S.children.forEach(c=>{if(c.userData&&c.userData.__port!=null&&c.visible)c.visible=false})}
+function tick(){const g=G3();if(!g||!g.S||!g.tiles||!window.__BG||!window.__BG.portal2||!window.__BGM||!window.__BGM.portal2)return;
+ if(typeof T==='undefined'||T[6]!=='portal'||T[18]!=='portal')return;if(window.__loadF&&window.__loadF()<1)return;
+ if(!g.tiles[6]||!g.tiles[6].g||!g.tiles[18]||!g.tiles[18].g)return;
+ const R=ref();if(!R)return;
+ PI.forEach(i=>{const b=built[i];if(b&&b.m.parent===g.S)return;try{built[i]=make(i,R)}catch(e){console.log('portal4',e)}});
+ hideOld();
+ if(!spotFn)spotFn=v=>{const b=built[v];return b?b.spot.clone():null};
+ if(window.__portSpot!==spotFn)window.__portSpot=spotFn}
+setInterval(()=>{try{tick()}catch(e){console.log('portal4',e)}},400);
+}catch(e){console.log('v4 portal',e)}})();
