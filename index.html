@@ -5515,4 +5515,96 @@ const st=document.createElement('style');st.textContent=`
 #mb .rft{display:inline-block;font:700 11px system-ui,sans-serif;color:#fff2d8;background:#2a1a0bcc;border:1px solid #c99436;border-radius:9px;padding:2px 7px;margin-left:6px;white-space:nowrap;vertical-align:middle}
 `;document.head.appendChild(st);
 }catch(e){console.log('v4 shop',e)}})();
+</script><style id="v4_15_coll">/* Collection → Bases: 3D model in the window, window a bit smaller, upgrade button a bit bigger */
+#mb .bv3 .bsh .b3d{position:absolute;left:8%;right:8%;top:16%;bottom:4%;width:84%;height:80%;z-index:1;pointer-events:none}
+#mb .bv3 .bsh.b3on>img.isl,#mb .bv3 .bsh.b3on>img.bbig{visibility:hidden}
+#mb .bv3 .bsh{flex-grow:.7!important}
+#mb .bv3 button:not(.stg3a){min-height:62px!important;font-size:1.15em!important}
+/* Collection → Deck on PC: only the card list scrolls */
+@media (orientation:landscape){
+ html body #mb:has(.dgd){overflow:hidden!important}
+ html body #mb .spn2:has(> .dgd){flex:1 1 0!important;min-height:0!important;display:flex!important;flex-direction:column!important}
+ html body #mb .spn2:has(> .dgd) > *{flex-shrink:0!important}
+ html body #mb .spn2 > .dgd{flex:1 1 0!important;min-height:80px!important;overflow-y:auto!important;overflow-x:hidden!important}
+}
+</style><script id="v4_15_coll">/* V4 Collection on PC (landscape): the Heroes page is laid out as if the browser were zoomed to 80% (bigger hero, smaller upgrade boxes) */
+(function w(){if(typeof menu!=='function'){setTimeout(w,300);return}
+ const fix=()=>{try{const mb=document.getElementById('mb');if(!mb)return;const land=matchMedia('(orientation:landscape)').matches;
+  const on=land&&mb.classList.contains('c3')&&!!mb.querySelector('.hv3,.dgd');
+  if(!on){if(mb.dataset.z0){mb.style.zoom=mb.dataset.z0;mb.style.height=mb.dataset.h0;delete mb.dataset.z0;delete mb.dataset.h0}return}
+  const z=parseFloat(mb.style.zoom||getComputedStyle(mb).zoom)||1,h=parseFloat(mb.style.height)||mb.getBoundingClientRect().height/z;
+  if(mb.dataset.zv&&Math.abs(z-parseFloat(mb.dataset.zv))<.001)return;
+  mb.dataset.z0=mb.style.zoom;mb.dataset.h0=mb.style.height;const nz=z*.8;mb.style.zoom=nz;mb.style.height=(h*z/nz)+'px';mb.dataset.zv=nz}catch(e){}};
+ const _m=menu;menu=function(){const r=_m.apply(this,arguments);setTimeout(fix,0);setTimeout(fix,120);return r};
+ addEventListener('resize',()=>setTimeout(fix,150));setInterval(fix,250)})();
+
+/* V4 Collection → Bases: the real 3D base model turns slowly in the window (instead of the emoji badge) */
+(function w(){if(typeof menu!=='function'||typeof BASES==='undefined'){setTimeout(w,400);return}
+ let R=null,S,C,M=null,key=null,cv=null,raf=0,G=null;
+ const keyOf=()=>{const n=(document.querySelector('#mb .bv3 .bnm3')||{}).textContent||'';return Object.keys(BASES).find(k=>n.toLowerCase().startsWith(String(BASES[k].n).toLowerCase()))};
+ function init(){const T=window.THREE;if(!T)return false;if(R)return true;
+  try{cv=document.createElement('canvas');cv.className='b3d';R=new T.WebGLRenderer({canvas:cv,alpha:true,antialias:true});R.setPixelRatio(Math.min(2,devicePixelRatio||1));
+   S=new T.Scene();C=new T.PerspectiveCamera(30,1,.01,100);S.add(new T.AmbientLight(0xffffff,.9));const d=new T.DirectionalLight(0xffffff,.55);d.position.set(2,4,3);S.add(d);G=new T.Group();S.add(G);return true}catch(e){R=null;return false}}
+ function setModel(k){const T=window.THREE,b=window.__BG&&window.__BG[k];if(!b)return false;if(key===k&&M)return true;
+  if(M){G.remove(M);M=null}const g=b.geo;if(!g.attributes.normal)g.computeVertexNormals();g.computeBoundingBox();
+  const mat=new T.MeshLambertMaterial({map:b.map||null,color:0xffffff});mat.emissive=new T.Color(0x555555);if(b.map)mat.emissiveMap=b.map;
+  M=new T.Mesh(g,mat);const bb=g.boundingBox,c=bb.getCenter(new T.Vector3()),sz=bb.getSize(new T.Vector3());M.position.set(-c.x,-c.y,-c.z);
+  G.add(M);const r=Math.max(sz.x,sz.z)*.62+sz.y*.2;C.position.set(0,r*1.05,r*2.1);C.lookAt(0,-sz.y*.05,0);key=k;return true}
+ function loop(){raf=0;if(!cv||!cv.isConnected)return;const r=cv.getBoundingClientRect();if(r.width<2){raf=requestAnimationFrame(loop);return}
+  const W=Math.round(r.width),H=Math.round(r.height);if(cv.width!==Math.round(W*R.getPixelRatio())||cv.height!==Math.round(H*R.getPixelRatio())){R.setSize(W,H,false);C.aspect=W/H;C.updateProjectionMatrix()}
+  G.rotation.y=performance.now()/4000;try{R.render(S,C)}catch(e){}raf=requestAnimationFrame(loop)}
+ function deco(){const st=document.querySelector('#mb .bv3 .bsh');if(!st)return;const k=keyOf();if(!k||!init()||!setModel(k)){st.classList.remove('b3on');return}
+  if(cv.parentElement!==st)st.insertBefore(cv,st.firstChild);st.classList.add('b3on');if(!raf)raf=requestAnimationFrame(loop)}
+ const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){console.log('b3d',e)}return r};setInterval(()=>{try{if(document.querySelector('#mb .bv3 .bsh:not(.b3on)'))deco()}catch(e){}},1000)})();
+</script><script id="v4_16_skins">/* V4 hero skins (placeholder until the skin models arrive): a "Skins" button to the right of the hero on the Battle page;
+   window with the 3 skins (Basic, Champion = 100 wins with this hero, Legendary = paid), current → arrow → chosen; Equip says "coming soon" */
+(function w(){if(typeof menu!=='function'||typeof SV==='undefined'||typeof HD==='undefined'){setTimeout(w,400);return}try{
+const POR=()=>window.__POR||{};
+const SK=[{id:0,n:'Basic',d:'The classic look.',f:'none'},{id:1,n:'Champion',d:'Win 100 games with this hero.',f:'hue-rotate(40deg) saturate(1.5) brightness(1.08)'},{id:2,n:'Legendary',d:'Premium skin · $19.99',f:'hue-rotate(250deg) saturate(1.6) brightness(1.1)'}];
+let sel=1;
+const wins=h=>{try{return (SV.st&&SV.st.hw&&SV.st.hw[h])||0}catch(e){return 0}};
+const owned=(h,i)=>i===0||(i===1&&wins(h)>=100);
+function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp"><img alt="" src="'+(POR()[h]||'')+'" style="filter:'+s.f+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
+window.__skinPop=function(){const h=SV.mine,eq=0,M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();
+ const s=SK[sel],ow=owned(h,sel),hw=wins(h);
+ const st=sel===0?'<span class="sko">✓ Equipped</span>':sel===1?(ow?'<span class="sko">✓ Unlocked</span>':'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 wins</span></div>'):'<span class="skpr">$19.99</span>';
+ p=document.createElement('div');p.className='mpop spop';p.innerHTML='<div class="uc skw"><b class="st">'+(HD[h].nm||HD[h].n)+' skins</b>'+
+  '<div class="skcmp">'+card(h,SK[eq],1)+'<div class="skar">➜</div>'+card(h,s,1)+'</div>'+
+  '<div class="skd">'+s.d+'</div>'+st+
+  '<div class="skl">'+SK.map(x=>'<button class="skt'+(x.id===sel?' on':'')+'" onclick="__skinSel('+x.id+')"><img alt="" src="'+(POR()[h]||'')+'" style="filter:'+x.f+'"><span>'+x.n+'</span>'+(owned(h,x.id)?'':'<i>🔒</i>')+'</button>').join('')+'</div>'+
+  '<div class="us2"><button class="opr rm" onclick="soClose()">Close</button><button class="opr" onclick="__skinEq()">'+(sel===2&&!ow?'Buy':'Equip')+'</button></div></div>';
+ p.onclick=e=>{if(e.target===p)p.remove()};M.appendChild(p)};
+window.__skinSel=i=>{sel=i;try{snd(600,.04,'triangle')}catch(e){}__skinPop()};
+window.__skinEq=()=>{const n=document.createElement('div');n.className='m3note';n.textContent='Hero skins are coming soon!';document.body.appendChild(n);setTimeout(()=>n.remove(),1800)};
+function deco(){if(typeof tab==='undefined'||tab!=='main')return;const stg=document.querySelector('#mb.m3 .stg');if(!stg||stg.querySelector('.skbtn'))return;
+ if(!stg.querySelector('.hro'))return;stg.insertAdjacentHTML('beforeend','<button class="skbtn" onclick="event.stopPropagation();__skinPop()"><span>👕</span><b>Skins</b></button>')}
+const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){}return r};setInterval(()=>{try{deco()}catch(e){}},1000);
+const css=document.createElement('style');css.textContent=`
+#mb.m3 .stg .skbtn{position:absolute;right:calc(50% - var(--iw,240px)*.62);top:42%;z-index:5;display:flex;flex-direction:column;align-items:center;gap:1px;width:56px;padding:6px 0 5px;border-radius:14px;border:2px solid #8a5f17;background:linear-gradient(#ffe38e,#e9ac2e 60%,#d08f1c);box-shadow:inset 0 2px 0 #fff3c4,0 3px 0 #5a3608,0 5px 10px #0007;cursor:pointer;animation:skP 2.4s ease-in-out infinite}
+#mb.m3 .stg .skbtn span{font-size:22px;line-height:1}#mb.m3 .stg .skbtn b{font:400 13px 'Lilita One',system-ui,sans-serif;color:#3a2006}
+#mb.m3 .stg .skbtn:active{transform:translateY(2px)}
+@keyframes skP{50%{transform:translateY(-3px)}}
+#menu .skw{width:min(88vw,360px);box-sizing:border-box}
+#menu .skcmp{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 6px}
+#menu .skc{display:flex;flex-direction:column;align-items:center;gap:4px}
+#menu .skc .skp{position:relative;width:96px;height:96px;border-radius:18px;background:radial-gradient(circle at 50% 40%,#fff6d0,#e7b34a 60%,#8a5a1c);border:3px solid #f2c25a;box-shadow:0 0 0 2px #6b3f0a,0 6px 12px #0008;overflow:hidden}
+#menu .skc .skp img{width:100%;height:100%;object-fit:cover}
+#menu .skc .skq{position:absolute;right:4px;top:4px;font-style:normal;font-size:16px}
+#menu .skc b{font:400 15px 'Lilita One',system-ui,sans-serif;color:#ffe08a}
+#menu .skar{font:900 34px system-ui;color:#ffd23f;text-shadow:0 2px 0 #6b3f0a;animation:skA 1s ease-in-out infinite alternate}
+@keyframes skA{to{transform:translateX(5px)}}
+#menu .skd{font:600 13px system-ui,sans-serif;color:#fff2d8;margin:2px 0 6px}
+#menu .sko{display:inline-block;font:800 13px system-ui;color:#8fe37a;margin-bottom:6px}
+#menu .skpr{display:inline-block;font:400 18px 'Lilita One',system-ui,sans-serif;color:#7dff9a;margin-bottom:6px}
+#menu .skbar{position:relative;height:18px;border-radius:9px;background:#1c120a;border:1.5px solid #8a6326;overflow:hidden;margin:0 10px 8px}
+#menu .skbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(#ffe38e,#e9ac2e)}
+#menu .skbar span{position:relative;font:800 11px/16px system-ui;color:#fff;text-shadow:0 1px 2px #000}
+#menu .skl{display:flex;gap:8px;justify-content:center;margin:4px 0 10px}
+#menu .skt{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;width:74px;padding:5px 0;border-radius:12px;border:2px solid #8a6326;background:#2a1a0bcc;cursor:pointer}
+#menu .skt.on{border-color:#ffd23f;box-shadow:0 0 0 2px #ffd23f55,0 0 10px #ffd23f88}
+#menu .skt img{width:44px;height:44px;border-radius:10px;object-fit:cover}
+#menu .skt span{font:400 12px 'Lilita One',system-ui,sans-serif;color:#fff2d8}
+#menu .skt i{position:absolute;right:4px;top:3px;font-style:normal;font-size:12px}
+`;document.head.appendChild(css);
+}catch(e){console.log('v4 skins',e)}})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>

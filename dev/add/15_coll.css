@@ -1,0 +1,12 @@
+/* Collection → Bases: 3D model in the window, window a bit smaller, upgrade button a bit bigger */
+#mb .bv3 .bsh .b3d{position:absolute;left:8%;right:8%;top:16%;bottom:4%;width:84%;height:80%;z-index:1;pointer-events:none}
+#mb .bv3 .bsh.b3on>img.isl,#mb .bv3 .bsh.b3on>img.bbig{visibility:hidden}
+#mb .bv3 .bsh{flex-grow:.7!important}
+#mb .bv3 button:not(.stg3a){min-height:62px!important;font-size:1.15em!important}
+/* Collection → Deck on PC: only the card list scrolls */
+@media (orientation:landscape){
+ html body #mb:has(.dgd){overflow:hidden!important}
+ html body #mb .spn2:has(> .dgd){flex:1 1 0!important;min-height:0!important;display:flex!important;flex-direction:column!important}
+ html body #mb .spn2:has(> .dgd) > *{flex-shrink:0!important}
+ html body #mb .spn2 > .dgd{flex:1 1 0!important;min-height:80px!important;overflow-y:auto!important;overflow-x:hidden!important}
+}
