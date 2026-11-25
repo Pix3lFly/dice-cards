@@ -29,7 +29,7 @@ def glb(P,N,UV,F,tex,q=85,ts=1024):
   BIN=b''.join(parts);js=json.dumps(G,separators=(',',':')).encode();js+=b' '*((4-len(js)%4)%4)
   return b'glTF'+struct.pack('<II',2,12+8+len(js)+8+len(BIN))+struct.pack('<I',len(js))+b'JSON'+js+struct.pack('<I',len(BIN))+b'BIN\0'+BIN
 def normals(J,BIN_P):pass
-def conv(path,guess,rad,tile=.96):
+def conv(path,guess,rad,tile=.96,grow=1.6):
   J,P,UV,F,tex=glbview.load(path)
   b=open(path,'rb').read();jl=struct.unpack('<I',b[12:16])[0];o=20+jl;BIN=b[o+8:o+8+struct.unpack('<I',b[o:o+4])[0]]
   N=None
@@ -49,7 +49,11 @@ def conv(path,guess,rad,tile=.96):
   rot=lambda v,a:np.array([v[0]*np.cos(a)-v[1]*np.sin(a),v[0]*np.sin(a)+v[1]*np.cos(a)])
   p1=rot(d,np.pi/4);p2=rot(d,-np.pi/4)
   xz=P[:,[0,2]];side=max(np.ptp(xz@p1),np.ptp(xz@p2))
-  s=tile/(2*rad);ext=float(2.15/s)
+  # grow just the round platform (and its stone rim) so it is one tile wide while the rest of the base stays smaller
+  if grow>1:
+    r=np.hypot(P[:,0]-c[0],P[:,2]-c[1]);m=(r<rad*1.12)&(P[:,1]>plat-.09)
+    P=P.copy();P[m,0]=c[0]+(P[m,0]-c[0])*grow;P[m,2]=c[1]+(P[m,2]-c[1])*grow
+  s=tile/(2*rad*grow);ext=float(2.15/s)
   px,pz=c   # the platform sits on the hero's spot (base anchor = corner tile)
   M={'plat':plat,'px':float(px),'pz':float(pz),'ext':ext,'ry':-99,'p1':[round(float(x),3) for x in p1],'p2':[round(float(x),3) for x in p2]}
   return glb(P,N,UV,F,tex),M,c,d
