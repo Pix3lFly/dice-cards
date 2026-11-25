@@ -358,7 +358,7 @@ let DY=.78;const die=new V.Group();{const dg=new V.ExtrudeGeometry(rp(new V.Shap
 const NV={1:[0,1,0],6:[0,-1,0],3:[1,0,0],4:[-1,0,0],2:[0,0,1],5:[0,0,-1]},LY={1:[[0,0]],2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[1,-1],[-1,1],[1,1]],5:[[-1,-1],[1,-1],[0,0],[-1,1],[1,1]],6:[[-1,-1],[1,-1],[-1,0],[1,0],[-1,1],[1,1]]};
 for(const v in NV){const n=new V.Vector3(...NV[v]),u=n.x?new V.Vector3(0,0,1):new V.Vector3(1,0,0),w=n.y?new V.Vector3(0,0,1):new V.Vector3(0,1,0);LY[v].forEach(([a,b])=>die.add(at(sp(.085,0x8e1414,.15),n.x*.425+u.x*a*.2+w.x*b*.2,n.y*.425+u.y*a*.2+w.y*b*.2,n.z*.425+u.z*a*.2+w.z*b*.2)))}
 S.add(sh(die));die.position.y=DY;
-let dr=null;roll=function(s){const v=(s-1)%6+1,n=new V.Vector3(...NV[v]);dr={t:0,s:die.quaternion.clone(),e:new V.Quaternion().setFromUnitVectors(n,new V.Vector3(0,1,0)).premultiply(new V.Quaternion().setFromAxisAngle(new V.Vector3(0,1,0),Math.random()*6.28)),ax:new V.Vector3(Math.random()+.1,Math.random(),Math.random()).normalize()}};
+let dr=null;roll=function(s){const v=((((Math.round(+s)||1)-1)%6)+6)%6+1,n=new V.Vector3(...NV[v]);dr={t:0,s:die.quaternion.clone(),e:new V.Quaternion().setFromUnitVectors(n,new V.Vector3(0,1,0)).premultiply(new V.Quaternion().setFromAxisAngle(new V.Vector3(0,1,0),Math.random()*6.28)),ax:new V.Vector3(Math.random()+.1,Math.random(),Math.random()).normalize()}};
 // particles + embers
 const pts=[];function burst(k,col,n=14){const c=new V.Color(col),o=H[k].position;for(let j=0;j<n;j++){const m=new V.Mesh(new V.SphereGeometry(.06,5,4),new V.MeshBasicMaterial({color:c,transparent:true}));m.position.copy(o).y+=.7;S.add(m);pts.push({m,v:new V.Vector3((Math.random()-.5)*3,1.5+Math.random()*2.5,(Math.random()-.5)*3),l:1})}}
 const eg=new V.BufferGeometry(),ep=new Float32Array(150);for(let i=0;i<150;i+=3){ep[i]=(Math.random()-.5)*14;ep[i+1]=Math.random()*5;ep[i+2]=(Math.random()-.5)*14}eg.setAttribute('position',new V.BufferAttribute(ep,3));S.add(new V.Points(eg,new V.PointsMaterial({color:0xffd27a,size:.09,transparent:true,opacity:.8})));
@@ -6328,6 +6328,6 @@ function tick(){const g=G3();
  ST='built '+ok+'/2';
  if(ok===2){if(!spotFn){oldSpot=window.__portSpot;spotFn=v=>{const b=built[v];return b?b.spot.clone():(oldSpot?oldSpot(v):null)}}if(window.__portSpot!==spotFn){if(window.__portSpot!==spotFn&&!oldSpot)oldSpot=window.__portSpot;window.__portSpot=spotFn}}}
 setInterval(()=>{try{tick()}catch(e){ERR='tick: '+(e&&e.message||e)}
- try{if(!warned&&Date.now()-t0>20000&&G3()&&G3().S&&typeof P!=='undefined'&&P&&P[0]&&!/^built 2/.test(ST)){warned=true;console.warn('Portal4: '+window.__p4())}}catch(e){}},400);
+ try{if(!warned&&Date.now()-t0>20000&&G3()&&G3().S&&typeof P!=='undefined'&&P&&P[0]&&!/^built 2/.test(ST)){warned=true;console.log('Portal4: '+window.__p4())}}catch(e){}},400);
 }catch(e){console.log('v4 portal',e)}})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>

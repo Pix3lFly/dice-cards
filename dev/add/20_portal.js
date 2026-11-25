@@ -41,5 +41,5 @@ function tick(){const g=G3();
  ST='built '+ok+'/2';
  if(ok===2){if(!spotFn){oldSpot=window.__portSpot;spotFn=v=>{const b=built[v];return b?b.spot.clone():(oldSpot?oldSpot(v):null)}}if(window.__portSpot!==spotFn){if(window.__portSpot!==spotFn&&!oldSpot)oldSpot=window.__portSpot;window.__portSpot=spotFn}}}
 setInterval(()=>{try{tick()}catch(e){ERR='tick: '+(e&&e.message||e)}
- try{if(!warned&&Date.now()-t0>20000&&G3()&&G3().S&&typeof P!=='undefined'&&P&&P[0]&&!/^built 2/.test(ST)){warned=true;console.warn('Portal4: '+window.__p4())}}catch(e){}},400);
+ try{if(!warned&&Date.now()-t0>20000&&G3()&&G3().S&&typeof P!=='undefined'&&P&&P[0]&&!/^built 2/.test(ST)){warned=true;console.log('Portal4: '+window.__p4())}}catch(e){}},400);
 }catch(e){console.log('v4 portal',e)}})();

@@ -61,6 +61,8 @@ P = [
  ('debug owners only', "L.push(m);let d=document.getElementById('dbgbox');", "L.push(m);try{(window.__dbgQ=window.__dbgQ||[]).push({m:m.slice(0,400),t:Date.now()});if(window.__dbgQ.length>60)window.__dbgQ.shift()}catch(e){}if(!(window.__dbgOK&&window.__dbgOK()))return;let d=document.getElementById('dbgbox');"),
  # camera a little further back so the bigger corner bases and portals stay on screen
  ('camera back', "window.__fitCR=base*1.12*wide}", "window.__fitCR=base*1.12*wide*(window.__fitK||1.1)}"),
+ # 3D die: never crash on an odd roll value (0, NaN, negative) -> "NV[v] is not iterable"
+ ('die roll safe', "roll=function(s){const v=(s-1)%6+1,", "roll=function(s){const v=((((Math.round(+s)||1)-1)%6)+6)%6+1,"),
 ]
 def apply(s):
     for t in P:
