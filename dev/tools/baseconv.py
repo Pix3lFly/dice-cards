@@ -57,6 +57,15 @@ def conv(path,guess,rad,tile=.96,grow=1.6):
   if grow>1:
     r=np.hypot(P[:,0]-c[0],P[:,2]-c[1]);m=(r<rad*1.12)&(P[:,1]>plat-.09)
     P=P.copy();P[m,0]=c[0]+(P[m,0]-c[0])*grow;P[m,2]=c[1]+(P[m,2]-c[1])*grow
+  # Pix: platforms looked pale white on the board -> darken + warm the platform's texture area
+  try:
+    from PIL import ImageDraw,ImageEnhance
+    r2=np.hypot(P[:,0]-c[0],P[:,2]-c[1]);inp=(r2<rad*grow*1.15)&(P[:,1]>plat-.09)
+    fm=inp[F].all(1);W_,H_=tex.size;mk=Image.new('L',tex.size,0);dr=ImageDraw.Draw(mk)
+    for f in F[fm]:dr.polygon([(UV[v,0]%1*W_,UV[v,1]%1*H_) for v in f],fill=255)
+    dk=ImageEnhance.Color(ImageEnhance.Brightness(tex).enhance(.72)).enhance(1.35)
+    tex=Image.composite(dk,tex,mk)
+  except Exception as e:print('darken',e)
   s=tile/(2*rad*grow);ext=float(2.15/s)
   px,pz=c   # the platform sits on the hero's spot (base anchor = corner tile)
   M={'plat':plat,'px':float(px),'pz':float(pz),'ext':ext,'ry':-99,'p1':[round(float(x),3) for x in p1],'p2':[round(float(x),3) for x in p2]}
