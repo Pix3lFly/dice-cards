@@ -65,6 +65,12 @@ P = [
  ('die roll safe', "roll=function(s){const v=(s-1)%6+1,", "roll=function(s){const v=((((Math.round(+s)||1)-1)%6)+6)%6+1,"),
  # shop: test gold button removed for players (owners have "Give myself" in the owner panel)
  ('shop test btn', "hint='<button class=\"bt sm\" onclick=\"SV.gold+=200;SV.gems+=10;sv();menu()\">Test: +200 gold, +10 gems</button>';", "hint='';"),
+ # frozen (ice mage) shows FROZEN instead of STUNNED when the turn is skipped
+ ('frozen 0', "v.skip=1;log('❄️ '+v.name+' is frozen in ice!')", "v.skip=1;v.frz=1;log('❄️ '+v.name+' is frozen in ice!')"),
+ ('frozen 1', "if(cur===0&&p.skip){p.skip--;log('You are stunned!');", "if(cur===0&&p.skip){p.skip--;log(p.frz?'You are frozen!':'You are stunned!');p.frz=0;"),
+ ('frozen 2', "if(p.skip){p.skip--;log(p.name+' is stunned!');end();return}", "if(p.skip){p.skip--;log(p.name+(p.frz?' is frozen!':' is stunned!'));p.frz=0;end();return}"),
+ ('frozen 3', "if(t==='You are stunned!')window.__stunAt=Date.now();else if(cur===1&&/ is stunned!$/.test(String(t))){Q.push([0,'Enemy stunned!','#ffd23a',0,'tS']);pop()}", "if(t==='You are stunned!'||t==='You are frozen!'){window.__stunAt=Date.now();window.__stunF=t==='You are frozen!'}else if(cur===1&&/ is (stunned|frozen)!$/.test(String(t))){const fz=/frozen!$/.test(String(t));Q.push([0,fz?'Enemy frozen!':'Enemy stunned!',fz?'#9fe3ff':'#ffd23a',0,'tS']);pop()}"),
+ ('frozen 4', "Q.push([0,'Stunned!','#ffd23a',0,'tS'])", "Q.push([0,window.__stunF?'Frozen!':'Stunned!',window.__stunF?'#9fe3ff':'#ffd23a',0,'tS'])"),
 ]
 def apply(s):
     for t in P:
