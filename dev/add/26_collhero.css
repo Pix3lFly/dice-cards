@@ -1,0 +1,30 @@
+/* Collection → Heroes: Battle-page look (navy + gold) */
+html body #mb.ch4 .stabs .stb{background:linear-gradient(#2c2f48,#16182a)!important;border:2.5px solid #e8b84e!important;box-shadow:0 0 0 1.5px #3a2208,0 3px 6px #0009!important;color:#fff6e0!important}
+html body #mb.ch4 .stabs .stb span{color:#fff6e0!important;text-shadow:0 2px 0 #000!important}
+html body #mb.ch4 .stabs .stb.on{background:linear-gradient(#ffe7a0,#f2b93c 60%,#d48d1c)!important}
+html body #mb.ch4 .stabs .stb.on span{color:#3a2006!important;text-shadow:0 1px 0 #fff3c4!important}
+html body #mb.ch4 .prow{background:linear-gradient(#25273a,#191a27)!important;border:3px solid #e8b84e!important;border-radius:16px!important;box-shadow:inset 0 0 0 2px #191a27,inset 0 0 0 3.5px #b88a3a,0 0 0 2px #3a2208,0 6px 14px #000b!important}
+html body #mb.ch4 .spn2.hv3{background:none!important;border:0!important;box-shadow:none!important;padding:2px 0 0!important;gap:10px!important}
+html body #mb.ch4 .spn2.hv3>.pc{display:none!important}
+html body #mb.ch4 .hv3 .hst.ch4on{background-size:auto 150%!important;background-position:30% 34%!important;border:3px solid #e8b84e!important;border-radius:16px!important;
+ box-shadow:inset 0 0 0 2px #3a2208,inset 0 -40px 30px -10px #0006,0 0 0 2px #3a2208,0 6px 14px #000b!important;overflow:hidden;min-height:250px!important}
+html body #mb.ch4 .hv3 .hst.ch4on>img.isl,html body #mb.ch4 .hv3 .hst.ch4on>#hroi{display:none!important}
+html body #mb.ch4 .hv3 .hst .chped{position:absolute;left:50%;bottom:42px;transform:translateX(-50%);width:72%;height:auto;z-index:1;filter:drop-shadow(0 6px 6px #0008);pointer-events:none}
+html body #mb.ch4 .hv3 .hst .chh{position:absolute;left:50%;bottom:60px;transform:translateX(-50%);height:calc(100% - 104px);max-width:60%;object-fit:contain;z-index:2;filter:drop-shadow(0 6px 5px #000a);cursor:pointer;animation:ch4f 3s ease-in-out infinite}
+@keyframes ch4f{50%{transform:translateX(-50%) translateY(-3px)}}
+html body #mb.ch4 .hv3 .hnm3{left:8px!important;top:8px!important;padding:3px 26px 4px 12px;font-style:italic;font-size:25px!important;background:linear-gradient(90deg,#14275e,#1f3f8f 75%,#1f3f8f00);border-left:3px solid #e8b84e;border-radius:6px;clip-path:polygon(0 0,100% 0,92% 100%,0 100%);text-shadow:0 2px 0 #071a40!important;-webkit-text-stroke:0!important}
+html body #mb.ch4 .hv3 .hcl{top:48px!important;left:16px!important}
+html body #mb.ch4 .hv3 .hsb3{bottom:8px!important}
+html body #mb.ch4 .hv3 .hsb3 div{background:linear-gradient(#262838,#12131c)!important;border:2px solid #e8b84e!important}
+html body #mb.ch4 .hv3 .stg3a{background:linear-gradient(#2c2a40,#0f0e18)!important;border:2.5px solid #e8b84e!important;z-index:4}
+html body #mb.ch4 .hv3 .gr.g3{background:linear-gradient(#25273a,#191a27)!important;border:2.5px solid #e8b84e!important;box-shadow:inset 0 0 0 2px #191a27,inset 0 0 0 3px #b88a3a88,0 4px 8px #000a!important}
+html body #mb.ch4 .hv3 .g3 .gic{background:radial-gradient(circle at 40% 35%,#3a3c58,#12131c)!important;border-color:#e8b84e!important}
+html body #mb.ch4 .hv3 .gn3{color:#fff!important}
+html body #mb.ch4 .hv3 .gl3{color:#e6e0f2!important}
+html body #mb.ch4 .hv3 .gx3{color:#f2c25a!important}
+html body #mb.ch4 .hv3 .g3 .gbar{background:#0c0d16!important;border-color:#5a4a2a!important}
+html body #mb.ch4 .hv3 .skh3{align-self:flex-start;margin:4px 0 -14px 6px!important;padding:3px 22px 4px 14px;position:relative;z-index:2;color:#fff!important;font-size:17px!important;background:linear-gradient(#2a4a9a,#14275e);border:2px solid #e8b84e;border-radius:8px;clip-path:polygon(0 0,100% 0,92% 100%,0 100%);text-shadow:0 2px 0 #071a40!important}
+html body #mb.ch4 .hv3 .sk3{background:linear-gradient(#25273a,#191a27)!important;border:2.5px solid #e8b84e!important;padding-top:16px!important;box-shadow:inset 0 0 0 2px #191a27,0 4px 8px #000a!important}
+html body #mb.ch4 .hv3 .sk3 b{color:#fff!important}
+html body #mb.ch4 .hv3 .sk3>div,html body #mb.ch4 .hv3 .sk3 small i{color:#e6e0f2!important}
+html body #mb.ch4 .hv3 .sk3>div+div{border-left-color:#e8b84e55!important}
