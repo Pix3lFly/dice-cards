@@ -300,7 +300,7 @@ const css=document.createElement('style');css.textContent=`
 #ownp .opchat{flex:1;min-height:120px;overflow:auto;display:flex;flex-direction:column;gap:5px;padding:6px;border-radius:10px;background:#00000044;border:1px solid #8a6326}
 #ownp .opchat>div{align-self:flex-start;max-width:85%;display:flex;flex-direction:column;padding:5px 9px;border-radius:10px;background:#f6e3b8;color:#3a2006}
 #ownp .opchat>div.me{align-self:flex-end;background:#bfe3ff}
-#ownp .opchat b{font:800 11.5px system-ui}#ownp .opchat span{font:600 13.5px system-ui;word-break:break-word}#ownp .opchat small{font:600 9.5px system-ui;opacity:.7}
+#ownp .opchat b{font:800 12.5px system-ui;color:#7a3a00!important;text-shadow:none!important}#ownp .opchat span{font:600 13.5px system-ui;word-break:break-word}#ownp .opchat small{font:600 9.5px system-ui;opacity:.7}
 #ownp .dbgl{margin:0;max-height:160px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:11px/1.35 monospace;color:#ffe9a8;background:#00000066;border-radius:8px;padding:6px}
 #ownp .al details{font:600 12px system-ui;color:#e8d6b4}#ownp .al summary{cursor:pointer;color:#ffe08a}#ownp .alg{padding:2px 0;border-bottom:1px solid #ffffff18}#ownp .alg i{color:#9fd6ff;font-style:normal}
 #ownp .opdlg{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:#000a}
