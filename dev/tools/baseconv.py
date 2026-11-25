@@ -5,7 +5,7 @@ sys.path.insert(0,'/home/claude/dice-cards/dev/tools');import glbview
 from PIL import Image
 CW=0.38*1.14*2**.5   # distance from the base anchor (WB) to the corner tile (W)
 def glb(P,N,UV,F,tex,q=85,ts=1024):
-  t=tex.resize((ts,ts),Image.LANCZOS);bo=io.BytesIO();t.save(bo,'JPEG',quality=q);jpg=bo.getvalue()
+  t=tex.resize((ts,ts) if tex.size[0]==tex.size[1] else (ts*2,ts),Image.LANCZOS);bo=io.BytesIO();t.save(bo,'JPEG',quality=q);jpg=bo.getvalue()
   idx=F.astype(np.uint16 if len(P)<65536 else np.uint32).reshape(-1)
   parts=[];views=[];accs=[]
   def addb(data,target=None):
@@ -30,18 +30,22 @@ def glb(P,N,UV,F,tex,q=85,ts=1024):
   return b'glTF'+struct.pack('<II',2,12+8+len(js)+8+len(BIN))+struct.pack('<I',len(js))+b'JSON'+js+struct.pack('<I',len(BIN))+b'BIN\0'+BIN
 def normals(J,BIN_P):pass
 def conv(path,guess,rad,tile=.96,grow=1.6):
-  J,P,UV,F,tex=glbview.load(path)
+  if path.endswith('.pkl'):
+    import pickle;dd=pickle.load(open(path,'rb'));P,N0,UV,F=dd['P'],dd['N'],dd['UV'],dd['F'];tex=Image.open('/tmp/psq_tex.png');J=None
+  else:J,P,UV,F,tex=glbview.load(path);N0=None
   if 'castle' in path:   # Pix: castle should look like grey stone, not pink
     hsv=np.asarray(tex.convert('HSV')).astype(float);rgb=np.asarray(tex).astype(float);H=hsv[...,0]*360/255;S=hsv[...,1]/255;V=hsv[...,2]/255
     pk=((H>238)|(H<28))&(S>.05)&(S<.7)&(V>.18);g=rgb.mean(2,keepdims=True)
     tex=Image.fromarray(np.where(pk[...,None],np.concatenate([g*1.10,g*1.02,g*.80],2),rgb).clip(0,255).astype(np.uint8))
-  b=open(path,'rb').read();jl=struct.unpack('<I',b[12:16])[0];o=20+jl;BIN=b[o+8:o+8+struct.unpack('<I',b[o:o+4])[0]]
-  N=None
-  try:
-    pr=J['meshes'][0]['primitives'][0]
-    if len(J['meshes'])==1 and len(J['meshes'][0]['primitives'])==1 and 'NORMAL' in pr['attributes']:
-      a=J['accessors'][pr['attributes']['NORMAL']];v=J['bufferViews'][a['bufferView']];N=np.frombuffer(BIN,np.float32,a['count']*3,v.get('byteOffset',0)+a.get('byteOffset',0)).reshape(-1,3)
-  except Exception:N=None
+  b=open(path,'rb').read() if J else None
+  if J:jl=struct.unpack('<I',b[12:16])[0];o=20+jl;BIN=b[o+8:o+8+struct.unpack('<I',b[o:o+4])[0]]
+  N=N0
+  if J:
+   try:
+     pr=J['meshes'][0]['primitives'][0]
+     if len(J['meshes'])==1 and len(J['meshes'][0]['primitives'])==1 and 'NORMAL' in pr['attributes']:
+       a=J['accessors'][pr['attributes']['NORMAL']];v=J['bufferViews'][a['bufferView']];N=np.frombuffer(BIN,np.float32,a['count']*3,v.get('byteOffset',0)+a.get('byteOffset',0)).reshape(-1,3)
+   except Exception:N=None
   g=np.array(guess,float)
   # platform: flat cluster near the guess; its top height = plat
   d2=np.hypot(P[:,0]-g[0],P[:,2]-g[1]);near=P[d2<.09]
@@ -76,6 +80,6 @@ if __name__=='__main__':
   out={};meta={}
   G['portal2']=(0,.29);RAD['portal2']=.10
   for k,gs in G.items():
-    g,M,c,d=conv('/mnt/user-data/uploads/DiceCardsModels/v4_bases/%s.glb'%(k if k!='portal2' else 'portal'),gs,RAD[k]);out[k]=base64.b64encode(g).decode();meta[k]=M
+    g,M,c,d=conv('/tmp/psq.pkl' if k=='portal2' else '/mnt/user-data/uploads/DiceCardsModels/v4_bases/%s.glb'%k,gs,RAD[k]);out[k]=base64.b64encode(g).decode();meta[k]=M
     print(k,'plat %.3f'%M['plat'],'center',c.round(3),'dir',d.round(2),'ext %.3f'%M['ext'],'kB',len(g)//1024)
   json.dump({'D':out,'M':meta},open('/tmp/nb_new.json','w'))
