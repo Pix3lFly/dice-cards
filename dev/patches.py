@@ -56,7 +56,7 @@ P = [
  ('base spot on corner', "const d=(i?.38:-.38)*1.14;w.x+=d;w.z+=d", "const d=(i?.38:-.38)*1.14*(window.__WBk!=null?window.__WBk:0);w.x+=d;w.z+=d"),
  # enemy base (tile 12): 20% larger like yours, and a little further into the corner
  ('enemy base size', "if(i===0){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS}",
-  "if(i===0||i===12){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS;if(i===12){const k=window.__EBin!=null?window.__EBin:.22;m.position.x-=k;m.position.z-=k}}"),
+  "if(i===0||i===12){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS;if(i===12){const k=window.__EBin!=null?window.__EBin:.05;m.position.x-=k;m.position.z-=k}}"),
  # Debug box: only the owners see it; everyone's messages are queued for the owner panel's Debug tab
  ('debug owners only', "L.push(m);let d=document.getElementById('dbgbox');", "L.push(m);try{(window.__dbgQ=window.__dbgQ||[]).push({m:m.slice(0,400),t:Date.now()});if(window.__dbgQ.length>60)window.__dbgQ.shift()}catch(e){}if(!(window.__dbgOK&&window.__dbgOK()))return;let d=document.getElementById('dbgbox');"),
  # camera a little further back so the bigger corner bases and portals stay on screen
