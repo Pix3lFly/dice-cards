@@ -123,6 +123,16 @@ P = [
 ("collection hero logos follow equipped skin",
  """onclick="c3h('${k}')">${pimg(k)}</button>""",
  """onclick="c3h('${k}')">${window.__hLogo&&__hLogo(k)?'<img alt="" src="'+__hLogo(k)+'">':pimg(k)}</button>"""),
+("guild perks: 7 perks, max level 8",
+ "GPK=[[2,'Loot box timers -10%',0],[3,'+1 starting AP',1],[4,'+2 starting HP',1],[5,'+5 starting gold',1],[6,'Deck points +1',0],[7,'More guild members',0],[9,'Shard shop discount',0]],glv=()=>(window.__glv&&window.__glv())||Math.min(10,",
+ "GPK=[[2,'Loot box timers -10%',1],[3,'+1 starting AP',1],[4,'+2 starting HP',1],[5,'+5 starting gold',1],[6,'Deck points +1',1],[7,'+10 guild members',1],[8,'Shard shop -20%',1]],glv=()=>(window.__glv&&window.__glv())||Math.min(8,"),
+("deck max (tg)","else if(d.length<5&&dpts(d)+c.cost<=10&&","else if(d.length<5&&dpts(d)+c.cost<=(window.__dmx?__dmx():10)&&"),
+("deck max (grid)","const on=d.includes(c.id),can=d.length<5&&pts+c.cost<=10&&","const on=d.includes(c.id),can=d.length<5&&pts+c.cost<=(window.__dmx?__dmx():10)&&"),
+("deck max (why)","pts+sel.cost>10?'Not enough points left'","pts+sel.cost>(window.__dmx?__dmx():10)?'Not enough points left'"),
+("deck max (pips)","[1,2,3,4,5,6,7,8,9,10].map(n=>'<i class=\"'+(n<=pts?'on':'')+'\"></i>').join('')+'<span>'+pts+' / 10 points","Array.from({length:(window.__dmx?__dmx():10)},(_,j)=>j+1).map(n=>'<i class=\"'+(n<=pts?'on':'')+'\"></i>').join('')+'<span>'+pts+' / '+(window.__dmx?__dmx():10)+' points"),
+("shard discount (card)","<div class=\"ocd\">${pc}<div class=\"otop\"><div class=\"omed\">${pimg(o.h)}</div><div class=\"oqty\"><img alt=\"\" src=\"${U.s_gem}\"><b>×${o.q}</b></div></div><div class=\"onm\">${HD[o.h].n}</div>${price(o.c,o.gem,(o.gem?SV.gems:SV.gold)>=o.c,'buy('+i+')')}",
+ "<div class=\"ocd\">${pc}${window.__sdc&&__sdc(o)<o.c?'<span class=\"gbn\">-20%</span>':''}<div class=\"otop\"><div class=\"omed\">${pimg(o.h)}</div><div class=\"oqty\"><img alt=\"\" src=\"${U.s_gem}\"><b>×${o.q}</b></div></div><div class=\"onm\">${HD[o.h].n}</div>${price(window.__sdc?__sdc(o):o.c,o.gem,(o.gem?SV.gems:SV.gold)>=(window.__sdc?__sdc(o):o.c),'buy('+i+')')}"),
+("shard discount (buy)","function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold';if(SV[k]>=o.c){SV[k]-=o.c;","function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold',cc=window.__sdc?__sdc(o):o.c;if(SV[k]>=cc){SV[k]-=cc;"),
 ]
 import os
 def tile_model(s):

@@ -18,7 +18,8 @@ const onG=()=>typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='undefined'&&
 const redraw=()=>{try{if(onG()&&!document.querySelector('#menu .mpop')&&document.getElementById('menu').style.display!=='none')menu()}catch(e){}};
 const myLv=()=>1+Math.floor((SV.played||0)/3);
 const meEntry=role=>({n:(FR.prof&&FR.prof.name)||SV.pname||'Player',h:(HD[SV.pav||SV.mine]||/^[kvsfih][12]$/.test(SV.pav||''))?(SV.pav||SV.mine):'k',rp:SV.rp||0,lv:myLv(),w:SV.wins||0,gp:SV.gp||0,role:role||'m',s:Date.now()});
-const lvlOf=gp=>Math.min(10,1+Math.floor(gp/500));
+const lvlOf=gp=>Math.min(8,1+Math.floor(gp/500));
+const MXG=(id,g)=>MAXM+(g&&lvlOf(total(id,g))>=7?10:0);
 const reqTxt=g=>{const a=[];if(g.mw)a.push(g.mw+'+ wins');if(g.mr)a.push(RK[g.mr][0]+' rank+');return (g.type==='open'?'Open':g.type==='req'?'Request to join':'Invite only')+(a.length?' · '+a.join(' · '):' · no requirements')};
 const meets=g=>(SV.wins||0)>=(g.mw||0)&&rkOf(SV.rp||0)>=(g.mr||0);
 
@@ -103,7 +104,7 @@ window.addEventListener('dc-auth',()=>{if(GU_&&GU_.u)GU_.u();GU_=null;G=null;GID
 
 /* ---------- actions ---------- */
 async function joinGo(id,silent){const g=(LIST||[]).find(x=>x.id===id)||(await gref(id).get().then(s=>s.exists?s.data():null));if(!g){note('That guild no longer exists');return false}
- if(count(id,g)>=MAXM){note(g.n+' is full');return false}
+ if(count(id,g)>=MXG(id,g)){note(g.n+' is full');return false}
  try{await gref(id).update({['mem.'+UID()]:meEntry('m')});SV.guild=g.n;SV.gid=id;SV.gjt=Date.now();SV.gp=0;SV.gpend2=null;GT='ov';sv();watch();if(!silent){note('Welcome to '+g.n+'!');ding(784)}LT=0;return true}
  catch(e){console.log('join',e&&e.code);note('Could not join — try again');return false}}
 async function createGo(n,lg,old,silent){const nl=n.toLowerCase(),id='g'+Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36);
@@ -136,7 +137,7 @@ window.guRole=function(id,r){if(!ON()||!SV.gid)return OF.guRole.apply(this,argum
 window.guKickAsk=function(id){if(!ON()||!SV.gid)return OF.guKickAsk.apply(this,arguments);const m=mBy(id);if(!m)return;pop('<b class="st">Remove member?</b><p>Remove <b>'+esc(m.n)+'</b> from your guild?</p><div class="us2"><button class="opr rm" onclick="guKick(\''+id+'\')">Yes, remove</button><button class="opr" onclick="soClose()">No</button></div>')};
 window.guKick=function(id){if(!ON()||!SV.gid)return OF.guKick.apply(this,arguments);const k=(G.ai||{})[id]?'ai.':'mem.';gref(GID).update({[k+id]:FV().delete()}).then(()=>{close()}).catch(e=>console.log('kick',e&&e.code))};
 window.guApp=function(id,ok){if(!ON()||!SV.gid)return OF.guApp.apply(this,arguments);const p=(G.apps||{})[id];if(!p)return;const up={['apps.'+id]:FV().delete()};
- if(ok){if(count(GID,G)>=MAXM){note('Your guild is full');return}const e=Object.assign({},p,{role:'m',j:Date.now()});delete e.t;if(/^ai_/.test(id)){e.gp=0;up['ai.'+id]=e}else{e.gp=0;up['mem.'+id]=e}}
+ if(ok){if(count(GID,G)>=MXG(GID,G)){note('Your guild is full');return}const e=Object.assign({},p,{role:'m',j:Date.now()});delete e.t;if(/^ai_/.test(id)){e.gp=0;up['ai.'+id]=e}else{e.gp=0;up['mem.'+id]=e}}
  gref(GID).update(up).then(()=>{if(ok)note(p.n+' joined your guild');ding(ok?784:300)}).catch(e=>console.log('app',e&&e.code))};
 window.guSave=function(){if(!ON()||!SV.gid)return OF.guSave.apply(this,arguments);const v=id=>(document.getElementById(id)||{}).value;
  const up={msg:(v('gmsg')||'').trim().slice(0,120),type:v('gtyp')||'req',mw:+v('gmw')||0,mr:+v('gmr')||0};if(window.__glgSel!=null)up.lg=window.__glgSel;
@@ -151,9 +152,9 @@ window.__guApps=()=>{if(!ON())return OF.__guApps?OF.__guApps():[];return G&&myRo
 
 /* ---------- preview a guild before joining ---------- */
 window.guView=function(id){const g=(LIST||[]).find(x=>x.id===id);if(!g)return;PW=g;PWID=id;const M=members(id,g).sort((a,b)=>RO[a.role]-RO[b.role]||b.gp-a.gp),n=M.length,tp=total(id,g),L=lvlOf(tp);
- const pend=SV.gpend2&&SV.gpend2.gid===id,ok=meets(g),full=n>=MAXM,open=g.type==='open'||g.bot;
+ const pend=SV.gpend2&&SV.gpend2.gid===id,ok=meets(g),full=n>=MXG(id,g),open=g.type==='open'||g.bot;
  const btn=SV.guild?'':pend?'<button class="opr rm" onclick="guCancelReq();soClose()">Cancel request</button>':full?'<button class="opr" disabled>Full</button>':g.type==='inv'?'<button class="opr" disabled>Invite only</button>':!ok?'<button class="opr" disabled>Locked</button>':SV.gpend2?'<button class="opr" disabled>'+(open?'Join':'Request')+'</button>':'<button class="opr" onclick="guJoin(\''+id+'\')">'+(open?'Join':'Request to join')+'</button>';
- pop('<div class="gvh">'+logo(g.lg,'big')+'<div><b class="st">'+esc(g.n)+'</b><small>Guild level '+L+' · '+n+' / '+MAXM+' members</small></div></div>'+
+ pop('<div class="gvh">'+logo(g.lg,'big')+'<div><b class="st">'+esc(g.n)+'</b><small>Guild level '+L+' · '+n+' / '+MXG(id,g)+' members</small></div></div>'+
   '<div class="gmb gvm"><b>📜 Guild message</b><span>'+(g.msg?esc(g.msg):'<i>No message yet.</i>')+'</span><small class="'+(ok?'':'no')+'">'+reqTxt(g)+'</small></div>'+
   '<div class="gvl">'+M.map(m=>`<div class="gvr r${m.role}" onclick="guMem2('${m.id}','${id}')"><div class="fp">${por(m.h)}</div><b>${esc(m.n)}</b><i class="rl r${m.role}">${RL[m.role]}</i><em>${m.gp}</em></div>`).join('')+'</div>'+
   '<div class="us2"><button class="opr rm" onclick="soClose()">Close</button>'+btn+'</div>')};
@@ -164,21 +165,21 @@ const pills=()=>'<div class="gpl">'+[['ov','Overview'],['mem','Members'],...(myR
 const head=t=>'<div class="spn2">'+PC+'<div class="shd"><div class="spl">'+esc(t)+'</div></div>';
 const lastOn=m=>window.__lastOn?(m.ai||/^ai_/.test(m.id)?window.__lastOn(m.id):window.__lastOn(m.id,m.you,m.s||0)):'';
 function listUI(){loadList();const L=(LIST||[]).slice().sort((a,b)=>(b.id===BOT)-(a.id===BOT)||count(b.id,b)-count(a.id,a));
- const rows=LIST?L.map(g=>{const n=count(g.id,g),ok=meets(g),pend=SV.gpend2&&SV.gpend2.gid===g.id,open=g.type==='open'||g.bot,full=n>=MAXM;
+ const rows=LIST?L.map(g=>{const n=count(g.id,g),ok=meets(g),pend=SV.gpend2&&SV.gpend2.gid===g.id,open=g.type==='open'||g.bot,full=n>=MXG(g.id,g);
   const btn=pend?'<button class="opr jn rm" onclick="event.stopPropagation();guCancelReq()">Cancel</button>':full?'<button class="opr jn" disabled>Full</button>':g.type==='inv'?'<button class="opr jn" disabled>Invite</button>':!ok?'<button class="opr jn" disabled>Locked</button>':SV.gpend2?'<button class="opr jn" disabled>'+(open?'Join':'Request')+'</button>':'<button class="opr jn" onclick="event.stopPropagation();guJoin(\''+g.id+'\')">'+(open?'Join':'Request')+'</button>';
-  return `<div class="fr3 tall gvw" onclick="guView('${g.id}')">${logo(g.lg)}<div class="ff"><b>${esc(g.n)}</b><span>${n} / ${MAXM} members · level ${lvlOf(total(g.id,g))}${pend?' · request sent':''}</span><span class="grq ${ok?'':'no'}">${reqTxt(g)}</span></div>${btn}</div>`}).join(''):'<div class="dnt">Loading guilds…</div>';
+  return `<div class="fr3 tall gvw" onclick="guView('${g.id}')">${logo(g.lg)}<div class="ff"><b>${esc(g.n)}</b><span>${n} / ${MXG(g.id,g)} members · level ${lvlOf(total(g.id,g))}${pend?' · request sent':''}</span><span class="grq ${ok?'':'no'}">${reqTxt(g)}</span></div>${btn}</div>`}).join(''):'<div class="dnt">Loading guilds…</div>';
  return '<div class="spn2">'+PC+'<div class="shd"><div class="spl">Guilds</div></div><div class="flst top">'+rows+'</div><div class="dnt">Tap a guild to see its members before you join.</div></div>'}
-function ovUI(){const M=members(GID,G),tp=total(GID,G),L=lvlOf(tp),pr=L>=10?100:Math.min(100,(tp-(L-1)*500)/5);
+function ovUI(){const M=members(GID,G),tp=total(GID,G),L=lvlOf(tp),pr=L>=8?100:Math.min(100,(tp-(L-1)*500)/5);
  const msg='<div class="gmb"><b>📜 Guild message</b><span>'+(G.msg?esc(G.msg):'<i>No message yet.</i>')+'</span><small>'+reqTxt(G)+' · you are '+RL[myRole()]+'</small></div>';
  const pk=(typeof GPK!=='undefined'?GPK:[]).map(([lv,t,a])=>`<div class="fr3 pk ${L>=lv?'':'lk'}"><span class="pkl">${L>=lv?'✓':'🔒'}</span><div class="ff"><b>${t}</b><span>Unlocks at level ${lv}${a?'':' · coming soon'}</span></div></div>`).join('');
- return head(G.n)+pills()+'<div class="ghd">'+logo(G.lg,'big')+'<div class="ff"><div class="glr"><b>Guild level '+L+'</b><em class="gmc">'+M.length+' / '+MAXM+' members</em></div><div class="gbar"><i style="width:'+pr+'%"></i></div><span>'+tp+' guild points · +10 per win'+(L>=10?'':' · next level at '+(L*500))+'</span></div></div>'+msg+'<div class="flst top">'+pk+'</div><button class="bt sm lv" onclick="guLeave()">Leave guild</button></div>'}
+ return head(G.n)+pills()+'<div class="ghd">'+logo(G.lg,'big')+'<div class="ff"><div class="glr"><b>Guild level '+L+'</b><em class="gmc">'+M.length+' / '+MXG(GID,G)+' members</em></div><div class="gbar"><i style="width:'+pr+'%"></i></div><span>'+tp+' guild points · +10 per win'+(L>=8?'':' · next level at '+(L*500))+'</span></div></div>'+msg+'<div class="flst top">'+pk+'</div><button class="bt sm lv" onclick="guLeave()">Leave guild</button></div>'}
 function memUI(){const L=members(GID,G),isOn=m=>m.you||(m.ai||/^ai_/.test(m.id)?(window.__isOn&&window.__isOn(m.id)):Date.now()-(m.s||0)<6*60e3)?1:0;
  const F={rank:(a,b)=>b.rp-a.rp,lv:(a,b)=>b.lv-a.lv,w:(a,b)=>b.w-a.w,gp:(a,b)=>b.gp-a.gp};
  L.sort((a,b)=>SORT==='role'?(RO[a.role]-RO[b.role])||(isOn(b)-isOn(a))||(b.rp-a.rp):(isOn(b)-isOn(a))||F[SORT](a,b));
  const so=[['role','Role'],['rank','Rank'],['lv','Level'],['w','Wins'],['gp','Guild pts']];
  return head(G.n)+pills()+'<div class="gso"><span>Sort:</span>'+so.map(([k,l])=>`<button class="${SORT===k?'on':''}" onclick="guSort('${k}')">${l}</button>`).join('')+'</div><div class="flst top gml">'+
   L.map((m,i)=>`<div class="fr3 gm g${m.role} ${m.you?'you':''}" onclick="guMem2('${m.id}')"><em class="gn">${i+1}</em><div class="fp" style="position:relative">${por(m.h)}<i class="ond ${isOn(m)?'on':'off'}"></i></div><div class="ff"><b>${esc(m.n)}${m.you?' <small>(you)</small>':''}</b> <i class="rl r${m.role}">${RL[m.role]}</i><span>${RK[rkOf(m.rp)][0]} · Lv ${m.lv} · ${m.w} wins</span><span class="lso">${lastOn(m)}</span></div><div class="gpv"><b>${m.gp}</b><small>guild pts</small></div></div>`).join('')+
-  '</div><div class="dnt">'+L.length+' / '+MAXM+' members · tap a member to see their profile</div></div>'}
+  '</div><div class="dnt">'+L.length+' / '+MXG(GID,G)+' members · tap a member to see their profile</div></div>'}
 function manUI(){const A=Object.entries(G.apps||{}),co=Object.entries(Object.assign({},G.mem,G.ai)).filter(([k,m])=>m.role==='c');
  const apps=A.length?A.map(([id,p])=>`<div class="fr3 rq"><div class="fp">${por(p.h)}</div><div class="ff"><b>${esc(p.n)}</b><span>${RK[rkOf(p.rp)][0]} · Lv ${p.lv} · ${p.w} wins</span></div><button class="opr jn" onclick="guApp('${id}',1)">Accept</button><button class="opr rm" onclick="guApp('${id}',0)">Deny</button></div>`).join(''):'<div class="dnt">No join requests right now.</div>';
  const sel=(id,opts,v)=>'<select id="'+id+'" class="gin">'+opts.map(([k,l])=>`<option value="${k}" ${String(k)===String(v)?'selected':''}>${l}</option>`).join('')+'</select>';
