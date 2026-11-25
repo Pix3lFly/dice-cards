@@ -83,6 +83,8 @@ P = [
  ('tile size', "top.scale.set(sx,sx,sx);top.position.y=.565-bb.max.y*sx;", "{const kw=window.__TNEW?1.08:1,kh=window.__TNEW?1.45:1;top.scale.set(sx*kw,sx*kh,sx*kw);top.position.y=.565-bb.max.y*sx*kh}"),
  # tiles: flat even light on the top (no dark triangle from the model's top faces)
  ('tile flat top', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);if(sm>.5&&vN.y>.45)s=1.04;'),
+  ('tile top solid', "vec3 c=texture2D(mp,vU).rgb*tn;bool gr", "vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5&&vN.y>.85&&vY>.28)c=vec3(.975,.83,.59)*tn;bool gr"),
+  ('turn min 1', "<div class=\"tn\">Turn<br>${round}", "<div class=\"tn\">Turn<br>${Math.max(1,round)}"),
 ]
 import os
 def tile_model(s):
