@@ -93,6 +93,7 @@ P = [
   ('rolloff pic', "const prt=p=>'<div class=\"rp\">'+(HD[p.h]?pimg(p.h)", "const prt=p=>'<div class=\"rp\">'+(HD[p.h]?((window.__plPic&&__plPic(p))?'<img alt=\"\" src=\"'+__plPic(p)+'\">':pimg(p.h))"),
   ('idle facing', 'else{const w=WB(vis[k]);h.position.set(w.x+o[0],.56+Math.sin(t*2+k)*.02,w.z+o[1])}', "else{const w=WB(vis[k]);h.position.set(w.x+o[0],.56+Math.sin(t*2+k)*.02,w.z+o[1]);if(window.__faceIdle!==0&&!TP[k]){let ty;try{if(typeof cur!=='undefined'&&cur===k&&!over){const n=WB((vis[k]+1)%N);ty=Math.atan2(n.x-w.x,n.z-w.z)}else ty=Math.atan2(-w.x,-w.z)}catch(e){ty=Math.atan2(-w.x,-w.z)}const d=Math.atan2(Math.sin(ty-h.rotation.y),Math.cos(ty-h.rotation.y));h.rotation.y+=d*Math.min(1,dt*5)}}"),
   ('base cel', "mat.uniforms.ck.value=1.3;mat.uniforms.cq.value=5;", "mat.uniforms.ck.value=window.__baseCk||1.5;mat.uniforms.cq.value=5;"),
+  ('tile depth row', "top=new V.Mesh(window.__TG.geo,tgM);top.userData.__wd=1;", "top=new V.Mesh((()=>{const DF=window.__TDF||{13:1.35,14:.82,15:1.6,16:1.08,17:1.42},f=window.__TNEW&&DF[i];if(!f)return window.__TG.geo;const g=window.__TG.geo.clone(),p=g.attributes.position,b=window.__TG.geo.boundingBox,cut=b.max.y-.07;for(let k=0;k<p.count;k++){const y=p.getY(k);if(y<cut)p.setY(k,cut-(cut-y)*f)}p.needsUpdate=true;g.computeBoundingBox();g.computeBoundingSphere();return g})(),tgM);top.userData.__wd=1;"),
 ]
 import os
 def tile_model(s):
