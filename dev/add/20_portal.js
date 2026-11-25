@@ -24,13 +24,19 @@ function make(i,R){const g=G3(),V=g.V,S=g.S,B=window.__BG.portal2,Mt=window.__BG
  R.m.children.forEach(c=>{if(c.isMesh&&c.userData.__olc&&!m.userData.__ol){const ol=new V.Mesh(B.geo,c.material);ol.userData.__olc=1;ol.raycast=()=>{};m.add(ol);m.userData.__ol=1}});
  S.add(m);return {m,spot:new V.Vector3(w0.x,py,w0.z)}}
 function hideOld(){const S=G3().S;S.children.forEach(c=>{if(c.userData&&c.userData.__port!=null&&c.visible)c.visible=false})}
-function tick(){const g=G3();if(!g||!g.S||!g.tiles||!window.__BG||!window.__BG.portal2||!window.__BGM||!window.__BGM.portal2)return;
- if(typeof T==='undefined'||T[6]!=='portal'||T[18]!=='portal')return;if(window.__loadF&&window.__loadF()<1)return;
- if(!g.tiles[6]||!g.tiles[6].g||!g.tiles[18]||!g.tiles[18].g)return;
- const R=ref();if(!R)return;
- PI.forEach(i=>{const b=built[i];if(b&&b.m.parent===g.S)return;try{built[i]=make(i,R)}catch(e){console.log('portal4',e)}});
- hideOld();
- if(!spotFn)spotFn=v=>{const b=built[v];return b?b.spot.clone():null};
- if(window.__portSpot!==spotFn)window.__portSpot=spotFn}
-setInterval(()=>{try{tick()}catch(e){console.log('portal4',e)}},400);
+let ST='start',ERR='',t0=Date.now(),warned=false,oldSpot=null;window.__p4=()=>ST+(ERR?' | '+ERR:'');
+function tick(){const g=G3();
+ if(!g||!g.S||!g.tiles){ST='no board';return}
+ if(!window.__BG||!window.__BG.portal2){ST='portal model not loaded';return}
+ if(!window.__BGM||!window.__BGM.portal2){ST='portal data missing';return}
+ let tt=null;try{tt=T}catch(e){}if(!tt){ST='no tile list';return}if(tt[6]!=='portal'||tt[18]!=='portal'){ST='tiles 6/18 not portals: '+tt[6]+'/'+tt[18];return}
+ if(window.__loadF&&window.__loadF()<1){ST='board loading';return}
+ if(!g.tiles[6]||!g.tiles[6].g||!g.tiles[18]||!g.tiles[18].g){ST='portal tiles not built';return}
+ const R=ref();if(!R){ST='no base model found';return}
+ let ok=0;PI.forEach(i=>{const b=built[i];if(b&&b.m.parent===g.S){ok++;return}try{built[i]=make(i,R);ok++}catch(e){ERR='make '+i+': '+(e&&e.message||e)}});
+ try{hideOld()}catch(e){ERR='hide: '+(e&&e.message||e)}
+ ST='built '+ok+'/2';
+ if(ok===2){if(!spotFn){oldSpot=window.__portSpot;spotFn=v=>{const b=built[v];return b?b.spot.clone():(oldSpot?oldSpot(v):null)}}if(window.__portSpot!==spotFn){if(window.__portSpot!==spotFn&&!oldSpot)oldSpot=window.__portSpot;window.__portSpot=spotFn}}}
+setInterval(()=>{try{tick()}catch(e){ERR='tick: '+(e&&e.message||e)}
+ try{if(!warned&&Date.now()-t0>20000&&G3()&&G3().S&&typeof P!=='undefined'&&P&&P[0]&&!/^built 2/.test(ST)){warned=true;console.warn('Portal4: '+window.__p4())}}catch(e){}},400);
 }catch(e){console.log('v4 portal',e)}})();
