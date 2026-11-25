@@ -10,3 +10,5 @@ html body #mb .spn2:has(.gpk3) .ogr{grid-auto-rows:auto!important;align-content:
 html body #mb .spn2:has(.gpk3) .ocd{min-height:158px!important;justify-content:space-between!important}
 html body #mb .spn2:has(.gpk3) .omed,html body #mb .spn2:has(.gpk3) .omed.big{width:74px!important;height:74px!important}
 html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!important;min-height:19px;white-space:nowrap}
+/* slow/haste badge on a card: below the title so the title stays readable (25 Nov) */
+#hand .c .v3ef{top:27px!important;right:6px!important}

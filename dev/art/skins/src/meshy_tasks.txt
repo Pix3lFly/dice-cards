@@ -11,3 +11,4 @@ s2_s 01a2134b-9606-7436-b9bb-71526ce8234f
 s2_f 01a2134b-9c54-778f-a9e5-783a073b6382
 s2_i 01a2134b-a2fb-75db-86c3-9d3c8dbc7112
 s2_h 01a2134c-04b9-73fc-ac00-e403591cc063
+portal_square2 01a2138e-ebcc-7022-9964-612ddc8740b0 (25 Nov, replaces the merged portal2; converted with baseconv.conv(path,(0,.33),.10))

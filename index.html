@@ -388,7 +388,7 @@ function fr(now){const dt=Math.min(.05,(now-last)/1e3);last=now;t+=dt;
   if(!hop[k]&&p.via!=null&&vis[k]===p.via&&(p.wf==null||window.__arr(p.wf))){burst(k,'#c77dff',26);vis[k]=p.pos;p.via=null;p.wf=null;land(vis[k],k)}
   else if(!hop[k]&&vis[k]!==tg){const a=vis[k],b=(a+1)%N;hop[k]={a:WB(a),b:WB(b),t:0,to:b}}
   if(hop[k]){const q=hop[k];q.t+=dt/(window.__hopT||.28);const u=Math.min(1,q.t);h.position.set(q.a.x+(q.b.x-q.a.x)*u+o[0],.56+Math.sin(u*Math.PI)*(window.__hopH?window.__hopH(k):.5),q.a.z+(q.b.z-q.a.z)*u+o[1]);{const ty=Math.atan2(q.b.x-q.a.x,q.b.z-q.a.z);if(window.__hopH&&window.__hopH(k)<.2){const d=Math.atan2(Math.sin(ty-h.rotation.y),Math.cos(ty-h.rotation.y));h.rotation.y+=d*Math.min(1,dt*10)}else h.rotation.y=ty}if(u>=1){vis[k]=q.to;hop[k]=null;land(q.to,k)}}
-  else{const w=WB(vis[k]);h.position.set(w.x+o[0],.56+Math.sin(t*2+k)*.02,w.z+o[1]);if(window.__faceIdle!==0&&!TP[k]){let ty;try{if(typeof cur!=='undefined'&&cur===k&&!over){const n=WB((vis[k]+1)%N);ty=Math.atan2(n.x-w.x,n.z-w.z)}else ty=Math.atan2(-w.x,-w.z)}catch(e){ty=Math.atan2(-w.x,-w.z)}const d=Math.atan2(Math.sin(ty-h.rotation.y),Math.cos(ty-h.rotation.y));h.rotation.y+=d*Math.min(1,dt*5)}}
+  else{const w=WB(vis[k]);h.position.set(w.x+o[0],.56+Math.sin(t*2+k)*.02,w.z+o[1]);if(window.__faceIdle===1&&!TP[k]){let ty;try{if(typeof cur!=='undefined'&&cur===k&&!over){const n=WB((vis[k]+1)%N);ty=Math.atan2(n.x-w.x,n.z-w.z)}else ty=Math.atan2(-w.x,-w.z)}catch(e){ty=Math.atan2(-w.x,-w.z)}const d=Math.atan2(Math.sin(ty-h.rotation.y),Math.cos(ty-h.rotation.y));h.rotation.y+=d*Math.min(1,dt*5)}}
   sk[k]=Math.max(0,sk[k]-dt);h.rotation.z=Math.sin(t*50)*sk[k]*.5;const sw=h.userData.sw||0;h.userData.sw=Math.max(0,sw-dt);h.scale.setScalar(.95*(1+sw*.9));
   {const mm=h.userData.m,hp2=hop[k];if(mm&&!mm.userData.rig){mm.scale.y=hp2?1+Math.sin(Math.min(1,hp2.t)*Math.PI)*.2:1+Math.sin(t*2.4+k)*.03;mm.rotation.y=hp2?0:Math.sin(t*1.3+k*2)*.15}}
   {let so=h.userData.orb;const on=p.gd>0||p.shield;if(on&&!so){so=h.userData.orb=new V.Mesh(new V.SphereGeometry(.75,18,14),new V.MeshBasicMaterial({color:0x7fd6ff,transparent:true,opacity:.28,blending:V.AdditiveBlending,depthWrite:false}));so.position.y=.55;h.add(so)}if(so){so.visible=!!on;so.scale.setScalar(1+.05*Math.sin(t*5));so.rotation.y+=dt}}
@@ -2864,7 +2864,7 @@ setInterval(()=>{try{const M=$('menu'),b=document.getElementById('v3tq');if(tab=
  function tick(){const n=performance.now(),dt=Math.min(.05,(n-last)/1000);last=n;if(typeof P==='undefined'||!P)return;
   [0,1].forEach(k=>{const h=H[k],p=P[k];if(!h||!p||hop[k]||(G3.TP&&G3.TP[k]))return;if(window.__faceHold&&window.__faceHold(k))return;if(window.__vt&&window.__vt[k]!=null&&window.__vt[k]!==vis[k])return;
    const a=WB(vis[k]),b=WB((vis[k]+1)%24),head=Math.atan2(b.x-a.x,b.z-a.z),cp=G3.cam.position,toCam=Math.atan2(cp.x-h.position.x,cp.z-h.position.z);
-   let ty=p.jail?toCam:head;const d0=ang(head,toCam);if(!p.jail&&Math.abs(d0)>Math.PI*.45)ty=head+d0*.5;
+   let ty;if(p.jail)ty=toCam;else if(window.__faceV3===1){ty=head;const d0=ang(head,toCam);if(Math.abs(d0)>Math.PI*.45)ty=head+d0*.5}else if(typeof cur!=='undefined'&&cur===k&&!over)ty=head;else{const dc=G3.die&&G3.die.position;const cx=dc?dc.x:0,cz=dc?dc.z:0;ty=Math.atan2(cx-h.position.x,cz-h.position.z)}
    h.rotation.y+=ang(h.rotation.y,ty)*Math.min(1,dt*4)})}
  const rr=R.render.bind(R);R.render=function(a,b){if(a===S){try{tick()}catch(e){}}return rr(a,b)};
 }catch(e){console.warn('v3 face',e)}})();
@@ -3159,7 +3159,7 @@ setInterval(()=>{try{const M=$('menu'),b=document.getElementById('v3tq');if(tab=
   m.scale.set(s*best.sx,s,s);m.rotation.y=best.r;const l=rot([Mt.px*best.sx*s,Mt.pz*s],best.r);m.position.set(cx-l[0],.56-Mt.plat*s,cz-l[1])};
  const newBases=()=>{const PR=G.PR,V=G.V;if(!PR||!PR.base||!window.__BG||!mkTex)return;
   if(!PR.__nb){PR.__nb=1;const ob=PR.base;PR.base=i=>{const g=ob(i);let bt=null;try{bt=P[i?1:0].bt}catch(e){}const B=window.__BG[bt],Mt=window.__BGM&&window.__BGM[bt];if(!B||!Mt)return g;
-    g.traverse(c=>{if(c.isMesh)c.visible=false});const mat=nbM[bt]||(nbM[bt]=mkTex(B.map,0xffffff,Mt.ry));mat.userData.__ct=1;mat.uniforms.ck.value=window.__baseCk||1.5;mat.uniforms.cq.value=5;
+    g.traverse(c=>{if(c.isMesh)c.visible=false});const mat=nbM[bt]||(nbM[bt]=mkTex(B.map,0xffffff,Mt.ry));mat.userData.__ct=1;mat.uniforms.ck.value=window.__baseCk||1.6;mat.uniforms.cq.value=window.__baseCq||4;
     const m=new V.Mesh(B.geo,mat),w0=G.W(i),wb=G.WB(i);alignM(m,i,Mt,2.15/Mt.ext,wb.x-w0.x,wb.z-w0.z);m.position.y-=.5;m.userData.__mine=1;m.userData.__nb=1;if(i===0||i===12){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS;if(i===12){const k=window.__EBin!=null?window.__EBin:.05;m.position.x-=k;m.position.z-=k}}g.add(m);try{G.tiles[i].__nbk=bt}catch(e){}return g}}
   [0,12].forEach(i=>{const o=G.tiles[i];if(!o||o.t!=='base')return;let bt=null;try{bt=P[i?1:0].bt}catch(e){}if(bt&&window.__BG[bt]&&o.__nbk!==bt){o.t=null;G.setTile(i)}})};
  const sweep=o=>{if(!o.cBlk)return;if(!INV)INV=new G.V.MeshBasicMaterial({visible:false});const keep=new Set();[o.top,o.prop,o.gl].forEach(k=>{if(k)k.traverse(n=>keep.add(n))});o.g.children.forEach(c=>{if(c.userData.__mine)return;c.traverse(m=>{if(!m.isMesh||keep.has(m)||m.userData.__sw)return;const mt=m.material;if(mt&&!Array.isArray(mt)&&(mt.transparent||mt.blending===G.V.AdditiveBlending))return;m.userData.__sw=1;m.material=INV;try{Object.defineProperty(m,'material',{get:()=>INV,set(){},configurable:true})}catch(e){}})})};
@@ -5411,7 +5411,7 @@ function start(G){const V=G.V,R=window.__R;
  const LIFT=[196,212,226,238,248,255],done=new WeakSet();
  function brighten(m){if(done.has(m))return;done.add(m);m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{const g=mt&&mt.gradientMap;if(!g||!g.image||!g.image.data||g.userData.__vb)return;const d=g.image.data;if(d.length!==LIFT.length)return;g.userData.__vb=1;for(let i=0;i<d.length;i++)d[i]=LIFT[i];g.needsUpdate=true})})}
  let CG=null;const celDone=new WeakSet();
- function cel(m){if(!CG){CG=new V.DataTexture(new Uint8Array(window.__celB||[150,150,214,214,255,255]),6,1,V.LuminanceFormat);CG.minFilter=CG.magFilter=V.NearestFilter;CG.generateMipmaps=false;CG.needsUpdate=true}
+ function cel(m){if(!CG){CG=new V.DataTexture(new Uint8Array(window.__celB||[118,118,200,200,255,255]),6,1,V.LuminanceFormat);CG.minFilter=CG.magFilter=V.NearestFilter;CG.generateMipmaps=false;CG.needsUpdate=true}
   m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(mt&&mt.isMeshToonMaterial&&mt.gradientMap!==CG){mt.gradientMap=CG;if(mt.emissive){mt.emissive.setRGB(.1,.1,.1);if(mt.map)mt.emissiveMap=mt.map}mt.needsUpdate=true}})})}
  function bases(){[0,12].forEach(i=>{const o=G.tiles&&G.tiles[i];if(!o||!o.g)return;o.g.traverse(c=>{if(!c.isMesh||!c.userData.__nb)return;const u=c.material&&c.material.uniforms;if(u&&u.tn&&!c.material.userData.__vbb){c.material.userData.__vbb=1;u.tn.value.multiplyScalar(1.18)}})})}
  const RC=[0x4fc8ff,0xff5a5a],rings=[null,null];
@@ -5453,6 +5453,8 @@ html body #mb .spn2:has(.gpk3) .ogr{grid-auto-rows:auto!important;align-content:
 html body #mb .spn2:has(.gpk3) .ocd{min-height:158px!important;justify-content:space-between!important}
 html body #mb .spn2:has(.gpk3) .omed,html body #mb .spn2:has(.gpk3) .omed.big{width:74px!important;height:74px!important}
 html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!important;min-height:19px;white-space:nowrap}
+/* slow/haste badge on a card: below the title so the title stays readable (25 Nov) */
+#hand .c .v3ef{top:27px!important;right:6px!important}
 </style><script id="v4_13_fixes">/* V4 25 Nov board fixes:
    1. win/lose window waits until the last hit has landed (the HP bar shows 0)
    2. Sudden death: big banner + "the board has changed" line
