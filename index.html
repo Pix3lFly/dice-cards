@@ -193,7 +193,7 @@ img.cimg{max-width:100%;max-height:100%;object-fit:contain}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>(function(){var N=7,i=0,tries=0;function nx(){if(i>=N){var e=document.createElement('script');e.type='application/json';e.id='mdl';e.textContent=window.__MD.join('');window.__MD=null;document.body.appendChild(e);if(window.__mdlRun)window.__mdlRun();return}var s=document.createElement('script');s.src='m/mdl'+i+'.js?v=3'+(tries?'&r='+tries:'');window.__mdlI=i;s.onload=function(){if(window.__MD&&window.__MD[i]!=null){i++;tries=0;nx()}else retry()};s.onerror=retry;document.head.appendChild(s)}function retry(){tries++;if(tries>6)window.__mdlSlow=1;setTimeout(nx,Math.min(4000,800*tries))}nx()})();</script>
-<script>(function(){const L=[];function show(m){m=String(m);if(/metamask|ethereum|web3|phantom|wallet|chrome-extension:|moz-extension:|safari-extension:|extension:\/\/|inpage\.js|contentscript|solana|tronlink|coinbase/i.test(m))return;L.push(m);let d=document.getElementById('dbgbox');if(!d){d=document.createElement('div');d.id='dbgbox';d.style.cssText='position:fixed;left:6px;right:6px;top:40%;z-index:99999;background:rgba(0,0,0,.85);color:#ffd166;font:12px monospace;padding:8px;border:1px solid #ffd166;border-radius:8px;white-space:pre-wrap;max-height:30vh;overflow:auto';d.onclick=()=>d.remove();document.body.appendChild(d)}d.textContent='Debug (tap to close):\n'+L.slice(-8).join('\n')}
+<script>(function(){const L=[];function show(m){m=String(m);if(/metamask|ethereum|web3|phantom|wallet|chrome-extension:|moz-extension:|safari-extension:|extension:\/\/|inpage\.js|contentscript|solana|tronlink|coinbase/i.test(m))return;L.push(m);try{(window.__dbgQ=window.__dbgQ||[]).push({m:m.slice(0,400),t:Date.now()});if(window.__dbgQ.length>60)window.__dbgQ.shift()}catch(e){}if(!(window.__dbgOK&&window.__dbgOK()))return;let d=document.getElementById('dbgbox');if(!d){d=document.createElement('div');d.id='dbgbox';d.style.cssText='position:fixed;left:6px;right:6px;top:40%;z-index:99999;background:rgba(0,0,0,.85);color:#ffd166;font:12px monospace;padding:8px;border:1px solid #ffd166;border-radius:8px;white-space:pre-wrap;max-height:30vh;overflow:auto';d.onclick=()=>d.remove();document.body.appendChild(d)}d.textContent='Debug (tap to close):\n'+L.slice(-8).join('\n')}
 window.addEventListener('error',e=>show('ERR '+e.message+' @'+(e.lineno||'')));window.addEventListener('unhandledrejection',e=>show('PROMISE '+e.reason));
 const w=console.warn;console.warn=function(){try{show('WARN '+[].map.call(arguments,String).join(' '))}catch(e){}return w.apply(console,arguments)};
 setTimeout(()=>{const c=document.getElementById('cv');if(c)c.addEventListener('webglcontextlost',()=>show('WEBGL CONTEXT LOST (phone ran out of graphics memory)'))},0);
@@ -5859,6 +5859,13 @@ const rid=()=>Date.now().toString(36)+Math.floor(Math.random()*1e8).toString(36)
 window.__upN=()=>{let n=0;try{Object.values(SV.gear||{}).forEach(a=>(a||[]).forEach(x=>n+=+x||0));Object.values(SV.blv||{}).forEach(x=>n+=Math.max(0,(+x||1)-1))}catch(e){}return n};
 setInterval(()=>{if(document.visibilityState==='visible'){SV.pt=(SV.pt||0)+1}},60e3);
 
+/* ---------- Debug box: owners only; other players' messages go to the Debug tab ---------- */
+window.__dbgOK=()=>{try{return ON()&&isOwner()}catch(e){return false}};
+(()=>{const sent=new Set();let n=0;setInterval(()=>{try{const Q=window.__dbgQ||[];if(!Q.length)return;
+ if(ON()&&isOwner()){const L=Q.splice(0);L.forEach(x=>{try{window.__dbg&&0}catch(e){}});return}
+ if(!ON()||n>=25)return;const L=Q.splice(0).filter(x=>{const k=x.m.slice(0,160);if(sent.has(k))return false;sent.add(k);return true});if(!L.length)return;n++;
+ let ver='';try{ver=(document.querySelector('script[id^=v4_]')?'v4':'')+' '+(window.__V4B||'')}catch(e){}
+ db().collection('debug').doc(rid()).set({uid:UID(),name:myName(),num:(FR.prof&&FR.prof.num)||'',ua:navigator.userAgent.slice(0,160),scr:innerWidth+'x'+innerHeight,app:!!(window.matchMedia&&matchMedia('(display-mode: standalone)').matches),t:Date.now(),lines:L.map(x=>new Date(x.t).toISOString().slice(11,19)+' '+x.m).join('\n').slice(0,4000)}).catch(e=>console.log('debug up',e&&e.code))}catch(e){}},15000)})();
 /* ---------- owner player number ---------- */
 let numBusy=false;
 async function ownerNum(){const u=UID(),want=OWN[u];if(!want||numBusy||!FR.prof||FR.prof.num===want)return;numBusy=true;
@@ -5940,7 +5947,7 @@ async function findP(q){q=String(q||'').trim().replace(/^#/,'');if(!q)return nul
 
 /* ---------- the panel ---------- */
 let PT='pl',P=null,PQ='',CU=null,RK2='gd',CACHE={};
-const TABS=()=>[['pl','👤 Players'],['bw','⛔ Bans & warnings'],['gu','🛡 Guilds'],['ch','💬 Staff chat'],...(isOwner()?[['cd','🎟 Codes'],['rk','🏆 Rankings'],['al','🚨 Cheat alerts'],['md','🧑‍⚖️ Moderators'],['me','👑 My account']]:[])];
+const TABS=()=>[['pl','👤 Players'],['bw','⛔ Bans & warnings'],['gu','🛡 Guilds'],['ch','💬 Staff chat'],...(isOwner()?[['cd','🎟 Codes'],['rk','🏆 Rankings'],['al','🚨 Cheat alerts'],['md','🧑‍⚖️ Moderators'],['dbg','🐞 Debug'],['me','👑 My account']]:[])];
 window.__opOpen=function(){if(!staff())return;if(isOwner()){askCode();return}openP()};
 function askCode(){const o=shell();o.innerHTML='<div class="uc opk"><b class="st">👑 Owner panel</b><p>Enter your owner code</p><input id="opc" class="sin" type="password" inputmode="numeric" maxlength="8" autocomplete="off"><div id="opm" class="smsg"></div><div class="us2"><button class="opr rm" onclick="__opClose()">Cancel</button><button class="opr" onclick="__opCode()">Open</button></div></div>';
  const i=document.getElementById('opc');i.focus();i.onkeydown=e=>{if(e.key==='Enter')window.__opCode()}}
@@ -5954,7 +5961,7 @@ function tabs(){const t=document.querySelector('#ownp .opt');if(!t)return;const 
 window.__opTab=k=>{BACK=null;PT=k;if(CU){CU();CU=null}tabs();show(k)};
 const body=h=>{const b=document.querySelector('#ownp .opb');if(b)b.innerHTML=h;return b};
 const busy=()=>body('<div class="dnt">Loading…</div>');
-async function show(k){try{({pl:pPlayers,bw:pBW,gu:pGuilds,ch:pChat,cd:pCodes,rk:pRank,al:pAlerts,md:pMods,me:pMe}[k]||pPlayers)()}catch(e){console.log('panel',e);body('<div class="dnt">Something went wrong.</div>')}}
+async function show(k){try{({pl:pPlayers,bw:pBW,gu:pGuilds,ch:pChat,cd:pCodes,rk:pRank,al:pAlerts,md:pMods,me:pMe,dbg:pDbg}[k]||pPlayers)()}catch(e){console.log('panel',e);body('<div class="dnt">Something went wrong.</div>')}}
 
 /* players */
 function pPlayers(){body('<div class="opr2"><input id="opq" class="sin" placeholder="Name, player number or UID" value="'+esc(PQ)+'"><button class="opr" onclick="__opFind()">Find</button></div><div id="opres">'+(P?'':'<div class="dnt">Search for a player to warn, ban or make moderator.</div>')+'</div>');
@@ -6052,6 +6059,15 @@ async function pMods(){busy();let M=[],L=[];try{M=(await db().collection('mods')
  body('<div class="frh">Moderators · '+M.length+'</div>'+(M.length?M.map(m=>'<div class="oprow" onclick="__opPlayer(\''+m.uid+'\')"><b>🛡 '+esc(m.name)+'</b><span>since '+when(m.t)+' · '+L.filter(x=>x.by===m.uid).length+' actions</span></div>').join(''):'<div class="dnt">No moderators yet. Find a player in Players and press “Make moderator”.</div>')+
   '<div class="frh">Staff action log</div>'+(L.length?L.slice(0,150).map(x=>'<div class="oprow log"><b>'+esc(x.byName)+(x.own?' 👑':' 🛡')+'</b><span>'+esc(x.act)+(x.name?' · '+esc(x.name):'')+(x.reason?' — '+esc(x.reason):'')+'</span><small>'+when(x.t)+'</small></div>').join(''):'<div class="dnt">Nothing yet.</div>'))}
 
+/* debug reports (owner) */
+let DBG=[];
+async function pDbg(){busy();try{DBG=(await db().collection('debug').get()).docs.map(d=>Object.assign({id:d.id},d.data()))}catch(e){DBG=[]}DBG.sort((a,b)=>b.t-a.t);
+ body(DBG.length?'<div class="opa"><button class="opr" onclick="__opDbgCopy()">📋 Copy all ('+DBG.length+')</button><button class="opr rm" onclick="__opDbgClr()">🗑 Clear all</button></div><div class="dnt">Errors from players’ games (they don’t see the Debug box). Copy them and send them to Claude.</div>'+
+  DBG.slice(0,150).map(x=>'<div class="opc al"><div class="opn"><b onclick="__opPlayer(\''+x.uid+'\')">🐞 '+esc(x.name)+' <small>#'+esc(x.num||'')+'</small></b><span>'+when(x.t)+' · '+(x.app?'app':'browser')+' · '+esc(x.scr||'')+'</span><small class="uid">'+esc(x.ua||'')+'</small></div><pre class="dbgl">'+esc(x.lines)+'</pre><div class="opa"><button class="opr rm sm" onclick="__opDbgDel(\''+x.id+'\')">Delete</button></div></div>').join(''):'<div class="dnt">No debug reports. 🎉</div>')}
+window.__opDbgCopy=()=>{const t=DBG.map(x=>'['+new Date(x.t).toISOString().slice(0,16).replace('T',' ')+'] '+x.name+' #'+(x.num||'')+' · '+(x.app?'app':'browser')+' · '+(x.scr||'')+'\n'+(x.ua||'')+'\n'+x.lines).join('\n\n');
+ try{navigator.clipboard.writeText(t).then(()=>note('Copied '+DBG.length+' reports')).catch(()=>note('Could not copy'))}catch(e){note('Could not copy')}};
+window.__opDbgDel=async id=>{try{await db().collection('debug').doc(id).delete();pDbg()}catch(e){note('Could not delete')}};
+window.__opDbgClr=()=>ask('Clear all debug reports?','<p>This deletes all '+DBG.length+' reports.</p>',async()=>{const b=db().batch();DBG.slice(0,400).forEach(x=>b.delete(db().collection('debug').doc(x.id)));try{await b.commit();pDbg()}catch(e){document.getElementById('opdm').textContent='Could not clear ('+(e&&e.code)+')'}});
 /* my account (owner) */
 function pMe(){const f=SV.ofree!==false;
  body('<div class="opc"><div class="opn"><b>'+esc(myName())+' 👑</b><span>Owner number #'+OWN[UID()]+'</span></div>'+
@@ -6123,6 +6139,7 @@ const css=document.createElement('style');css.textContent=`
 #ownp .opchat>div{align-self:flex-start;max-width:85%;display:flex;flex-direction:column;padding:5px 9px;border-radius:10px;background:#f6e3b8;color:#3a2006}
 #ownp .opchat>div.me{align-self:flex-end;background:#bfe3ff}
 #ownp .opchat b{font:800 11.5px system-ui}#ownp .opchat span{font:600 13.5px system-ui;word-break:break-word}#ownp .opchat small{font:600 9.5px system-ui;opacity:.7}
+#ownp .dbgl{margin:0;max-height:160px;overflow:auto;white-space:pre-wrap;word-break:break-word;font:11px/1.35 monospace;color:#ffe9a8;background:#00000066;border-radius:8px;padding:6px}
 #ownp .al details{font:600 12px system-ui;color:#e8d6b4}#ownp .al summary{cursor:pointer;color:#ffe08a}#ownp .alg{padding:2px 0;border-bottom:1px solid #ffffff18}#ownp .alg i{color:#9fd6ff;font-style:normal}
 #ownp .opdlg{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:#000a}
 #ownp .opdlg .uc{width:min(92vw,380px)}

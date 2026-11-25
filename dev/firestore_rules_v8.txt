@@ -1,0 +1,169 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+    function isOwner() { return signedIn() && (me() == 'OXfHFDesUtZ3tgB6vFJJzYyFTlH2' || me() == '7q77Kz5M8Ad4hhlTvFbTOVvbVT43'); }
+    function isStaff() { return isOwner() || (signedIn() && exists(/databases/$(database)/documents/mods/$(me()))); }
+    function inMatch(mid) {
+      let m = get(/databases/$(database)/documents/matches/$(mid)).data;
+      return m.a == me() || m.b == me();
+    }
+
+    match /players/{uid} {
+      allow read, write: if signedIn() && me() == uid;
+    }
+    match /profiles/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && me() == uid
+        && request.resource.data.name is string
+        && request.resource.data.name.matches('^[A-Za-z0-9_]{3,16}$')
+        && request.resource.data.nameLower == request.resource.data.name.lower()
+        && getAfter(/databases/$(database)/documents/names/$(request.resource.data.nameLower)).data.uid == uid
+        && getAfter(/databases/$(database)/documents/nums/$(request.resource.data.num)).data.uid == uid;
+    }
+    match /names/{n} {
+      allow get: if signedIn();
+      allow create, update: if signedIn() && request.resource.data.uid == me()
+        && n.matches('^[a-z0-9_]{3,16}$') && (resource == null || resource.data.uid == me());
+      allow delete: if signedIn() && resource.data.uid == me();
+    }
+    match /nums/{n} {
+      allow get: if signedIn();
+      allow create: if signedIn() && request.resource.data.uid == me() && n.matches('^[0-9]{8}$');
+    }
+    match /emails/{e} {
+      allow get: if signedIn();
+      allow create, update: if signedIn() && request.resource.data.uid == me()
+        && ('email' in request.auth.token) && e == request.auth.token.email.lower();
+    }
+    match /reqs/{id} {
+      allow read: if signedIn() && (resource.data.from == me() || resource.data.to == me());
+      allow create: if signedIn() && request.resource.data.from == me()
+        && request.resource.data.to != me() && id == me() + '_' + request.resource.data.to;
+      allow delete: if signedIn() && (resource.data.from == me() || resource.data.to == me());
+    }
+    match /friends/{owner}/list/{fid} {
+      allow read: if signedIn() && me() == owner;
+      allow create: if signedIn() && (
+        (me() == owner && exists(/databases/$(database)/documents/reqs/$(fid + '_' + owner)))
+        || (me() == fid && exists(/databases/$(database)/documents/reqs/$(owner + '_' + fid))));
+      allow delete: if signedIn() && (me() == owner || me() == fid);
+    }
+    match /invites/{id} {
+      allow read: if signedIn() && (resource.data.from == me() || resource.data.to == me());
+      allow create: if signedIn() && request.resource.data.from == me()
+        && id == me() + '_' + request.resource.data.to
+        && exists(/databases/$(database)/documents/friends/$(me())/list/$(request.resource.data.to));
+      allow update: if signedIn() && (resource.data.from == me() || resource.data.to == me())
+        && request.resource.data.from == resource.data.from && request.resource.data.to == resource.data.to;
+      allow delete: if signedIn() && (resource.data.from == me() || resource.data.to == me());
+    }
+    match /matches/{mid} {
+      allow read: if signedIn() && (resource.data.a == me() || resource.data.b == me());
+      allow create: if signedIn() && request.resource.data.a == me() && request.resource.data.b != me()
+        && exists(/databases/$(database)/documents/friends/$(me())/list/$(request.resource.data.b));
+      allow update: if signedIn() && (resource.data.a == me() || resource.data.b == me())
+        && request.resource.data.a == resource.data.a && request.resource.data.b == resource.data.b;
+      match /m/{x} {
+        allow read: if signedIn() && inMatch(mid);
+        allow create: if signedIn() && request.resource.data.s == me() && inMatch(mid);
+      }
+    }
+    match /mail/{owner}/in/{id} {
+      allow read, delete: if signedIn() && me() == owner;
+      allow update: if signedIn() && me() == owner
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow create: if signedIn() && request.resource.data.from == me() && owner != me()
+        && exists(/databases/$(database)/documents/friends/$(owner)/list/$(me()))
+        && request.resource.data.keys().hasOnly(['from','fromName','fromH','text','t','c','read'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 200;
+    }
+    function gSelf() {
+      let a = request.resource.data.diff(resource.data).affectedKeys();
+      let nm = request.resource.data.mem;
+      let om = resource.data.mem;
+      return a.hasOnly(['mem','apps','ai','aiT'])
+        && nm.diff(om).affectedKeys().hasOnly([me()])
+        && request.resource.data.apps.diff(resource.data.apps).affectedKeys().hasOnly([me()])
+        && (!(me() in nm)
+            || (me() in om && nm[me()].role == om[me()].role)
+            || (!(me() in om) && nm[me()].role == 'm' && nm.size() <= 30
+                && (resource.data.type == 'open' || resource.data.bot == true)))
+        && (!a.hasAny(['ai']) || me() in om);
+    }
+    function gLead() {
+      return resource.data.lead == me() && request.resource.data.lead == me()
+        && request.resource.data.n == resource.data.n && request.resource.data.bot == resource.data.bot
+        && request.resource.data.mem.size() <= 30;
+    }
+    function gCo() {
+      return me() in resource.data.mem && resource.data.mem[me()].role == 'c'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['mem','apps','ai','aiT'])
+        && resource.data.lead in request.resource.data.mem
+        && request.resource.data.mem.size() <= 30;
+    }
+    match /gnames/{n} {
+      allow get: if signedIn();
+      allow create: if signedIn() && (request.resource.data.lead == me() || isStaff())
+        && n.matches('^[a-z0-9 ]{3,18}$') && n != 'moonblades';
+      allow delete: if signedIn() && (resource.data.lead == me() || isStaff());
+    }
+    match /guilds/{g} {
+      allow read: if signedIn();
+      allow create: if signedIn() && (
+        (g == 'ai_moonblades' && request.resource.data.bot == true && request.resource.data.mem.size() == 0)
+        || (!g.matches('ai_.*') && request.resource.data.bot == false
+            && request.resource.data.lead == me()
+            && request.resource.data.mem.keys().hasOnly([me()])
+            && request.resource.data.mem[me()].role == 'L'
+            && getAfter(/databases/$(database)/documents/gnames/$(request.resource.data.nl)).data.gid == g));
+      allow update: if signedIn() && (gLead() || gCo() || gSelf() || isStaff());
+      allow delete: if signedIn() && (resource.data.lead == me() || isStaff());
+    }
+    match /mods/{u} {
+      allow read: if signedIn();
+      allow write: if isOwner();
+    }
+    match /bans/{u} {
+      allow read: if signedIn() && (me() == u || isStaff());
+      allow write: if isStaff() && !(u in ['OXfHFDesUtZ3tgB6vFJJzYyFTlH2', '7q77Kz5M8Ad4hhlTvFbTOVvbVT43']);
+    }
+    match /warns/{id} {
+      allow read: if signedIn() && (isStaff() || resource.data.uid == me());
+      allow create, delete: if isStaff();
+      allow update: if isStaff() || (signedIn() && resource.data.uid == me()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seen']));
+    }
+    match /modlog/{id} {
+      allow read: if isOwner();
+      allow create: if isStaff() && request.resource.data.by == me();
+    }
+    match /modchat/{id} {
+      allow read: if isStaff();
+      allow create: if isStaff() && request.resource.data.from == me();
+      allow delete: if isOwner();
+    }
+    match /codes/{c} {
+      allow get: if signedIn();
+      allow list, write: if isOwner();
+    }
+    match /redeems/{id} {
+      allow get: if signedIn() && id.matches('^[A-Z0-9]{3,20}_' + me() + '$');
+      allow list: if isOwner();
+      allow create: if signedIn() && request.resource.data.uid == me()
+        && id == request.resource.data.code + '_' + me()
+        && exists(/databases/$(database)/documents/codes/$(request.resource.data.code));
+    }
+    match /alerts/{id} {
+      allow create: if signedIn() && request.resource.data.uid == me();
+      allow read, delete: if isOwner();
+    }
+    match /debug/{id} {
+      allow create: if signedIn() && request.resource.data.uid == me()
+        && request.resource.data.lines is string && request.resource.data.lines.size() <= 4000;
+      allow read, delete: if isOwner();
+    }
+  }
+}

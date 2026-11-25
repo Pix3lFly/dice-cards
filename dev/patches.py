@@ -57,6 +57,8 @@ P = [
  # enemy base (tile 12): 20% larger like yours, and a little further into the corner
  ('enemy base size', "if(i===0){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS}",
   "if(i===0||i===12){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS;if(i===12){const k=window.__EBin!=null?window.__EBin:.22;m.position.x-=k;m.position.z-=k}}"),
+ # Debug box: only the owners see it; everyone's messages are queued for the owner panel's Debug tab
+ ('debug owners only', "L.push(m);let d=document.getElementById('dbgbox');", "L.push(m);try{(window.__dbgQ=window.__dbgQ||[]).push({m:m.slice(0,400),t:Date.now()});if(window.__dbgQ.length>60)window.__dbgQ.shift()}catch(e){}if(!(window.__dbgOK&&window.__dbgOK()))return;let d=document.getElementById('dbgbox');"),
 ]
 def apply(s):
     for t in P:
