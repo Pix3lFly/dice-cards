@@ -89,6 +89,8 @@ P = [
   ('skin model', "MOD[h]=()=>mk(HM[h],2.62,'h')||f0()", "MOD[h]=()=>{let sk=null;try{sk=window.__skinKey?window.__skinKey(h):null}catch(e){}return (sk&&GM[sk]&&mk(sk,2.62,'h'))||mk(HM[h],2.62,'h')||f0()}"),
   ('skin loader', "window.__mdlRun=function(){window.__mdlRun=null;if(V.GLTFLoader){", "window.__addGM=(k,d,cb)=>{try{const s=atob(d.g),u=new Uint8Array(s.length);for(let j=0;j<s.length;j++)u[j]=s.charCodeAt(j);const img=new Image(),tx=new V.Texture(img);tx.flipY=false;tx.encoding=V.LinearEncoding;img.onload=()=>{tx.needsUpdate=true};img.src='data:image/jpeg;base64,'+d.t;new V.GLTFLoader().parse(u.buffer,'',g=>{g.scene.traverse(o=>{if(o.isMesh&&o.material){o.material.map=tx;o.material.color&&o.material.color.setRGB(1,1,1);o.material.metalness=0;o.material.roughness=.85;o.material.needsUpdate=true}});GM[k]=g.scene;cb&&cb(1)},e=>{console.warn('skin model',k,e);cb&&cb(0)})}catch(e){console.warn('skin model',k,e);cb&&cb(0)}};window.__mdlRun=function(){window.__mdlRun=null;if(V.GLTFLoader){"),
   ('pfp only owned', "Object.keys(POR()).map(k=>", "Object.keys(POR()).filter(k=>!window.__pfOK||window.__pfOK(k)).map(k=>"),
+  ('vs my pic', "<div class=\"vs3\"><div class=\"av\"><img alt=\"\" src=\"'+(POR()[SV.mine]||'')", "<div class=\"vs3\"><div class=\"av\"><img alt=\"\" src=\"'+((window.__myPic&&__myPic())||POR()[SV.mine]||'')"),
+  ('rolloff pic', "const prt=p=>'<div class=\"rp\">'+(HD[p.h]?pimg(p.h)", "const prt=p=>'<div class=\"rp\">'+(HD[p.h]?((window.__plPic&&__plPic(p))?'<img alt=\"\" src=\"'+__plPic(p)+'\">':pimg(p.h))"),
 ]
 import os
 def tile_model(s):

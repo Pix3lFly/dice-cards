@@ -1699,7 +1699,7 @@ try{const rs=document.createElement('style');rs.textContent=`
 `;document.head.appendChild(rs);
  const PIP=v=>[0,1,2,3,4,5,6,7,8].map(i=>'<i class="'+(({1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]})[v].includes(i)?'p':'')+'"></i>').join('');
  const die=(v,spin)=>v?'<div class="rod'+(spin?' sp':'')+'">'+[0,1,2,3,4,5,6,7,8].map(i=>'<i class="'+(({1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]})[v].includes(i)?'p':'')+'"></i>').join('')+'</div>':'<div class="rod q">?</div>';
- const prt=p=>'<div class="rp">'+(HD[p.h]?pimg(p.h):'<span class="sp">'+p.av+'</span>')+'</div>';
+ const prt=p=>'<div class="rp">'+(HD[p.h]?((window.__plPic&&__plPic(p))?'<img alt="" src="'+__plPic(p)+'">':pimg(p.h)):'<span class="sp">'+p.av+'</span>')+'</div>';
  if(typeof drawRO==='function'){drawRO=function(msg){if(!RO)return;const w=RO.fin?(RO.a>RO.b?0:1):-1,I=$('intro'),lab=RO.fin?'Rolled':RO.spin?'Rolling…':'Roll',wt=RO.fin?'Rolled':RO.spin?'Rolling…':'Waiting for you';
   let box=I.querySelector('.ro3.rl');
   if(!box){const blk=(pl,mine)=>`<div class="rob ${mine?'me':'en'}">${prt(pl)}<b>${mine?'You':pl.name}</b><div class="rdw"></div>${mine?'<button class="bt" onclick="doRoll()"></button>':'<div class="rw"></div>'}</div>`;
@@ -4334,7 +4334,7 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
  const box=(title,body)=>{const M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();p=document.createElement('div');p.className='mpop';p.innerHTML='<div class="uc pp3 mm3"><img class="em3" alt="" src="'+DICE+'"><b class="rb3">'+title+'</b>'+body+'</div>';M.appendChild(p);return p};
  const close=()=>{clr();const p=document.querySelector('#menu .mpop');if(p)p.remove()};
  const later=(ms,f)=>{const r=run;T.push(setTimeout(()=>{if(r===run)f()},ms))};
- const vs=(foe,rk)=>'<div class="vs3"><div class="av"><img alt="" src="'+(POR()[SV.mine]||'')+'"></div><b>VS</b><div class="av en"><img alt="" src="'+(POR()[foe.h]||'')+'"></div></div><div class="nm3"><span>'+(SV.pname||'You')+'<small>'+rnk(SV.rp||0)+'</small></span><span style="text-align:right">'+foe.n+'<small>'+rk+'</small></span></div>';
+ const vs=(foe,rk)=>'<div class="vs3"><div class="av"><img alt="" src="'+((window.__myPic&&__myPic())||POR()[SV.mine]||'')+'"></div><b>VS</b><div class="av en"><img alt="" src="'+(POR()[foe.h]||'')+'"></div></div><div class="nm3"><span>'+(SV.pname||'You')+'<small>'+rnk(SV.rp||0)+'</small></span><span style="text-align:right">'+foe.n+'<small>'+rk+'</small></span></div>';
  const start=(m,foe,rk,title)=>{const p=box(title,vs(foe,rk)+'<div class="cd3">3</div><p>Match starting…</p>');let n=3;const tick=()=>{const c=p.querySelector('.cd3');if(c)c.textContent=n;try{snd(n?880:1320,.06,'sine',.08)}catch(e){}if(n===0){close();window.__foe=foe;go2(m);return}n--;later(1000,tick)};tick()};
  let go2=null;
  const _go=go;go2=function(m){window.__mmOK=1;try{return go(m)}finally{window.__mmOK=0}};
@@ -4869,7 +4869,7 @@ const close=()=>{clr();const p=document.querySelector('#menu .mpop');if(p)p.remo
 const av=h=>'<div class="vs3"><div class="av en"><img alt="" src="'+(POR()[okH(h)]||'')+'"></div></div>';
 const bar=()=>'<div class="ivb" style="height:8px;margin:8px 6px 2px;border-radius:5px;background:#2a1d12;overflow:hidden"><i style="display:block;height:100%;width:100%;background:linear-gradient(#ffe38e,#e9a52b);transition:width 1s linear"></i></div><div class="tm3 ivs">'+WAIT+'s</div>';
 const runBar=(p,t0,onEnd)=>{const tk=()=>{const left=Math.max(0,WAIT-Math.floor((Date.now()-t0)/1000)),i=p.querySelector('.ivb i'),s=p.querySelector('.ivs');if(i)i.style.width=(100*left/WAIT)+'%';if(s)s.textContent=left+'s';if(left<=0){onEnd();return}later(250,tk)};tk()};
-const vs=(foe,rk)=>'<div class="vs3"><div class="av"><img alt="" src="'+(POR()[SV.mine]||'')+'"></div><b>VS</b><div class="av en"><img alt="" src="'+(POR()[okH(foe.h)]||'')+'"></div></div><div class="nm3"><span>'+esc(SV.pname||'You')+'<small>'+esc(rnk())+'</small></span><span style="text-align:right">'+esc(foe.n)+'<small>'+esc(foe.rk||'')+'</small></span></div>';
+const vs=(foe,rk)=>'<div class="vs3"><div class="av"><img alt="" src="'+((window.__myPic&&__myPic())||POR()[SV.mine]||'')+'"></div><b>VS</b><div class="av en"><img alt="" src="'+(POR()[okH(foe.h)]||'')+'"></div></div><div class="nm3"><span>'+esc(SV.pname||'You')+'<small>'+esc(rnk())+'</small></span><span style="text-align:right">'+esc(foe.n)+'<small>'+esc(foe.rk||'')+'</small></span></div>';
 /* the countdown + match start, exactly like the old "Request accepted!" */
 const start=(foe,title,lv)=>{const p=box(title,vs(foe,foe.rk)+'<div class="cd3">3</div><p>Match starting…</p>');let n=3;
  const tick=()=>{const c=p.querySelector('.cd3');if(c)c.textContent=n;try{snd(n?880:1320,.06,'sine',.08)}catch(e){}
@@ -5590,6 +5590,10 @@ window.__skinOwned=owned;window.__skinOf=eqOf;
 /* profile pictures: skin logos join the picture list once owned */
 const addPor=()=>{const S=window.__SKI,P=window.__POR;if(!S||!P)return setTimeout(addPor,800);'kvsfih'.split('').forEach(h=>[1,2].forEach(n=>{if(S['l'+n+h])P[h+n]=S['l'+n+h]}))};addPor();
 window.__pfOK=k=>{if(!/^[kvsfih][12]$/.test(k))return true;return owned(k[0],+k[1])};
+/* the picture the player chose (falls back to the hero's), for VS / roll-off screens; P[0].pav travels to online opponents */
+const myPav=()=>{try{const k=SV.pav,P0=window.__POR||{};return k&&P0[k]&&window.__pfOK(k)?k:null}catch(e){return null}};
+window.__myPic=()=>{const P0=window.__POR||{};return P0[myPav()||SV.mine]||''};
+window.__plPic=p=>{try{if(!p)return '';if(typeof P!=='undefined'&&P&&p===P[0])return window.__myPic();const k=p.pav,P0=window.__POR||{};return k&&/^[kvsfih][12]?$/.test(k)&&P0[k]?P0[k]:''}catch(e){return ''}};
 /* skin models, loaded on demand */
 const LD={},WT={};
 const loadSkin=(key,cb)=>{if(LD[key]===1){cb&&cb(1);return}(WT[key]=WT[key]||[]).push(cb);if(LD[key]===0)return;LD[key]=0;
@@ -5600,7 +5604,7 @@ const loadSkin=(key,cb)=>{if(LD[key]===1){cb&&cb(1);return}(WT[key]=WT[key]||[])
 window.__loadSkin=loadSkin;
 window.__skinKey=h=>{try{const k=window.__skinFor,p=typeof P!=='undefined'&&P&&P[k],n=p&&p.skn;return n&&LD[h+n]===1?h+n:null}catch(e){return null}};
 const wrap=()=>{const o=window.setModel;if(typeof o!=='function'||o.__sk)return;const f=function(k,h){
-  try{if(typeof P!=='undefined'&&P&&P[k]){if(k===0)P[0].skn=eqOf(h);const n=P[k].skn;if(n&&LD[h+n]!==1)loadSkin(h+n,ok=>{try{if(ok&&P&&P[k]&&P[k].h===h)window.setModel(k,h)}catch(e){}})}}catch(e){}
+  try{if(typeof P!=='undefined'&&P&&P[k]){if(k===0){P[0].skn=eqOf(h);P[0].pav=myPav()||h}const n=P[k].skn;if(n&&LD[h+n]!==1)loadSkin(h+n,ok=>{try{if(ok&&P&&P[k]&&P[k].h===h)window.setModel(k,h)}catch(e){}})}}catch(e){}
   window.__skinFor=k;try{return o.apply(this,arguments)}finally{window.__skinFor=null}};f.__sk=1;window.setModel=f};
 setInterval(wrap,700);wrap();
 setTimeout(function pre(){try{if(!window.__addGM)return setTimeout(pre,2000);const h=SV.mine,n=eqOf(h);if(n)loadSkin(h+n)}catch(e){}},4000);

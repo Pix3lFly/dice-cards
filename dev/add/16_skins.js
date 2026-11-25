@@ -15,6 +15,10 @@ window.__skinOwned=owned;window.__skinOf=eqOf;
 /* profile pictures: skin logos join the picture list once owned */
 const addPor=()=>{const S=window.__SKI,P=window.__POR;if(!S||!P)return setTimeout(addPor,800);'kvsfih'.split('').forEach(h=>[1,2].forEach(n=>{if(S['l'+n+h])P[h+n]=S['l'+n+h]}))};addPor();
 window.__pfOK=k=>{if(!/^[kvsfih][12]$/.test(k))return true;return owned(k[0],+k[1])};
+/* the picture the player chose (falls back to the hero's), for VS / roll-off screens; P[0].pav travels to online opponents */
+const myPav=()=>{try{const k=SV.pav,P0=window.__POR||{};return k&&P0[k]&&window.__pfOK(k)?k:null}catch(e){return null}};
+window.__myPic=()=>{const P0=window.__POR||{};return P0[myPav()||SV.mine]||''};
+window.__plPic=p=>{try{if(!p)return '';if(typeof P!=='undefined'&&P&&p===P[0])return window.__myPic();const k=p.pav,P0=window.__POR||{};return k&&/^[kvsfih][12]?$/.test(k)&&P0[k]?P0[k]:''}catch(e){return ''}};
 /* skin models, loaded on demand */
 const LD={},WT={};
 const loadSkin=(key,cb)=>{if(LD[key]===1){cb&&cb(1);return}(WT[key]=WT[key]||[]).push(cb);if(LD[key]===0)return;LD[key]=0;
@@ -25,7 +29,7 @@ const loadSkin=(key,cb)=>{if(LD[key]===1){cb&&cb(1);return}(WT[key]=WT[key]||[])
 window.__loadSkin=loadSkin;
 window.__skinKey=h=>{try{const k=window.__skinFor,p=typeof P!=='undefined'&&P&&P[k],n=p&&p.skn;return n&&LD[h+n]===1?h+n:null}catch(e){return null}};
 const wrap=()=>{const o=window.setModel;if(typeof o!=='function'||o.__sk)return;const f=function(k,h){
-  try{if(typeof P!=='undefined'&&P&&P[k]){if(k===0)P[0].skn=eqOf(h);const n=P[k].skn;if(n&&LD[h+n]!==1)loadSkin(h+n,ok=>{try{if(ok&&P&&P[k]&&P[k].h===h)window.setModel(k,h)}catch(e){}})}}catch(e){}
+  try{if(typeof P!=='undefined'&&P&&P[k]){if(k===0){P[0].skn=eqOf(h);P[0].pav=myPav()||h}const n=P[k].skn;if(n&&LD[h+n]!==1)loadSkin(h+n,ok=>{try{if(ok&&P&&P[k]&&P[k].h===h)window.setModel(k,h)}catch(e){}})}}catch(e){}
   window.__skinFor=k;try{return o.apply(this,arguments)}finally{window.__skinFor=null}};f.__sk=1;window.setModel=f};
 setInterval(wrap,700);wrap();
 setTimeout(function pre(){try{if(!window.__addGM)return setTimeout(pre,2000);const h=SV.mine,n=eqOf(h);if(n)loadSkin(h+n)}catch(e){}},4000);
