@@ -6308,7 +6308,7 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
    (st.hero?'<button class="b4cu" onclick="__skinPop()"><img alt="Customize" src="'+A.u_cus+'"></button>':'<img class="b4wt" alt="Choose a hero first" src="'+A.u_w1+'">')+
   '</div></div></div>'+
   '<div class="b4p bs'+(st.hero?'':' b4lk')+'">'+title(2,'Choose Your Base',st.hero&&!st.base)+
-  '<div class="b4r">'+bk.map(k=>{const c=BIC[k]||['🏠','#888','#333'];return '<button class="b4c b'+(st.base&&k===b?' on':'')+'" onclick="m3b(\''+k+'\')"><span class="b4cc" style="background:radial-gradient(circle at 40% 32%,'+c[1]+','+c[2]+' 75%)"><i>'+c[0]+'</i></span><em>'+esc(BASES[k].n)+'</em></button>'}).join('')+'</div>'+
+  '<div class="b4r">'+bk.map(k=>{const c=BIC[k]||['🏠','#888','#333'];return '<button class="b4c b'+(st.base&&k===b?' on':'')+'" onclick="m3b(\''+k+'\')"><span class="b4cc'+((window.__BEM||{})[k]?' bl':'')+'" style="background:radial-gradient(circle at 40% 32%,'+c[1]+','+c[2]+' 75%)">'+((window.__BEM||{})[k]?'<img alt="" src="'+__BEM[k]+'">':'<i>'+c[0]+'</i>')+'</span><em>'+esc(BASES[k].n)+'</em></button>'}).join('')+'</div>'+
   '<div class="b4s"><div class="b4st bst">'+(st.base?'<img class="b4base" alt="" src="'+(A[b]||'')+'">':'<img class="b4emp b" alt="" src="'+A.eb+'">')+
    '<button class="b4a l" onclick="__b4b(-1)">'+CHV(-1)+'</button><button class="b4a r" onclick="__b4b(1)">'+CHV(1)+'</button></div>'+
    '<div class="b4i"><div class="b4bi">'+(st.base?'<div class="b4bn"><i>'+(BIC[b]||['🏠'])[0]+'</i><b>'+esc(BASES[b].n)+' Base</b><em>Lv '+L+'/5</em></div><div class="b4bl"><span><i>💚</i>'+esc(ds[0]||'')+'</span><span><i>💚</i>'+esc(ds[1]||'')+'</span></div>'
