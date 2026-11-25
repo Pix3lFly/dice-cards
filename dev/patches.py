@@ -106,6 +106,7 @@ P = [
   ('base tex smooth s', 'vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5', 'vec3 c=texture2D(mp,vU,tb).rgb*tn;if(sm>.5'),
   ('tile side soft', 'float l=dot(c,vec3(.299,.587,.114));float d=dot(normalize(vN)', 'if(sm>.5&&vN.y<=.45)c=mix(c,vec3(.92,.64,.42),.3);float l=dot(c,vec3(.299,.587,.114));float d=dot(normalize(vN)'),
   ('tile outline thin', 'o.cBlk=top;outline(top);', 'o.cBlk=top;outline(top);try{const ol=top.children.find(c=>c.userData.__olc);if(ol){if(!window.__OUTT){window.__OUTT=mkOut(V);window.__OUTT.uniforms.uW.value=window.__tileOW||.0025;window.__OUTT.uniforms.uC.value.set(0x4a2c18)}ol.material=window.__OUTT}}catch(e){}'),
+  ('cage smaller', 'cg.scale.setScalar(1.3);S.add(cg)', 'cg.scale.setScalar(1.3*(window.__cageS||.75));S.add(cg)'),
 ]
 import os
 def tile_model(s):
