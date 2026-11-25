@@ -109,6 +109,8 @@ const css=document.createElement('style');css.textContent=`
 .b4 .b4k span{font:600 10px/1.15 system-ui,sans-serif;color:#d6d4e4}
 .b4 .b4cu{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 3px 3px #0009)}
 .b4 .b4cu img{display:block;width:100%;height:auto}
+.b4cu{animation:b4cuG 2.2s ease-in-out infinite}
+@keyframes b4cuG{0%,100%{filter:drop-shadow(0 3px 3px #0009) drop-shadow(0 0 2px #ffd36a00)}50%{filter:drop-shadow(0 3px 3px #0009) drop-shadow(0 0 7px #ffd36a) drop-shadow(0 0 3px #fff1b0)}}
 .b4 .b4cu:active{transform:translateY(2px)}
 .b4 .b4wt{display:block;width:100%;height:auto;filter:drop-shadow(0 2px 2px #0008)}
 .b4 .b4bi{border:2px solid #e8b84e;border-radius:12px;background:linear-gradient(#1c1d2c,#101119);padding:7px 8px;display:flex;flex-direction:column;gap:5px;box-shadow:inset 0 0 8px #000a}
