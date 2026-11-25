@@ -48,6 +48,8 @@ P = [
  ('tutorial buttons', "'<small>Tap anywhere to continue</small></div>';try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}",
   "'<div class=\"tnv\"><button class=\"bt tbk\" '+(k?'':'disabled')+'>◀ Back</button><button class=\"bt tnx\">'+(k===STEPS.length-1?'Done ✓':'Next ▶')+'</button></div></div>';bx.querySelector('.tbk').onclick=e=>{e.stopPropagation();if(k>0){k--;show();try{snd(500,.05,'triangle')}catch(x){}}};bx.querySelector('.tnx').onclick=e=>{e.stopPropagation();k++;show();try{snd(600,.05,'triangle')}catch(x){}};try{window.__tutP&&window.__tutP(s.x,r,bx,ar)}catch(e){}}"),
  ('tutorial no tap', "T3.addEventListener('click',()=>{if(k>=STEPS.length)return;k++;show();try{snd(600,.05,'triangle')}catch(e){}});", ""),
+ # online guilds: guild perks follow the guild's level (from all members' points) when online
+ ('glv online', "glv=()=>Math.min(10,1+Math.floor((SV.gp||0)/100));", "glv=()=>(window.__glv&&window.__glv())||Math.min(10,1+Math.floor((SV.gp||0)/100));"),
 ]
 def apply(s):
     for t in P:

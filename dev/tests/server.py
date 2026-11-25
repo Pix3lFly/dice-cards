@@ -17,6 +17,18 @@ class H(http.server.SimpleHTTPRequestHandler):
                     db=STORE.setdefault('db',{})
                     for o in d['ops']:
                         if o.get('del'):db.pop(o['p'],None)
+                        elif o.get('u'):
+                            cur=json.loads(json.dumps(db.get(o['p'],{})))
+                            for k,v in o['v'].items():
+                                ps=k.split('.');t=cur
+                                for q in ps[:-1]:
+                                    if not isinstance(t.get(q),dict):t[q]={}
+                                    t=t[q]
+                                if v=='__del__':t.pop(ps[-1],None)
+                                elif v=='__ts__':
+                                    import time;t[ps[-1]]=int(time.time()*1000)
+                                else:t[ps[-1]]=v
+                            db[o['p']]=cur
                         else:
                             if o.get('m'):cur=dict(db.get(o['p'],{}));cur.update(o['v']);db[o['p']]=cur
                             else:db[o['p']]=o['v']

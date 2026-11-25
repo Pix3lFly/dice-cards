@@ -9,7 +9,7 @@ const LG=[['none',''],['hue-rotate(120deg)',''],['hue-rotate(250deg) saturate(1.
  ['hue-rotate(220deg)','⚡'],['hue-rotate(340deg)','🌹'],['hue-rotate(140deg) saturate(.8)','🍀'],['hue-rotate(300deg)','🦅']];
 const logo=(i,cls)=>{const L=LG[((i%LG.length)+LG.length)%LG.length];return '<span class="gbn glg '+(cls||'')+'"><img alt="" src="'+U.m_guild+'" style="filter:'+L[0]+'">'+(L[1]?'<i>'+L[1]+'</i>':'')+'</span>'};
 window.__glgH=function(name,i,cls){let k=i%3;try{if(SV.myGuild&&SV.myGuild.n===name&&SV.myGuild.lg!=null)k=SV.myGuild.lg}catch(e){}return logo(k,cls)};
-window.__glgSel=0;
+window.__glgL=logo;window.__glgSel=0;
 window.__glgPick=function(cur){window.__glgSel=cur||0;return '<div class="glp"><button type="button" class="gla" onclick="__glgStep(-1)">◀</button><span id="glgv">'+logo(window.__glgSel,'pk')+'</span><button type="button" class="gla" onclick="__glgStep(1)">▶</button></div><div class="glc" id="glgc">Logo '+(window.__glgSel+1)+' / '+LG.length+'</div>'};
 window.__glgStep=function(d){window.__glgSel=(window.__glgSel+d+LG.length)%LG.length;const v=document.getElementById('glgv'),c=document.getElementById('glgc');if(v)v.innerHTML=logo(window.__glgSel,'pk');if(c)c.textContent='Logo '+(window.__glgSel+1)+' / '+LG.length;try{snd(600,.04,'triangle')}catch(e){}};
 
