@@ -53,7 +53,7 @@ P = [
  # hero pictures in menus (Collection etc.) = the same 2D art as the Battle page
  ('heroShot 2D', "function heroShot(h){if(SNAP[h])return SNAP[h];", "function heroShot(h){try{const S=window.__SKI||{},k=(SV.skin&&SV.skin[h])||0,a=S['b'+k+h]||S['b0'+h];if(a)return a}catch(e){}if(SNAP[h])return SNAP[h];"),
  # new 3D bases: the hero's base spot is the corner tile itself (the base's round platform sits there)
- ('base spot on corner', "const d=(i?.38:-.38)*1.14;w.x+=d;w.z+=d", "const d=(i?.38:-.38)*1.14*(window.__WBk!=null?window.__WBk:0);w.x+=d;w.z+=d"),
+ ('base spot on corner', "const d=(i?.38:-.38)*1.14;w.x+=d;w.z+=d", "const d=(i?.38:-.38)*1.14*(window.__WBk!=null?window.__WBk:-.35);w.x+=d;w.z+=d"),
  # enemy base (tile 12): 20% larger like yours, and a little further into the corner
  ('enemy base size', "if(i===0){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS}",
   "if(i===0||i===12){const BS=1.2;m.updateMatrix();const pp=new V.Vector3(Mt.px,Mt.plat,Mt.pz).applyMatrix4(m.matrix);m.scale.multiplyScalar(BS);m.position.sub(pp).multiplyScalar(BS).add(pp);m.userData.__bs=BS;if(i===12){const k=window.__EBin!=null?window.__EBin:.05;m.position.x-=k;m.position.z-=k}}"),
@@ -99,7 +99,7 @@ P = [
   ('turn arrow height', 'a.position.set(h.position.x,h.position.y+3.0+Math.sin(t*4)*.08,h.position.z)', 'a.position.set(h.position.x,h.position.y+((P[k]&&P[k].skn)?3.05:2.8)+Math.sin(t*4)*.1,h.position.z)'),
   ('turn arrow colours', 'const A=[mkA(0x4fb3ff),mkA(0xff5a4f)]', 'const A=[mkA(0x2f8cff),mkA(0xff3b30)]'),
   ('new item art', 'const tex=(V,k)=>{if(T[k])return T[k];const t=new V.TextureLoader().load(D[k]);', "const tex=(V,k)=>{if(T[k])return T[k];const t=new V.TextureLoader().load((window.__NSP&&window.__NSP[k.replace(/^shop[TRBL]$/,'shop')])||D[k]);"),
-  ('new item size', 'h=H[kk]||.7', 'h=(H[kk]||.7)*(window.__NSP&&window.__NSP[kk]?(window.__nspK||1.4):1)*(window.__TOY!==0?1.08:1)'),
+  ('new item size', 'h=H[kk]||.7', 'h=(H[kk]||.7)*(window.__NSP&&window.__NSP[kk]?(window.__nspK||1.2):1)*(window.__TOY!==0?1.08:1)'),
   ('new item centre', 'M[k]=new V.SpriteMaterial({map:tex(V,k),transparent:true,alphaTest:.15,depthWrite:true}));s=new V.Sprite(m);s.center.set(.5,.02)', 'M[k]=new V.SpriteMaterial({map:tex(V,k),transparent:true,alphaTest:.15,depthWrite:true}));s=new V.Sprite(m);s.center.set(.5,window.__NSP&&window.__NSP[k]?(window.__nspC||.12):(window.__sprC||.1))'),
   ('base tex smooth u', 'uniforms:{mp:{value:map},tn:{value:new V.Color(tn)},ry:{value:ry},ck:{value:1},cq:{value:6},sm:{value:0}}', 'uniforms:{mp:{value:map},tn:{value:new V.Color(tn)},ry:{value:ry},ck:{value:1},cq:{value:6},sm:{value:0},tb:{value:0}}'),
   ('base tex smooth d', 'uniform float sm;varying', 'uniform float sm;uniform float tb;varying'),
@@ -109,7 +109,7 @@ P = [
   ('cage smaller', 'cg.scale.setScalar(1.3);S.add(cg)', 'cg.scale.setScalar(1.3*(window.__cageS||.75));S.add(cg)'),
   ('toy u', 'sm:{value:0},tb:{value:0}}', 'sm:{value:0},tb:{value:0},ty:{value:0},yr:{value:new V.Vector2(-.3,.3)}}'),
   ('toy d', 'uniform float tb;varying', 'uniform float tb;uniform float ty;uniform vec2 yr;varying'),
-  ('toy s', "c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex", "if(ty>.5){if(gr)c=min(c*1.12+vec3(.02,.05,0.),vec3(1.));if(vN.y>.3&&vN.y<.93)s*=1.1;if(vN.y<=.3){float a=clamp((vY-yr.x)/(yr.y-yr.x),0.,1.);s*=mix(.68,1.03,a*a*(3.-2.*a));}}c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex"),
+  ('toy s', "c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex", "if(ty>.5){if(gr)c*=vec3(.88,.8,.86);if(vN.y>.3&&vN.y<.93)s*=1.1;if(vN.y<=.3){float a=clamp((vY-yr.x)/(yr.y-yr.x),0.,1.);s*=mix(.68,1.03,a*a*(3.-2.*a));}}c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex"),
   ('toy island merge', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}if(D&&window.__TOYM){Object.assign(D,window.__TOYM);window.__TOYI=1;window.__TOYM=null}'),
   ('toy island place', "if(GM.cisland){const m=mk('cisland',5.51);if(m){m.rotation.y=-Math.PI/2;const k=5.51/.9541;m.position.y+=.13-.4618*k;", "if(GM.cisland){const m=mk('cisland',5.51);if(m){const TI=window.__TOYI;m.rotation.y=TI?-.04:-Math.PI/2;const k=5.51/(TI?.951:.9541);m.position.y+=.13-(TI?.377:.4618)*k;"),
 ]
