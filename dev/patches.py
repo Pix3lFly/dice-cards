@@ -74,6 +74,11 @@ P = [
  # Blizzard freezes too
  ('blizzard 0', "log('📖 Blizzard: foe slowed and stunned');o.slow=3;o.skip=1", "log('📖 Blizzard: foe slowed and frozen');o.slow=3;o.skip=1;o.frz=1"),
  ('blizzard 1', "nm='Blizzard';o.slow=3;o.skip=1;cast('blizzard',i,1-i,[['Slowed','#9fe3ff'],['Stunned','#ffd166']])", "nm='Blizzard';o.slow=3;o.skip=1;o.frz=1;cast('blizzard',i,1-i,[['Slowed','#9fe3ff'],['Frozen','#9fe3ff']])"),
+ # board tiles: smoother cartoon look (no colour banding, soft-shaded cliffs instead of facets). Revert: window.__TSM=0 or drop these 4
+ ('tile smooth u', 'uniforms:{mp:{value:map},tn:{value:new V.Color(tn)},ry:{value:ry},ck:{value:1},cq:{value:6}},side:V.DoubleSide,', 'uniforms:{mp:{value:map},tn:{value:new V.Color(tn)},ry:{value:ry},ck:{value:1},cq:{value:6},sm:{value:0}},side:V.DoubleSide,'),
+ ('tile smooth u2', "fragmentShader:'uniform sampler2D mp;uniform vec3 tn;uniform float ry;uniform float ck;uniform float cq;", "fragmentShader:'uniform sampler2D mp;uniform vec3 tn;uniform float ry;uniform float ck;uniform float cq;uniform float sm;"),
+ ('tile smooth rock', 'if(rock){vec3 fn=normalize(cross(dFdx(vW),dFdy(vW)));float h=fract(sin(dot(floor(fn*3.),vec3(12.9,78.2,37.7)))*43758.5);float fd=dot(fn,normalize(vec3(.55,.35,.75)));float fs=fd>.45?1.08:fd>.0?.86:.64;vec3 rc=mix(vec3(.88,.55,.3),vec3(.8,.47,.24),h);', 'if(rock){vec3 fn=sm>.5?normalize(vN):normalize(cross(dFdx(vW),dFdy(vW)));float h=sm>.5?clamp(.45-vY*.9,0.,1.):fract(sin(dot(floor(fn*3.),vec3(12.9,78.2,37.7)))*43758.5);float fd=dot(fn,normalize(vec3(.55,.35,.75)));float fs=sm>.5?(fd>.3?1.1:fd>-.15?.92:.74):(fd>.45?1.08:fd>.0?.86:.64);vec3 rc=sm>.5?mix(vec3(.96,.64,.36),vec3(.74,.41,.21),h):mix(vec3(.88,.55,.3),vec3(.8,.47,.24),h);'),
+ ('tile smooth on', 'tgM=mkTex(T.map,0xffffff,.06);tgMe=mkTex(T.map,0xcdb68a,.06);tgM.userData.__ct=tgMe.userData.__ct=1}', 'tgM=mkTex(T.map,0xffffff,.06);tgMe=mkTex(T.map,0xcdb68a,.06);tgM.userData.__ct=tgMe.userData.__ct=1;if(window.__TSM!==0)[tgM,tgMe].forEach(m=>{m.uniforms.sm.value=1;m.uniforms.cq.value=28;m.uniforms.ck.value=.75})}'),
 ]
 def apply(s):
     for t in P:
