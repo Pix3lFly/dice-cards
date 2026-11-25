@@ -5595,6 +5595,9 @@ const eqOf=h=>{try{const n=(SV.skin&&SV.skin[h])||0;return owned(h,n)?n:0}catch(
 window.__skinOwned=owned;window.__skinOf=eqOf;
 /* profile pictures: skin logos join the picture list once owned */
 const addPor=()=>{const S=window.__SKI,P=window.__POR;if(!S||!P)return setTimeout(addPor,800);'kvsfih'.split('').forEach(h=>[1,2].forEach(n=>{if(S['l'+n+h])P[h+n]=S['l'+n+h]}))};addPor();
+/* skin picture keys ('v1', 'k2'…) can arrive as a player's hero field (friends, guilds, mail): let HD['v1'] read as HD.v
+   (not enumerable, so hero lists and Object.keys(HD) don't change) — old code like HD[f.h].n no longer crashes */
+'kvsfih'.split('').forEach(h=>[1,2].forEach(n=>{try{if(HD[h]&&!Object.prototype.hasOwnProperty.call(HD,h+n))Object.defineProperty(HD,h+n,{get:()=>HD[h],enumerable:false,configurable:true})}catch(e){}}));
 window.__pfOK=k=>{if(!/^[kvsfih][12]$/.test(k))return true;return owned(k[0],+k[1])};
 /* the picture the player chose (falls back to the hero's), for VS / roll-off screens; P[0].pav travels to online opponents */
 const myPav=()=>{try{const k=SV.pav,P0=window.__POR||{};return k&&P0[k]&&window.__pfOK(k)?k:null}catch(e){return null}};
