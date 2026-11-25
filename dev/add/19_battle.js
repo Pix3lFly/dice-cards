@@ -17,6 +17,13 @@ const CHV=d=>'<svg viewBox="0 0 20 30" aria-hidden="true"><path d="'+(d<0?'M14 4
 const SHLD=e=>'<span class="b4sh"><svg viewBox="0 0 40 46" aria-hidden="true"><defs><linearGradient id="b4sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5cf0"/><stop offset="1" stop-color="#3a1a8a"/></linearGradient></defs><path d="M20 2 L37 8 L35 28 Q31 39 20 44 Q9 39 5 28 L3 8 Z" fill="url(#b4sg)" stroke="#ffcf5a" stroke-width="3" stroke-linejoin="round"/></svg><i>'+e+'</i></span>';
 const HANG='<svg viewBox="0 0 34 24" aria-hidden="true"><path d="M17 8 V6 A3.2 3.2 0 1 1 20.2 9.2 M17 8 L3 19 Q1.5 21 4 21 H30 Q32.5 21 31 19 Z" fill="none" stroke="#3a2006" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const SW='<svg viewBox="0 0 64 64" aria-hidden="true"><g stroke="#2a1406" stroke-width="3" stroke-linejoin="round"><path d="M10 6 L40 36 L36 40 L6 10 Z" fill="#e8eef8"/><path d="M54 6 L24 36 L28 40 L58 10 Z" fill="#e8eef8"/><path d="M33 38 L44 49 M31 33 L41 43" /><rect x="36" y="42" width="14" height="6" rx="2" transform="rotate(45 43 45)" fill="#ffc94a"/><rect x="14" y="42" width="14" height="6" rx="2" transform="rotate(-45 21 45)" fill="#ffc94a"/><circle cx="51" cy="53" r="5" fill="#ffc94a"/><circle cx="13" cy="53" r="5" fill="#ffc94a"/></g></svg>';
+/* stand the hero on the platform: measure the empty space under his feet in the picture */
+const FIT={};window.__b4fit=function(im){try{const k=im.src.length+':'+im.src.slice(-40);let f=FIT[k];
+ if(f==null){const c=document.createElement('canvas'),w=c.width=Math.min(im.naturalWidth,256),hh=c.height=Math.round(im.naturalHeight*w/im.naturalWidth),x=c.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0,w,hh);
+  const d=x.getImageData(0,0,w,hh).data;let y=hh-1;for(;y>0;y--){let hit=0;for(let i=0;i<w;i++)if(d[(y*w+i)*4+3]>60){hit=1;break}if(hit)break}f=FIT[k]=(hh-1-y)/hh}
+ const ped=im.parentNode.querySelector('.b4ped'),ph=ped&&ped.offsetHeight||24,r=im.getBoundingClientRect(),
+  sc=Math.min(r.width/im.naturalWidth,r.height/im.naturalHeight),drawn=im.naturalHeight*sc,top=(r.height-drawn)/2;
+ im.style.bottom=(2+ph*.5-f*drawn-top)+'px'}catch(e){}};
 function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!mb.classList.contains('m3'))return off();
  const M=document.getElementById('menu');M.classList.add('bt4');mb.classList.add('b4on');
  const st=state(mb),h=SV.mine,b=SV.base,hk=HK(),bk=BK(),d=HD[h]||{},L=st.base?BL(b):1;
@@ -28,7 +35,7 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
   '<div class="b4p">'+title(1,'Choose Your Hero',!st.hero)+
   '<div class="b4r">'+hk.map(k=>'<button class="b4c'+(st.hero&&k===h?' on':'')+'" onclick="m3h(\''+k+'\')"><span class="b4cc"><img alt="" src="'+heroLogo(k)+'"></span><em>'+esc(HD[k].n)+'</em></button>').join('')+'</div>'+
   '<div class="b4s"><div class="b4st">'+
-   (st.hero?'<img class="b4ped" alt="" src="'+A.ped+'"><img class="b4hero" alt="" src="'+heroImg(h)+'" onclick="m3pop(\'h\')">':'<img class="b4emp" alt="" src="'+A.eh+'">')+
+   (st.hero?'<img class="b4ped" alt="" src="'+A.ped+'"><img class="b4hero" alt="" src="'+heroImg(h)+'" onload="__b4fit(this)" onclick="m3pop(\'h\')">':'<img class="b4emp" alt="" src="'+A.eh+'">')+
    '<button class="b4a l" onclick="__b4h(-1)">'+CHV(-1)+'</button><button class="b4a r" onclick="__b4h(1)">'+CHV(1)+'</button></div>'+
    '<div class="b4i">'+(st.hero?'<div class="b4n">'+SHLD(d.e||'⚜')+'<b>'+esc(d.nm||d.n)+'</b><em>⚔ '+esc(d.n)+'</em></div>':'<div class="b4n emp">'+SHLD('?')+'<b>Select a Hero</b></div>')+
    '<div class="b4k'+(st.hero?'':' dim')+'">'+(st.hero&&sk.length?sk:[{i:'⚔️',n:'Skill',d:'—'},{i:'🛡️',n:'Skill',d:'—'},{i:'✨',n:'Skill',d:'—'}]).map(x=>'<div><i>'+x.i+'</i><b>'+esc(x.n)+'</b><span>'+esc(x.d)+'</span></div>').join('')+'</div>'+
