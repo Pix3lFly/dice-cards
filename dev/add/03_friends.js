@@ -19,7 +19,7 @@ const isOnline=p=>p&&Date.now()-ms(p.seen)<3*60e3;
 const rankName=()=>{try{let r=0;RK.forEach((x,i)=>{if((SV.rp||0)>=x[1])r=i});return RK[r][0]}catch(e){return 'Bronze'}};
 const RKN=()=>{try{return RK.map(x=>x[0])}catch(e){return ['Bronze']}};
 const okH=h=>{try{return HD[h]?h:'k'}catch(e){return 'k'}};
-const stats=()=>{const w=SV.wins||0,pl=SV.played||0;return {h:okH(SV.pav||SV.mine),rk:rankName(),rp:SV.rp||0,w:w,l:Math.max(0,pl-w),lv:1+Math.floor(pl/3),g:String(SV.guild||'No guild').slice(0,24)}};
+const stats=()=>{const w=SV.wins||0,pl=SV.played||0;return {h:okH(SV.pav||SV.mine),rk:rankName(),rp:SV.rp||0,w:w,l:Math.max(0,pl-w),lv:1+Math.floor(pl/3),g:String(SV.guild||'No guild').slice(0,24),gd:Math.floor(SV.gold||0),gm:Math.floor(SV.gems||0),pt:Math.floor(SV.pt||0),up:(window.__upN?window.__upN():0)}};
 const toast=t=>{try{const n=document.createElement('div');n.className='m3note';n.textContent=t;document.body.appendChild(n);setTimeout(()=>n.remove(),2000)}catch(e){}};
 const refresh=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='undefined'&&CMT==='fr'&&!document.querySelector('#menu .mpop')&&document.getElementById('menu').style.display!=='none')menu()}catch(e){}};
 

@@ -4,7 +4,7 @@ const S=k=>{const v=SX()[k+(k==='cur'?location.host:'')];return v===undefined?nu
 const users=()=>S('users')||{};let cbs=[],cur=S('cur');const fire=()=>cbs.forEach(f=>f(cur));const err=c=>Promise.reject({code:c});
 const TS='__ts__',DL='__del__';
 const A={useDeviceLanguage(){},getRedirectResult(){return Promise.resolve(null)},onAuthStateChanged(f){cbs.push(f);setTimeout(()=>f(cur),10)},
- createUserWithEmailAndPassword(e,p){const u=users();if(u[e])return err('auth/email-already-in-use');if(p.length<6)return err('auth/weak-password');u[e]={p,uid:'u_'+e.replace(/\W/g,'')};W('users',u);cur={uid:u[e].uid,email:e,displayName:null};W('cur',cur);fire();return Promise.resolve({user:cur})},
+ createUserWithEmailAndPassword(e,p){const u=users();if(u[e])return err('auth/email-already-in-use');if(p.length<6)return err('auth/weak-password');u[e]={p,uid:e==='owner1@x.com'?'OXfHFDesUtZ3tgB6vFJJzYyFTlH2':'u_'+e.replace(/\W/g,'')};W('users',u);cur={uid:u[e].uid,email:e,displayName:null};W('cur',cur);fire();return Promise.resolve({user:cur})},
  signInWithEmailAndPassword(e,p){const u=users();if(!u[e]||u[e].p!==p)return err('auth/invalid-credential');cur={uid:u[e].uid,email:e,displayName:null};W('cur',cur);fire();return Promise.resolve({user:cur})},
  signInWithPopup(){cur={uid:'g1',email:'pix@gmail.com',displayName:'Pix Fly'};W('cur',cur);fire();return Promise.resolve({user:cur})},
  sendPasswordResetEmail(){return Promise.resolve()},signOut(){cur=null;W('cur',null);fire();return Promise.resolve()}};
