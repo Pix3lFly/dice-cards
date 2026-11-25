@@ -809,7 +809,7 @@ window.__skc=(x,d)=>Math.max(15,Math.ceil(Math.max(0,(x.s?x.s+d[1]*6e4-Date.now(
 function bk(i){const p=P[i],o=P[1-i],L=SD?3:Math.random()<.3?2:1,x=r(4);
  if(L===1){if(x===1){p.hp=Math.min(p.max,p.hp+5);fl(i,'+5','#6fe39a');log('📖 '+p.name+' reads Heal: +5 HP')}else if(x===2){p.burn=p.slow=p.ent=p.curse=0;log('📖 '+p.name+' cleanses all debuffs')}else if(x===3){log('📖 '+p.name+' reads Siphon: steals 5 gold');{const s2=Math.min(5,o.gold);o.gold-=s2;p.gold+=s2}}else{p.gold+=10;log('📖 '+p.name+' reads Fortune: +10 gold')}}
  else if(L===2){if(x<3){o.skip=1;log('📖 '+p.name+' stuns '+o.name+'!')}else{log('📖 Book of Growth!');lvl(i)}}
- else{if(x<3){log('📖 Meteor! burns 2 cards');for(let j=0;j<2&&o.hand.length>1;j++)o.hand.splice(0,1)}else{log('📖 Blizzard: foe slowed and stunned');o.slow=3;o.skip=1}}}
+ else{if(x<3){log('📖 Meteor! burns 2 cards');for(let j=0;j<2&&o.hand.length>1;j++)o.hand.splice(0,1)}else{log('📖 Blizzard: foe slowed and frozen');o.slow=3;o.skip=1;o.frz=1}}}
 escape=function(i){const p=P[i],n=[1,3,5][Math.min(p.fails,2)],set=p.esc&&p.esc.length===n?p.esc:shuf([1,2,3,4,5,6]).slice(0,n),d=r(6);roll(d);
  if(set.includes(d)){p.jail=0;p.fails=0;p.esc=null;log(p.name+' rolls '+d+' (needed '+set.join('/')+') → escapes!')}
  else{p.fails++;p.esc=null;log(p.name+' rolls '+d+' (needed '+set.join('/')+') → still jailed')}end()};
@@ -922,7 +922,7 @@ bk=function(i){const p=P[i],o=P[1-i],L=(SD||window.__bk3)?3:Math.random()<.3?2:1
   else{nm='Book of Growth';cast('growth',i,i,[['Level up!','#ffd166']]);lvl(i)}}
  else{
   if(x===1){nm='Meteor';const n=Math.min(2,Math.max(0,o.hand.length-1));for(let j=0;j<n;j++)o.hand.splice(0,1);cast('meteor',i,1-i,[[n+(n===1?' card burned':' cards burned'),'#ff9a3c']])}
-  else if(x===2){nm='Blizzard';o.slow=3;o.skip=1;cast('blizzard',i,1-i,[['Slowed','#9fe3ff'],['Stunned','#ffd166']])}
+  else if(x===2){nm='Blizzard';o.slow=3;o.skip=1;o.frz=1;cast('blizzard',i,1-i,[['Slowed','#9fe3ff'],['Frozen','#9fe3ff']])}
   else if(x===3){nm='Tornado';const cb=p.base,df=(cb-o.pos+N)%N,db=(o.pos-cb+N)%N,dir=df<=db?1:-1,st=Math.min(3,dir>0?df:db);o.pos=(o.pos+dir*st+N)%N;try{const G3=window.__3;if(G3){G3.hop[1-i]=null;G3.vis[1-i]=o.pos;G3.burst(1-i,'#bde0ff',24)}}catch(e){}cast('bolt',i,1-i,[['Swept '+st+' tiles','#bde0ff']]);if(o.pos===cb&&!o.jail){o.jail=1;o.fails=0;log(o.name+' is thrown into jail!')}hurt(1-i,4,'tornado')}
   else{nm='Soul Drain';hurt(1-i,5,'soul drain');if(!over){p.hp=Math.min(p.max,p.hp+5);cast('heal',i,i,[['+5 HP','#6fe39a']])}}}
  toast(i,'📖 '+nm+'!','#c9b6ff');log(p.name+' casts '+nm+'!')};

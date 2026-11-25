@@ -71,6 +71,9 @@ P = [
  ('frozen 2', "if(p.skip){p.skip--;log(p.name+' is stunned!');end();return}", "if(p.skip){p.skip--;log(p.name+(p.frz?' is frozen!':' is stunned!'));p.frz=0;end();return}"),
  ('frozen 3', "if(t==='You are stunned!')window.__stunAt=Date.now();else if(cur===1&&/ is stunned!$/.test(String(t))){Q.push([0,'Enemy stunned!','#ffd23a',0,'tS']);pop()}", "if(t==='You are stunned!'||t==='You are frozen!'){window.__stunAt=Date.now();window.__stunF=t==='You are frozen!'}else if(cur===1&&/ is (stunned|frozen)!$/.test(String(t))){const fz=/frozen!$/.test(String(t));Q.push([0,fz?'Enemy frozen!':'Enemy stunned!',fz?'#9fe3ff':'#ffd23a',0,'tS']);pop()}"),
  ('frozen 4', "Q.push([0,'Stunned!','#ffd23a',0,'tS'])", "Q.push([0,window.__stunF?'Frozen!':'Stunned!',window.__stunF?'#9fe3ff':'#ffd23a',0,'tS'])"),
+ # Blizzard freezes too
+ ('blizzard 0', "log('📖 Blizzard: foe slowed and stunned');o.slow=3;o.skip=1", "log('📖 Blizzard: foe slowed and frozen');o.slow=3;o.skip=1;o.frz=1"),
+ ('blizzard 1', "nm='Blizzard';o.slow=3;o.skip=1;cast('blizzard',i,1-i,[['Slowed','#9fe3ff'],['Stunned','#ffd166']])", "nm='Blizzard';o.slow=3;o.skip=1;o.frz=1;cast('blizzard',i,1-i,[['Slowed','#9fe3ff'],['Frozen','#9fe3ff']])"),
 ]
 def apply(s):
     for t in P:
