@@ -2,18 +2,19 @@
    window with the 3 skins (Basic, Champion = 100 wins with this hero, Legendary = paid), current → arrow → chosen; Equip says "coming soon" */
 (function w(){if(typeof menu!=='function'||typeof SV==='undefined'||typeof HD==='undefined'){setTimeout(w,400);return}try{
 const POR=()=>window.__POR||{};
-const SK=[{id:0,n:'Basic',d:'The classic look.',f:'none'},{id:1,n:'Champion',d:'Win 100 games with this hero.',f:'hue-rotate(40deg) saturate(1.5) brightness(1.08)'},{id:2,n:'Legendary',d:'Premium skin · $19.99',f:'hue-rotate(250deg) saturate(1.6) brightness(1.1)'}];
+const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero.'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
+const img=(h,i,b)=>i?((window.__SKI||{})[(b?'b':'l')+i+h]||''):(POR()[h]||'');
 let sel=1;
 const wins=h=>{try{return (SV.st&&SV.st.hw&&SV.st.hw[h])||0}catch(e){return 0}};
 const owned=(h,i)=>i===0||(i===1&&wins(h)>=100);
-function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp"><img alt="" src="'+(POR()[h]||'')+'" style="filter:'+s.f+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
+function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp'+(s.id?' bd':'')+'"><img alt="" src="'+img(h,s.id,1)+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
 window.__skinPop=function(){const h=SV.mine,eq=0,M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();
  const s=SK[sel],ow=owned(h,sel),hw=wins(h);
  const st=sel===0?'<span class="sko">✓ Equipped</span>':sel===1?(ow?'<span class="sko">✓ Unlocked</span>':'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 wins</span></div>'):'<span class="skpr">$19.99</span>';
  p=document.createElement('div');p.className='mpop spop';p.innerHTML='<div class="uc skw"><b class="st">'+(HD[h].nm||HD[h].n)+' skins</b>'+
   '<div class="skcmp">'+card(h,SK[eq],1)+'<div class="skar">➜</div>'+card(h,s,1)+'</div>'+
   '<div class="skd">'+s.d+'</div>'+st+
-  '<div class="skl">'+SK.map(x=>'<button class="skt'+(x.id===sel?' on':'')+'" onclick="__skinSel('+x.id+')"><img alt="" src="'+(POR()[h]||'')+'" style="filter:'+x.f+'"><span>'+x.n+'</span>'+(owned(h,x.id)?'':'<i>🔒</i>')+'</button>').join('')+'</div>'+
+  '<div class="skl">'+SK.map(x=>'<button class="skt'+(x.id===sel?' on':'')+'" onclick="__skinSel('+x.id+')"><img alt="" class="'+(x.id?'lg':'')+'" src="'+img(h,x.id,0)+'"><span>'+x.n+'</span>'+(owned(h,x.id)?'':'<i>🔒</i>')+'</button>').join('')+'</div>'+
   '<div class="us2"><button class="opr rm" onclick="soClose()">Close</button><button class="opr" onclick="__skinEq()">'+(sel===2&&!ow?'Buy':'Equip')+'</button></div></div>';
  p.onclick=e=>{if(e.target===p)p.remove()};M.appendChild(p)};
 window.__skinSel=i=>{sel=i;try{snd(600,.04,'triangle')}catch(e){}__skinPop()};
@@ -30,7 +31,9 @@ const css=document.createElement('style');css.textContent=`
 #menu .skcmp{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 6px}
 #menu .skc{display:flex;flex-direction:column;align-items:center;gap:4px}
 #menu .skc .skp{position:relative;width:96px;height:96px;border-radius:18px;background:radial-gradient(circle at 50% 40%,#fff6d0,#e7b34a 60%,#8a5a1c);border:3px solid #f2c25a;box-shadow:0 0 0 2px #6b3f0a,0 6px 12px #0008;overflow:hidden}
+#menu .skc .skp{width:112px;height:132px}
 #menu .skc .skp img{width:100%;height:100%;object-fit:cover}
+#menu .skc .skp.bd img{object-fit:contain;padding:6px 4px 2px;box-sizing:border-box;filter:drop-shadow(0 3px 3px #0007)}
 #menu .skc .skq{position:absolute;right:4px;top:4px;font-style:normal;font-size:16px}
 #menu .skc b{font:400 15px 'Lilita One',system-ui,sans-serif;color:#ffe08a}
 #menu .skar{font:900 34px system-ui;color:#ffd23f;text-shadow:0 2px 0 #6b3f0a;animation:skA 1s ease-in-out infinite alternate}
@@ -45,6 +48,7 @@ const css=document.createElement('style');css.textContent=`
 #menu .skt{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;width:74px;padding:5px 0;border-radius:12px;border:2px solid #8a6326;background:#2a1a0bcc;cursor:pointer}
 #menu .skt.on{border-color:#ffd23f;box-shadow:0 0 0 2px #ffd23f55,0 0 10px #ffd23f88}
 #menu .skt img{width:44px;height:44px;border-radius:10px;object-fit:cover}
+#menu .skt img.lg{border-radius:50%}
 #menu .skt span{font:400 12px 'Lilita One',system-ui,sans-serif;color:#fff2d8}
 #menu .skt i{position:absolute;right:4px;top:3px;font-style:normal;font-size:12px}
 `;document.head.appendChild(css);
