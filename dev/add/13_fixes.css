@@ -5,3 +5,8 @@
 html body #hand:has(.c:nth-child(5)){max-width:none!important;width:100%!important;flex-wrap:nowrap!important;justify-content:center!important;gap:4px!important;margin:0 auto!important}
 html body #hand:has(.c:nth-child(5)) .c{flex:0 1 auto!important;width:min(70px,calc((100vw - 52px) / 6))!important;height:auto!important;aspect-ratio:70/96}
 html body #bot:has(#hand .c:nth-child(5)){padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important}
+/* Shop → Gold & Gems (Pix 25 Nov): names no longer squeezed under the price buttons, bigger chest / gem pictures */
+html body #mb .spn2:has(.gpk3) .ogr{grid-auto-rows:auto!important;align-content:start!important}
+html body #mb .spn2:has(.gpk3) .ocd{min-height:158px!important;justify-content:space-between!important}
+html body #mb .spn2:has(.gpk3) .omed,html body #mb .spn2:has(.gpk3) .omed.big{width:74px!important;height:74px!important}
+html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!important;min-height:19px;white-space:nowrap}

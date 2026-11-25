@@ -1495,7 +1495,7 @@ function shopUI3(){const T=[['sh',U.s_shard,'Shards'],['bp',U.s_bp,'Blueprints']
  else if(STAB==='bp'){if(!SV.boffers)mkBO();title='Base blueprints';hint='Blueprints<br>upgrade bases';cols=3;
   rf=`<button class="srf" ${SV.gems>=2?'':'disabled'} onclick="if(SV.gems>=2){SV.gems-=2;mkBO();sv();menu()}"><img alt="" src="${U.s_refresh}"><b><img alt="" src="${U.gem}">2</b></button>`;
   cards=SV.boffers.map((o,i)=>o?`<div class="ocd">${pc}<div class="otop"><div class="omed"><img alt="" src="${BEM[o.b]}"></div><div class="oqty"><img alt="" src="${U.s_bp}"><b>×${o.q}</b></div></div><div class="onm">${BASES[o.b].n}</div>${price(o.c,o.gem,(o.gem?SV.gems:SV.gold)>=o.c,'bbuy('+i+')')}</div>`:sold).join('')}
- else{title='Gold & Gems';hint='<button class="bt sm" onclick="SV.gold+=200;SV.gems+=10;sv();menu()">Test: +200 gold, +10 gems</button>';cols=3;
+ else{title='Gold & Gems';hint='';cols=3;
   cards=[[10,500],[25,1400],[60,3600]].map(([g,c])=>`<div class="ocd">${pc}<div class="otop"><div class="omed big"><img alt="" src="${U.s_chest}"></div></div><div class="onm">${c} gold</div>${price(g,1,SV.gems>=g,'gx('+g+','+c+')')}</div>`).join('')}
  return tabs+'<div class="spn2">'+pc+'<div class="shd"><div class="spl">'+title+'</div>'+rf+'</div><div class="ogr c'+cols+'">'+cards+'</div></div><div class="stl"><img alt="" src="'+U.s_stall+'"><div>'+hint+'</div></div>'}
 
@@ -5448,6 +5448,11 @@ html body #splash .xsoon.ok::before{content:"";display:inline-block;vertical-ali
 html body #hand:has(.c:nth-child(5)){max-width:none!important;width:100%!important;flex-wrap:nowrap!important;justify-content:center!important;gap:4px!important;margin:0 auto!important}
 html body #hand:has(.c:nth-child(5)) .c{flex:0 1 auto!important;width:min(70px,calc((100vw - 52px) / 6))!important;height:auto!important;aspect-ratio:70/96}
 html body #bot:has(#hand .c:nth-child(5)){padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important}
+/* Shop → Gold & Gems (Pix 25 Nov): names no longer squeezed under the price buttons, bigger chest / gem pictures */
+html body #mb .spn2:has(.gpk3) .ogr{grid-auto-rows:auto!important;align-content:start!important}
+html body #mb .spn2:has(.gpk3) .ocd{min-height:158px!important;justify-content:space-between!important}
+html body #mb .spn2:has(.gpk3) .omed,html body #mb .spn2:has(.gpk3) .omed.big{width:74px!important;height:74px!important}
+html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!important;min-height:19px;white-space:nowrap}
 </style><script id="v4_13_fixes">/* V4 25 Nov board fixes:
    1. win/lose window waits until the last hit has landed (the HP bar shows 0)
    2. Sudden death: big banner + "the board has changed" line

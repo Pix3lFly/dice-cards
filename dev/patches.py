@@ -63,6 +63,8 @@ P = [
  ('camera back', "window.__fitCR=base*1.12*wide}", "window.__fitCR=base*1.12*wide*(window.__fitK||1.1)}"),
  # 3D die: never crash on an odd roll value (0, NaN, negative) -> "NV[v] is not iterable"
  ('die roll safe', "roll=function(s){const v=(s-1)%6+1,", "roll=function(s){const v=((((Math.round(+s)||1)-1)%6)+6)%6+1,"),
+ # shop: test gold button removed for players (owners have "Give myself" in the owner panel)
+ ('shop test btn', "hint='<button class=\"bt sm\" onclick=\"SV.gold+=200;SV.gems+=10;sv();menu()\">Test: +200 gold, +10 gems</button>';", "hint='';"),
 ]
 def apply(s):
     for t in P:
