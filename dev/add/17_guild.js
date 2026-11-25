@@ -42,7 +42,7 @@ const BOTDOC={n:'Moonblades',nl:'moonblades',lg:7,msg:'Welcome travellers! Play 
 /* ---------- data ---------- */
 let LIST=null,LT=0,LBusy=false,G=null,GID=null,GU_=null,PW=null,PWID=null,PU=null,GT='ov',SORT='role',lastMe=0,AIT=0;
 const gref=id=>db().collection('guilds').doc(id);
-async function loadList(force){if(LBusy||(!force&&LIST&&Date.now()-LT<30e3))return;LBusy=true;
+async function loadList(force){if(LBusy||(!force&&LIST&&Date.now()-LT<10e3))return;LBusy=true;
  try{const q=await db().collection('guilds').get();const L=[];q.forEach(d=>L.push(Object.assign({id:d.id},d.data())));
   if(!L.some(g=>g.id===BOT)){try{await gref(BOT).set(BOTDOC);L.push(Object.assign({id:BOT},BOTDOC))}catch(e){console.log('bot guild',e&&e.code)}}
   LIST=L;LT=Date.now()}catch(e){console.log('guild list',e&&e.code);LIST=LIST||[]}finally{LBusy=false}redraw()}
@@ -68,6 +68,7 @@ function watch(){const id=(ON()&&SV.gid)||null;if((GU_?GU_.id:null)===id)return;
 function watchPend(){const p=SV.gpend2;if(!p||!ON()){if(PU){PU.u();PU=null}return}if(PU&&PU.id===p.gid)return;if(PU)PU.u();
  const u=gref(p.gid).onSnapshot(s=>{const q=SV.gpend2;if(!q||q.gid!==p.gid)return;const d=s.exists?s.data():null;
   if(d&&d.mem&&d.mem[UID()]){SV.gpend2=null;SV.guild=d.n;SV.gid=p.gid;SV.gjt=Date.now();SV.gp=0;GT='ov';sv();note('Your request was accepted! Welcome to '+d.n);ding(784);watch();redraw();return}
+  if(d&&d.type==='open'&&d.apps&&d.apps[UID()]&&!q.go){q.go=1;gref(p.gid).update({['apps.'+UID()]:FV().delete(),['mem.'+UID()]:meEntry('m')}).catch(e=>{q.go=0;console.log('auto join',e&&e.code)});return}
   if(!d||!d.apps||!d.apps[UID()]){if(Date.now()-q.t<8000)return;SV.gpend2=null;sv();note(d?d.n+' declined your request':'That guild no longer exists');redraw()}},e=>console.log('pend watch',e&&e.code));
  PU={id:p.gid,u}}
 // keep my own member line fresh (name, hero, rank, wins, guild points, last seen)
@@ -110,7 +111,11 @@ async function createGo(n,lg,old,silent){const nl=n.toLowerCase(),id='g'+Date.no
  const b=db().batch();b.set(db().collection('gnames').doc(nl),{gid:id,lead:UID()});b.set(gref(id),d);
  try{await b.commit();SV.guild=n;SV.gid=id;SV.gjt=Date.now();SV.gp=0;GT='ov';sv();watch();LT=0;return true}catch(e){console.log('create guild',e&&e.code);return false}}
 
-window.guJoin=function(id){if(!ON())return OF.guJoin.apply(this,arguments);if(SV.guild)return;const g=(LIST||[]).find(x=>x.id===id);if(!g||!meets(g)||g.type==='inv')return;close();
+window.guJoin=async function(id){if(!ON())return OF.guJoin.apply(this,arguments);if(SV.guild||SV.gpend2)return;close();
+ let g=null;try{const s=await gref(id).get();g=s.exists?Object.assign({id},s.data()):null}catch(e){g=(LIST||[]).find(x=>x.id===id)}
+ if(LIST){LIST=LIST.filter(x=>x.id!==id);if(g)LIST.push(g)}
+ if(!g){note('That guild no longer exists');menu();return}
+ if(g.type==='inv'){note(g.n+' is invite only now');menu();return}if(!meets(g)){note('You don’t meet '+g.n+'’s requirements');menu();return}
  if(g.type==='open'||g.bot){joinGo(id).then(()=>menu());return}
  gref(id).update({['apps.'+UID()]:Object.assign(meEntry('m'),{t:Date.now()})}).then(()=>{SV.gpend2={gid:id,n:g.n,t:Date.now()};sv();watchPend();menu();note('Join request sent to '+g.n);ding()}).catch(e=>{console.log('req',e&&e.code);note('Could not send the request')})};
 window.guCancelReq=function(){if(!ON())return OF.guCancelReq.apply(this,arguments);const p=SV.gpend2;SV.gpend2=null;sv();if(PU){PU.u();PU=null}if(p)gref(p.gid).update({['apps.'+UID()]:FV().delete()}).catch(()=>{});menu()};
