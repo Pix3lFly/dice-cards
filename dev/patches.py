@@ -112,6 +112,7 @@ P = [
   ('toy s', "c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex", "if(ty>.5){if(gr)c*=vec3(.88,.8,.86);if(vN.y>.3&&vN.y<.93)s*=1.1;if(vN.y<=.3){float a=clamp((vY-yr.x)/(yr.y-yr.x),0.,1.);s*=mix(.68,1.03,a*a*(3.-2.*a));}}c=floor(c*cq+.5)/cq;gl_FragColor=vec4(c*s,1.);}'});\n    tgM=mkTex"),
   ('toy island merge', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}', 'if(D&&window.__H4){Object.assign(D,window.__H4);window.__H4=null}if(D&&window.__TOYM){Object.assign(D,window.__TOYM);window.__TOYI=1;window.__TOYM=null}'),
   ('toy island place', "if(GM.cisland){const m=mk('cisland',5.51);if(m){m.rotation.y=-Math.PI/2;const k=5.51/.9541;m.position.y+=.13-.4618*k;", "if(GM.cisland){const m=mk('cisland',5.51);if(m){const TI=window.__TOYI;m.rotation.y=TI?-.04:-Math.PI/2;const k=5.51/(TI?.951:.9541);m.position.y+=.13-(TI?.377:.4618)*k;"),
+  ('cage fits hero', 'cg.position.set(h.position.x,cg.userData.y,h.position.z);cg.visible=cg.userData.y<4.8}}', 'cg.position.set(h.position.x,cg.userData.y,h.position.z);cg.visible=cg.userData.y<4.8;try{const mm=h.userData.m;if(mm&&cg.userData.fm!==mm){cg.userData.fm=mm;const b=new V.Box3().setFromObject(mm),hh=b.max.y-b.min.y;if(hh>0)cg.scale.setScalar(Math.max(1.3*(window.__cageS||.75),hh*1.1/1.55))}}catch(e){}}}'),
 ]
 import os
 def tile_model(s):
