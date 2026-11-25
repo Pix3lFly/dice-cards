@@ -24,6 +24,6 @@
  function loop(){raf=0;if(!cv||!cv.isConnected)return;const r=cv.getBoundingClientRect();if(r.width<2){raf=requestAnimationFrame(loop);return}
   const W=Math.round(r.width),H=Math.round(r.height);if(cv.width!==Math.round(W*R.getPixelRatio())||cv.height!==Math.round(H*R.getPixelRatio())){R.setSize(W,H,false);C.aspect=W/H;C.updateProjectionMatrix()}
   G.rotation.y=performance.now()/4000;try{R.render(S,C)}catch(e){}raf=requestAnimationFrame(loop)}
- function deco(){const st=document.querySelector('#mb .bv3 .bsh');if(!st)return;const k=keyOf();if(!k||!init()||!setModel(k)){st.classList.remove('b3on');return}
-  if(cv.parentElement!==st)st.insertBefore(cv,st.firstChild);st.classList.add('b3on');if(!raf)raf=requestAnimationFrame(loop)}
+ function deco(){const st=document.querySelector('#mb .bv3 .bsh');if(!st)return;const k=keyOf(),A=window.__BT4||{};if(!k||!A[k]){st.classList.remove('b3on');return}
+  let im=st.querySelector('img.b2d');if(!im){im=document.createElement('img');im.className='b2d';im.alt='';st.insertBefore(im,st.firstChild)}if(im.getAttribute('src')!==A[k])im.src=A[k];st.classList.add('b3on')}
  const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){console.log('b3d',e)}return r};setInterval(()=>{try{if(document.querySelector('#mb .bv3 .bsh:not(.b3on)'))deco()}catch(e){}},1000)})();

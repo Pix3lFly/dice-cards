@@ -50,6 +50,8 @@ P = [
  ('tutorial no tap', "T3.addEventListener('click',()=>{if(k>=STEPS.length)return;k++;show();try{snd(600,.05,'triangle')}catch(e){}});", ""),
  # online guilds: guild perks follow the guild's level (from all members' points) when online
  ('glv online', "glv=()=>Math.min(10,1+Math.floor((SV.gp||0)/100));", "glv=()=>(window.__glv&&window.__glv())||Math.min(10,1+Math.floor((SV.gp||0)/100));"),
+ # hero pictures in menus (Collection etc.) = the same 2D art as the Battle page
+ ('heroShot 2D', "function heroShot(h){if(SNAP[h])return SNAP[h];", "function heroShot(h){try{const S=window.__SKI||{},k=(SV.skin&&SV.skin[h])||0,a=S['b'+k+h]||S['b0'+h];if(a)return a}catch(e){}if(SNAP[h])return SNAP[h];"),
 ]
 def apply(s):
     for t in P:

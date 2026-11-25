@@ -1441,7 +1441,7 @@ const SNAP={},HYAW=.35;
 const gGM=()=>window.__GM||(typeof GM!=='undefined'?GM:null),gV=()=>window.__V||(typeof V!=='undefined'?V:null),gR=()=>window.__R||(typeof R!=='undefined'?R:null);
 const HMN={k:'knight',v:'vampire',s:'spectre',f:'firemage',i:'icemage',h:'huntress'};window.__hs='waiting for 3D models';
 function heroModel(h){const V=gV(),src=gGM()[HMN[h]];if(!src)return null;const m=src.clone(true),bx=new V.Box3().setFromObject(m),sz=bx.getSize(new V.Vector3()),k=1.75/(sz.y||1);m.scale.setScalar(k);m.position.set(-(bx.min.x+bx.max.x)/2*k,-bx.min.y*k,-(bx.min.z+bx.max.z)/2*k);const g=new V.Group();g.add(m);return g}
-function heroShot(h){if(SNAP[h])return SNAP[h];const G=gGM(),V=gV(),R=gR();if(!G||!V||!R){window.__hs='game engine not found';return null}if(!G[HMN[h]]){window.__hs='3D model not loaded yet ('+Object.keys(G).length+' loaded)';return null}
+function heroShot(h){try{const S=window.__SKI||{},k=(SV.skin&&SV.skin[h])||0,a=S['b'+k+h]||S['b0'+h];if(a)return a}catch(e){}if(SNAP[h])return SNAP[h];const G=gGM(),V=gV(),R=gR();if(!G||!V||!R){window.__hs='game engine not found';return null}if(!G[HMN[h]]){window.__hs='3D model not loaded yet ('+Object.keys(G).length+' loaded)';return null}
  try{const sc=new V.Scene();sc.add(new V.AmbientLight(0xffffff,.55));sc.add(new V.HemisphereLight(0xfff1e0,0x7a6a9a,.65));
   const d1=new V.DirectionalLight(0xfff0dc,1.05);d1.position.set(1.6,3,4);sc.add(d1);const d2=new V.DirectionalLight(0xc9b4ff,.45);d2.position.set(-3,2,-2);sc.add(d2);
   const m=heroModel(h);m.rotation.y=HYAW;sc.add(m);sc.updateMatrixWorld(true);
@@ -5411,8 +5411,8 @@ function start(G){const V=G.V,R=window.__R;
  const LIFT=[196,212,226,238,248,255],done=new WeakSet();
  function brighten(m){if(done.has(m))return;done.add(m);m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{const g=mt&&mt.gradientMap;if(!g||!g.image||!g.image.data||g.userData.__vb)return;const d=g.image.data;if(d.length!==LIFT.length)return;g.userData.__vb=1;for(let i=0;i<d.length;i++)d[i]=LIFT[i];g.needsUpdate=true})})}
  let CG=null;const celDone=new WeakSet();
- function cel(m){if(!CG){CG=new V.DataTexture(new Uint8Array([150,150,214,214,255,255]),6,1,V.LuminanceFormat);CG.minFilter=CG.magFilter=V.NearestFilter;CG.generateMipmaps=false;CG.needsUpdate=true}
-  m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(mt&&mt.isMeshToonMaterial&&mt.gradientMap!==CG){mt.gradientMap=CG;mt.needsUpdate=true}})})}
+ function cel(m){if(!CG){CG=new V.DataTexture(new Uint8Array([212,212,240,240,255,255]),6,1,V.LuminanceFormat);CG.minFilter=CG.magFilter=V.NearestFilter;CG.generateMipmaps=false;CG.needsUpdate=true}
+  m.traverse(o=>{if(!o.isMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(mt&&mt.isMeshToonMaterial&&mt.gradientMap!==CG){mt.gradientMap=CG;if(mt.emissive){mt.emissive.setRGB(.1,.1,.1);if(mt.map)mt.emissiveMap=mt.map}mt.needsUpdate=true}})})}
  function bases(){[0,12].forEach(i=>{const o=G.tiles&&G.tiles[i];if(!o||!o.g)return;o.g.traverse(c=>{if(!c.isMesh||!c.userData.__nb)return;const u=c.material&&c.material.uniforms;if(u&&u.tn&&!c.material.userData.__vbb){c.material.userData.__vbb=1;u.tn.value.multiplyScalar(1.18)}})})}
  const RC=[0x4fc8ff,0xff5a5a],rings=[null,null];
  function ring(h,k,t){let r=rings[k];if(!r||r.parent!==h){const g=new V.Group();
@@ -5531,6 +5531,8 @@ const st=document.createElement('style');st.textContent=`
  html body #mb .spn2:has(> .dgd) > *{flex-shrink:0!important}
  html body #mb .spn2 > .dgd{flex:1 1 0!important;min-height:80px!important;overflow-y:auto!important;overflow-x:hidden!important}
 }
+
+#mb .bv3 .bsh .b2d{position:absolute;left:6%;right:6%;top:10%;bottom:4%;width:88%;height:86%;object-fit:contain;z-index:1;pointer-events:none;filter:drop-shadow(0 6px 6px #0009)}
 </style><script id="v4_15_coll">/* V4 Collection on PC (landscape): the Heroes page is laid out as if the browser were zoomed to 80% (bigger hero, smaller upgrade boxes) */
 (function w(){if(typeof menu!=='function'){setTimeout(w,300);return}
  const fix=()=>{try{const mb=document.getElementById('mb');if(!mb)return;const land=matchMedia('(orientation:landscape)').matches;
@@ -5557,8 +5559,8 @@ const st=document.createElement('style');st.textContent=`
  function loop(){raf=0;if(!cv||!cv.isConnected)return;const r=cv.getBoundingClientRect();if(r.width<2){raf=requestAnimationFrame(loop);return}
   const W=Math.round(r.width),H=Math.round(r.height);if(cv.width!==Math.round(W*R.getPixelRatio())||cv.height!==Math.round(H*R.getPixelRatio())){R.setSize(W,H,false);C.aspect=W/H;C.updateProjectionMatrix()}
   G.rotation.y=performance.now()/4000;try{R.render(S,C)}catch(e){}raf=requestAnimationFrame(loop)}
- function deco(){const st=document.querySelector('#mb .bv3 .bsh');if(!st)return;const k=keyOf();if(!k||!init()||!setModel(k)){st.classList.remove('b3on');return}
-  if(cv.parentElement!==st)st.insertBefore(cv,st.firstChild);st.classList.add('b3on');if(!raf)raf=requestAnimationFrame(loop)}
+ function deco(){const st=document.querySelector('#mb .bv3 .bsh');if(!st)return;const k=keyOf(),A=window.__BT4||{};if(!k||!A[k]){st.classList.remove('b3on');return}
+  let im=st.querySelector('img.b2d');if(!im){im=document.createElement('img');im.className='b2d';im.alt='';st.insertBefore(im,st.firstChild)}if(im.getAttribute('src')!==A[k])im.src=A[k];st.classList.add('b3on')}
  const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){console.log('b3d',e)}return r};setInterval(()=>{try{if(document.querySelector('#mb .bv3 .bsh:not(.b3on)'))deco()}catch(e){}},1000)})();
 </script><script id="v4_16_skins">/* V4 hero skins (placeholder until the skin models arrive): a "Skins" button to the right of the hero on the Battle page;
    window with the 3 skins (Basic, Champion = 100 wins with this hero, Legendary = paid), current → arrow → chosen; Equip says "coming soon" */

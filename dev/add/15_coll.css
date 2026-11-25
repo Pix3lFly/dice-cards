@@ -10,3 +10,5 @@
  html body #mb .spn2:has(> .dgd) > *{flex-shrink:0!important}
  html body #mb .spn2 > .dgd{flex:1 1 0!important;min-height:80px!important;overflow-y:auto!important;overflow-x:hidden!important}
 }
+
+#mb .bv3 .bsh .b2d{position:absolute;left:6%;right:6%;top:10%;bottom:4%;width:88%;height:86%;object-fit:contain;z-index:1;pointer-events:none;filter:drop-shadow(0 6px 6px #0009)}
