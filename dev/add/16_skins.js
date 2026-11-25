@@ -3,11 +3,11 @@
 (function w(){if(typeof menu!=='function'||typeof SV==='undefined'||typeof HD==='undefined'){setTimeout(w,400);return}try{
 const POR=()=>window.__POR||{};
 const SK=[{id:0,n:'Basic',d:'The classic look.'},{id:1,n:'Champion',d:'Win 100 games with this hero.'},{id:2,n:'Legendary',d:'Premium skin · $19.99'}];
-const img=(h,i,b)=>i?((window.__SKI||{})[(b?'b':'l')+i+h]||''):(POR()[h]||'');
+const img=(h,i,b)=>{const S=window.__SKI||{};return i||b?(S[(b?'b':'l')+i+h]||POR()[h]||''):(POR()[h]||'')};
 let sel=1;
 const wins=h=>{try{return (SV.st&&SV.st.hw&&SV.st.hw[h])||0}catch(e){return 0}};
 const owned=(h,i)=>i===0||(i===1&&wins(h)>=100);
-function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp'+(s.id?' bd':'')+'"><img alt="" src="'+img(h,s.id,1)+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
+function card(h,s,big){return '<div class="skc'+(big?' big':'')+'"><div class="skp bd"><img alt="" src="'+img(h,s.id,1)+'">'+(s.id?'<i class="skq">'+(s.id===1?'🏆':'💎')+'</i>':'')+'</div><b>'+s.n+'</b></div>'}
 window.__skinPop=function(){const h=SV.mine,eq=0,M=document.getElementById('menu');let p=M.querySelector('.mpop');if(p)p.remove();
  const s=SK[sel],ow=owned(h,sel),hw=wins(h);
  const st=sel===0?'<span class="sko">✓ Equipped</span>':sel===1?(ow?'<span class="sko">✓ Unlocked</span>':'<div class="skbar"><i style="width:'+Math.min(100,hw)+'%"></i><span>'+hw+' / 100 wins</span></div>'):'<span class="skpr">$19.99</span>';
