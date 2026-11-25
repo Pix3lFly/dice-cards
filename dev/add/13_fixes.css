@@ -1,3 +1,7 @@
 /* end screen: the sun rays spin in place behind the trophy (square box, centred on the trophy) */
 #ov .ov3 .ray{width:300px!important;height:300px!important;top:-206px!important;margin-left:-150px!important;left:50%!important;transform:none!important;transform-origin:50% 50%!important;background:repeating-conic-gradient(from 0deg at 50% 50%,#ffe9a055 0 6deg,#ffe9a000 6deg 16deg)!important;-webkit-mask:radial-gradient(circle at 50% 50%,#000 0,#000 25%,#0000 62%)!important;mask:radial-gradient(circle at 50% 50%,#000 0,#000 25%,#0000 62%)!important;animation:v4ray 16s linear infinite!important}
 @keyframes v4ray{to{transform:rotate(360deg)}}
+/* board: all cards in one row (Pix 25 Nov) */
+html body #hand:has(.c:nth-child(5)){max-width:none!important;width:100%!important;flex-wrap:nowrap!important;justify-content:center!important;gap:4px!important;margin:0 auto!important}
+html body #hand:has(.c:nth-child(5)) .c{flex:0 1 auto!important;width:min(70px,calc((100vw - 52px) / 6))!important;height:auto!important;aspect-ratio:70/96}
+html body #bot:has(#hand .c:nth-child(5)){padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important}
