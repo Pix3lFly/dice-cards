@@ -36,7 +36,8 @@ def conv(path,guess,rad,tile=.96,grow=1.6):
   if path.endswith('fire.glb'):   # Pix: back of the fire base should look like the lava, not a black wall
     hsv=np.asarray(tex.convert('HSV')).astype(float);rgb=np.asarray(tex).astype(float);H=hsv[...,0]*360/255;S=hsv[...,1]/255;V=hsv[...,2]/255
     dk=(V<.42)&~((H<55)&(S>.55)&(V>.3));l=(V/.42).clip(0,1)[...,None]
-    lava=np.concatenate([95+150*l,25+80*l*l,10+20*l],2)
+    rock=np.concatenate([38+70*l,14+24*l,10+12*l],2);glow=np.concatenate([255+0*l,130+0*l,35+0*l],2)
+    lava=np.where(l>.9,glow,rock)
     tex=Image.fromarray(np.where(dk[...,None],lava,rgb).clip(0,255).astype(np.uint8))
   if 'castle' in path:   # Pix: castle should look like grey stone, not pink
     hsv=np.asarray(tex.convert('HSV')).astype(float);rgb=np.asarray(tex).astype(float);H=hsv[...,0]*360/255;S=hsv[...,1]/255;V=hsv[...,2]/255

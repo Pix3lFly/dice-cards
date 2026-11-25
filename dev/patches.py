@@ -81,6 +81,8 @@ P = [
  ('tile smooth on', 'tgM=mkTex(T.map,0xffffff,.06);tgMe=mkTex(T.map,0xcdb68a,.06);tgM.userData.__ct=tgMe.userData.__ct=1}', 'tgM=mkTex(T.map,0xffffff,.06);tgMe=mkTex(T.map,0xcdb68a,.06);tgM.userData.__ct=tgMe.userData.__ct=1;if(window.__TSM!==0)[tgM,tgMe].forEach(m=>{m.uniforms.sm.value=1;m.uniforms.cq.value=28;m.uniforms.ck.value=.75;if(window.__TNEW){m.uniforms.ry.value=-99;m.uniforms.ck.value=.45;m.uniforms.tn.value.multiplyScalar(1.12)}})}'),
  # new tile: taller (chunky block) and a little wider (smaller gaps); top stays at the same height
  ('tile size', "top.scale.set(sx,sx,sx);top.position.y=.565-bb.max.y*sx;", "{const kw=window.__TNEW?1.08:1,kh=window.__TNEW?1.45:1;top.scale.set(sx*kw,sx*kh,sx*kw);top.position.y=.565-bb.max.y*sx*kh}"),
+ # tiles: flat even light on the top (no dark triangle from the model's top faces)
+ ('tile flat top', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);if(sm>.5&&vN.y>.45)s=1.04;'),
 ]
 import os
 def tile_model(s):
