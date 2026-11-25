@@ -120,6 +120,9 @@ P = [
   ('skip unused animated heroes', "const files=Object.values(HERO).concat(MON,['bat']);", "const files=window.__RIGHERO?Object.values(HERO).concat(MON,['bat']):['bat'];"),
   ('mail keeps 30', 'SV.mail=SV.mail.slice(0,8)}', 'SV.mail=SV.mail.filter((m,i)=>i<30||(m.g&&!m.c))}'),
   ('season frame line', '+sw(s)+\'<p class="rsz">A new season has started.', '+sw(s)+(window.__frLine?window.__frLine(s.rk):\'\')+\'<p class="rsz">A new season has started.'),
+("collection hero logos follow equipped skin",
+ """onclick="c3h('${k}')">${pimg(k)}</button>""",
+ """onclick="c3h('${k}')">${window.__hLogo&&__hLogo(k)?'<img alt="" src="'+__hLogo(k)+'">':pimg(k)}</button>"""),
 ]
 import os
 def tile_model(s):
