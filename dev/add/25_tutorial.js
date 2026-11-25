@@ -55,7 +55,7 @@ setInterval(()=>{try{const h=$('help');if(!h||getComputedStyle(h).display==='non
 try{const _in=intro;intro=function(){if(window.__tutNext){window.__tutNext=0;window.__tut=1;window.__tutM=1}return _in.apply(this,arguments)}}catch(e){}
 
 const css=document.createElement('style');css.textContent=`
-#v3wel .uc .mscw{display:block;width:110px;margin:-64px auto 0;filter:drop-shadow(0 4px 4px #0009);animation:mscB 2.4s ease-in-out infinite}
+#v3wel .uc .mscw{display:block;width:96px;margin:14px auto -4px;position:relative;z-index:0;filter:drop-shadow(0 4px 4px #0009);animation:mscB 2.4s ease-in-out infinite}
 #tut3 .uc.mscb,#tut4 .uc.mscb{overflow:hidden!important;text-align:left}
 .mscb .msh{display:flex;align-items:center;gap:10px;margin:0 0 8px;padding-bottom:8px;border-bottom:1px solid #ffffff1f}
 .mscb .msh .msc{width:64px;height:64px;object-fit:contain;flex:none;filter:drop-shadow(0 3px 3px #0008);animation:mscB 2.4s ease-in-out infinite;pointer-events:none}
