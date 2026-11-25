@@ -85,6 +85,7 @@ P = [
  ('tile flat top', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);', 'float s=mix(.95,d>.55?1.12:d>.1?.82:.58,ck);if(sm>.5&&vN.y>.45)s=1.04;'),
   ('tile top solid', "vec3 c=texture2D(mp,vU).rgb*tn;bool gr", "vec3 c=texture2D(mp,vU).rgb*tn;if(sm>.5&&vN.y>.85&&vY>.28)c=vec3(.975,.83,.59)*tn;bool gr"),
   ('turn min 1', "<div class=\"tn\">Turn<br>${round}", "<div class=\"tn\">Turn<br>${Math.max(1,round)}"),
+  ('no cliff spikes on new tiles', "if(hs(i,7,7)>.35){const cl=new V.Mesh(cliffG,cliffM)", "if(!window.__TNEW&&hs(i,7,7)>.35){const cl=new V.Mesh(cliffG,cliffM)"),
 ]
 import os
 def tile_model(s):
