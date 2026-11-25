@@ -6342,10 +6342,10 @@ setInterval(()=>{try{tick()}catch(e){ERR='tick: '+(e&&e.message||e)}
  try{if(!warned&&Date.now()-t0>20000&&G3()&&G3().S&&typeof P!=='undefined'&&P&&P[0]&&!/^built 2/.test(ST)){warned=true;console.log('Portal4: '+window.__p4())}}catch(e){}},400);
 }catch(e){console.log('v4 portal',e)}})();
 </script><script id="v4_21_calm">/* V4: calmer board tiles (Pix 25 Nov): the coloured ring pattern under each item is smaller and fainter, and the pulsing tile glow is softer,
-   so potions, monsters, chests etc. stand out. The marker no longer catches the item's shadow (the dark triangle). Revert: drop this file. */
+   so potions, monsters, chests etc. stand out. The marker no longer catches the item's shadow (the dark triangle). The marker sits just above the tile top: at the same height the two flickered and the tile's triangles showed through as dark patches. Revert: drop this file. */
 (function(){const done=new WeakSet();setInterval(()=>{try{const G=window.__3;if(!G||!G.tiles)return;
  G.tiles.forEach((o,i)=>{if(!o||i===0||i===12||i===6||i===18)return;
   if(o.cBlk&&(o.cBlk.receiveShadow||o.cBlk.castShadow)){o.cBlk.receiveShadow=false;o.cBlk.castShadow=false;o.cBlk.traverse(c=>{c.receiveShadow=false;c.castShadow=false})}
-  if(o.top){o.top.scale.setScalar(window.__calmS||.58);if(o.top.receiveShadow){o.top.receiveShadow=false;if(o.top.material)o.top.material.needsUpdate=true}const m=o.top.material;if(m&&!done.has(m)){done.add(m);m.transparent=true;m.opacity=window.__calmO||.45;if(m.emissiveIntensity!=null)m.emissiveIntensity*=.5;m.needsUpdate=true}}
+  if(o.top){o.top.scale.setScalar(window.__calmS||.58);if(o.top.position.y<.575)o.top.position.y=.575;if(o.top.receiveShadow){o.top.receiveShadow=false;if(o.top.material)o.top.material.needsUpdate=true}const m=o.top.material;if(m&&!done.has(m)){done.add(m);m.transparent=true;m.opacity=window.__calmO||.45;if(m.emissiveIntensity!=null)m.emissiveIntensity*=.5;m.needsUpdate=true}}
   if(o.go!=null&&o.__calmT!==o.t){o.__calmT=o.t;o.go*=.4}})}catch(e){}},300)})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>
