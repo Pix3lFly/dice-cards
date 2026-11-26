@@ -43,3 +43,13 @@ html body #mb.cm4 .sset .sbub{background:linear-gradient(#2f6fd0,#1b4fa8 55%,#16
 html body #mb.cm4 .sset .sbub .fr3.st{background:none!important;border:0!important;border-bottom:1px solid #e8b84e55!important;border-radius:0!important;box-shadow:none!important;min-height:40px!important;padding:4px 0!important;margin:0!important}
 html body #mb.cm4 .sset .sbub .fr3.st:last-child{border-bottom:0!important}
 html body #mb.cm4 .sset{overflow:visible!important;gap:8px!important}
+/* settings: tighter so the whole list fits above the taller bottom buttons */
+html body #mb.cm4 .sset .sbub .fr3.st{min-height:34px!important;padding:2px 0!important}
+html body #mb.cm4 .sset .opent{min-height:44px!important;height:44px!important;margin-bottom:2px!important}
+html body #mb.cm4 .sset{gap:6px!important}
+html body #mb.cm4>.spn2{padding-bottom:10px!important}
+/* settings rows share the space that is left, so the list never runs under the bottom buttons */
+html body #mb.cm4 .sset{flex:1 1 0!important;min-height:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+html body #mb.cm4 .sset .opent{flex:none!important}
+html body #mb.cm4 .sset .sbub{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;max-height:100%}
+html body #mb.cm4 .sset .sbub .fr3.st{flex:1 1 0!important;min-height:0!important;max-height:46px;overflow:hidden}

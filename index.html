@@ -6322,7 +6322,8 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
 function off(){const M=document.getElementById('menu');if(M)M.classList.remove('bt4');const q=document.getElementById('b4q');if(q)q.remove();const mb=document.getElementById('mb');if(mb){mb.classList.remove('b4on');const e=mb.querySelector(':scope>.b4');if(e)e.remove()}}
 // scale the fixed-size design to the space between the top bar and the bottom menu
 function fit(){const mb=document.getElementById('mb'),b=mb&&mb.querySelector(':scope>.b4'),i=b&&b.querySelector('.b4in');if(!i)return;
- const W=b.clientWidth,H=b.clientHeight,s=Math.min(W/390,H/750,1.6);i.style.zoom=s.toFixed(3)}
+ const W=b.clientWidth,H=b.clientHeight,s=Math.min(W/390,H/785,1.6);i.style.zoom=s.toFixed(3)}
+setInterval(()=>{try{fit()}catch(e){}},1000);
 window.addEventListener('resize',()=>{try{fit()}catch(e){}});
 window.__b4h=d=>{const k=HK();let i=k.indexOf(SV.mine);i=(i+d+k.length)%k.length;if(!document.querySelector('#mb .prow .pb.sel'))i=Math.max(0,d>0?0:k.length-1);m3h(k[i]);try{snd(600,.04,'triangle')}catch(e){}};
 window.__b4b=d=>{if(!document.querySelector('#mb .prow .pb.sel'))return;const k=BK();let i=k.indexOf(SV.base);if(!document.querySelector('#mb .brow .pb.sel'))i=d>0?-1:k.length;i=(i+d+k.length)%k.length;m3b(k[i])};
@@ -6977,6 +6978,16 @@ html body #mb.cm4 .sset .sbub{background:linear-gradient(#2f6fd0,#1b4fa8 55%,#16
 html body #mb.cm4 .sset .sbub .fr3.st{background:none!important;border:0!important;border-bottom:1px solid #e8b84e55!important;border-radius:0!important;box-shadow:none!important;min-height:40px!important;padding:4px 0!important;margin:0!important}
 html body #mb.cm4 .sset .sbub .fr3.st:last-child{border-bottom:0!important}
 html body #mb.cm4 .sset{overflow:visible!important;gap:8px!important}
+/* settings: tighter so the whole list fits above the taller bottom buttons */
+html body #mb.cm4 .sset .sbub .fr3.st{min-height:34px!important;padding:2px 0!important}
+html body #mb.cm4 .sset .opent{min-height:44px!important;height:44px!important;margin-bottom:2px!important}
+html body #mb.cm4 .sset{gap:6px!important}
+html body #mb.cm4>.spn2{padding-bottom:10px!important}
+/* settings rows share the space that is left, so the list never runs under the bottom buttons */
+html body #mb.cm4 .sset{flex:1 1 0!important;min-height:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+html body #mb.cm4 .sset .opent{flex:none!important}
+html body #mb.cm4 .sset .sbub{flex:1 1 auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;max-height:100%}
+html body #mb.cm4 .sset .sbub .fr3.st{flex:1 1 0!important;min-height:0!important;max-height:46px;overflow:hidden}
 </style><script id="v4_29_comm">/* ===== v4 (26 Nov): Community pages restyled (Pix's reference): class cm4 on #mb, section titles wrapped for ribbons ===== */
 (function w(){if(typeof menu!=='function'){setTimeout(w,400);return}
  function deco(){const m=document.getElementById('mb');if(!m)return;const on=typeof tab!=='undefined'&&tab==='comm';m.classList.toggle('cm4',on);if(!on)return;
