@@ -6322,7 +6322,7 @@ function build(){const mb=document.getElementById('mb');if(!mb||tab!=='main'||!m
 function off(){const M=document.getElementById('menu');if(M)M.classList.remove('bt4');const q=document.getElementById('b4q');if(q)q.remove();const mb=document.getElementById('mb');if(mb){mb.classList.remove('b4on');const e=mb.querySelector(':scope>.b4');if(e)e.remove()}}
 // scale the fixed-size design to the space between the top bar and the bottom menu
 function fit(){const mb=document.getElementById('mb'),b=mb&&mb.querySelector(':scope>.b4'),i=b&&b.querySelector('.b4in');if(!i)return;
- const W=b.clientWidth,H=b.clientHeight,s=Math.min(W/390,H/785,1.6);i.style.zoom=s.toFixed(3)}
+ const W=b.clientWidth,H=b.clientHeight,s=Math.min(W/390,H/762,1.6);i.style.zoom=s.toFixed(3)}
 setInterval(()=>{try{fit()}catch(e){}},1000);
 window.addEventListener('resize',()=>{try{fit()}catch(e){}});
 window.__b4h=d=>{const k=HK();let i=k.indexOf(SV.mine);i=(i+d+k.length)%k.length;if(!document.querySelector('#mb .prow .pb.sel'))i=Math.max(0,d>0?0:k.length-1);m3h(k[i]);try{snd(600,.04,'triangle')}catch(e){}};
