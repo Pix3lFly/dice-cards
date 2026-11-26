@@ -133,6 +133,7 @@ P = [
 ("shard discount (card)","<div class=\"ocd\">${pc}<div class=\"otop\"><div class=\"omed\">${pimg(o.h)}</div><div class=\"oqty\"><img alt=\"\" src=\"${U.s_gem}\"><b>×${o.q}</b></div></div><div class=\"onm\">${HD[o.h].n}</div>${price(o.c,o.gem,(o.gem?SV.gems:SV.gold)>=o.c,'buy('+i+')')}",
  "<div class=\"ocd\">${pc}${window.__sdc&&__sdc(o)<o.c?'<span class=\"gbn\">-20%</span>':''}<div class=\"otop\"><div class=\"omed\">${pimg(o.h)}</div><div class=\"oqty\"><img alt=\"\" src=\"${U.s_gem}\"><b>×${o.q}</b></div></div><div class=\"onm\">${HD[o.h].n}</div>${price(window.__sdc?__sdc(o):o.c,o.gem,(o.gem?SV.gems:SV.gold)>=(window.__sdc?__sdc(o):o.c),'buy('+i+')')}"),
 ("shard discount (buy)","function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold';if(SV[k]>=o.c){SV[k]-=o.c;","function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold',cc=window.__sdc?__sdc(o):o.c;if(SV[k]>=cc){SV[k]-=cc;"),
+("nav labels (Pix 26 Nov)","[['shop','Shop'],['coll','Collection'],['main','Battle'],['comm','Community'],['jour','Journal']]","[['shop','Shop'],['coll','Arsenal'],['main','Play'],['comm','Social'],['jour','Quests']]"),
 ]
 import os
 def tile_model(s):

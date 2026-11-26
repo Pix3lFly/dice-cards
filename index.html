@@ -1578,7 +1578,7 @@ window.m3pop=function(w){const M=$('menu');let p=M.querySelector('.mpop');if(p)p
 
 function skin(){const M=$('menu');if(!M||M.style.display!=='flex')return;M.classList.add('v2');
  const rk=rank();const mt=$('mt');if(mt)mt.innerHTML='<div class="rs"><img alt="" src="'+U.coin+'">'+SV.gold+'</div><div class="rs"><img alt="" src="'+U.gem+'">'+SV.gems+'</div><div class="rs rk"><img alt="" src="'+U.rank+'"><div>'+RK[rk][0]+'<small>'+SV.rp+' RP</small></div></div>';
- if(SV.m1==null)SV.m1=(SV.played||0)>0?1:0;const nv=$('nv');if(nv)nv.innerHTML=[['shop','Shop'],['coll','Collection'],['main','Battle'],['comm','Community'],['jour','Journal']].map(x=>{const lk=!SV.m1&&x[0]!=='main',nw=SV.m1&&SV.nu&&SV.nu.includes(x[0]);return `<button class="${tab===x[0]?'on':''} ${lk?'nlk':''} ${nw?'nnw':''}" onclick="${lk?"m3lk(this)":"m3go('"+x[0]+"')"}">${nw?GDN:''}${lk?'<i class="nlki">🔒</i>':''}<img alt="" src="${NVI[x[0]]}">${x[1]}</button>`}).join('');
+ if(SV.m1==null)SV.m1=(SV.played||0)>0?1:0;const nv=$('nv');if(nv)nv.innerHTML=[['shop','Shop'],['coll','Arsenal'],['main','Play'],['comm','Social'],['jour','Quests']].map(x=>{const lk=!SV.m1&&x[0]!=='main',nw=SV.m1&&SV.nu&&SV.nu.includes(x[0]);return `<button class="${tab===x[0]?'on':''} ${lk?'nlk':''} ${nw?'nnw':''}" onclick="${lk?"m3lk(this)":"m3go('"+x[0]+"')"}">${nw?GDN:''}${lk?'<i class="nlki">🔒</i>':''}<img alt="" src="${NVI[x[0]]}">${x[1]}</button>`}).join('');
  ['l','r','t','b','cn cn1','cn cn2','cn cn3','cn cn4','g'].forEach(c=>{const e=document.createElement('i');e.className='mfr '+c;M.appendChild(e)})}
 
 
