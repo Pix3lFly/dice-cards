@@ -19,20 +19,21 @@
     if(sz.x>3&&sz.z>3&&sz.x<9&&b.max.y<.75&&Math.hypot(c.x,c.z)<1.5){o.visible=false;(window.__pondHid=window.__pondHid||[]).push(o)}})}
   /* leftover outline lines of the old centre platform (the gold squares) */
   if(on&&tick.n%15==1){const b=new V.Box3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
-   S.traverse(o=>{if(!o.isMesh||!o.visible||!(o.userData.__olc||o.userData.ol))return;let p=o.parent;while(p&&p!==S){if(T.has(p)||p===window.__pondG||p===M)return;p=p.parent}
-    b.setFromObject(o);if(b.isEmpty())return;b.getCenter(c);if(Math.hypot(c.x,c.z)<2.2&&b.max.y<.8&&b.min.y>-1){o.visible=false;(window.__pondHid=window.__pondHid||[]).push(o)}})}
+   S.traverse(o=>{if(!o.isMesh||!o.visible)return;const gp=o.geometry&&o.geometry.parameters,bar=o.geometry&&o.geometry.type==='BoxGeometry'&&gp&&Math.min(gp.width,gp.height,gp.depth)<.1&&Math.max(gp.width,gp.depth)>1.2;if(!(o.userData.__olc||o.userData.ol||bar))return;let p=o.parent;while(p&&p!==S){if(T.has(p)||p===window.__pondG||p===M)return;p=p.parent}
+    b.setFromObject(o);if(b.isEmpty())return;b.getCenter(c);if(Math.hypot(c.x,c.z)<2.2&&b.max.y<.8&&b.min.y>-1){window.__pondHide(o);if(o.parent&&o.parent!==S&&o.parent.isMesh)window.__pondHide(o.parent)}})}
   if(!on&&window.__pondHid){window.__pondHid.forEach(o=>o.visible=true);window.__pondHid=null}
-  if(!on){if(window.__dieOff)window.__dieOff.position.set(0,0,0);return}
+  if(!on){try{if(G.die){G.die.position.x=0;G.die.position.z=0}}catch(e){}return}
   const A=new V.Vector3(0,P.y,0),dir=A.clone().sub(cam.position);const dist=dir.length();dir.normalize();
   const pos=A.clone().addScaledVector(dir,P.d),k=(dist+P.d)/dist;
   M.quaternion.copy(cam.quaternion);const w=P.w*k,h=w*M.userData.ar*(P.sy||1);M.scale.set(w,h,1);
   /* shift so the picture's gold ring (ax,ay) lands on the anchor */
   const right=new V.Vector3(1,0,0).applyQuaternion(cam.quaternion),up=new V.Vector3(0,1,0).applyQuaternion(cam.quaternion);
   pos.addScaledVector(right,(.5-P.ax)*w).addScaledVector(up,(P.ay-.5)*h);M.position.copy(pos);
-  /* the dice lands on the picture's platform: move the die (inside an offset group) to where the painted gold ring is */
-  try{const d=G.die;if(d){let og=window.__dieOff;if(!og){og=new V.Group();og.userData.__mine=1;S.add(og);window.__dieOff=og}if(d.parent!==og){og.add(d)}
-   const ring=A.clone().addScaledVector(dir,P.d).addScaledVector(up,(P.ay-(P.ry||.468))*h);const near=cam.position.clone().add(ring.sub(cam.position).multiplyScalar(dist/(dist+P.d)));
-   og.position.copy(on?near.sub(A):new V.Vector3())}}catch(e){}}catch(e){}};
+  /* the dice lands just above the picture's gold ring: slide it (x/z only, the game only moves y) */
+  try{const d=G.die;if(d){if(window.__dieOff){const og=window.__dieOff;if(d.parent===og){S.add(d)}og.position.set(0,0,0)}
+   const ring=new V.Vector3(P.ax-.5,.5-(P.ry||.468),0);M.updateMatrixWorld(true);ring.applyMatrix4(M.matrixWorld).project(cam);const ty=ring.y+(P.dUp==null?.07:P.dUp);
+   const f=new V.Vector3(cam.position.x,0,cam.position.z).normalize(),Y=P.dY||1.6,v=new V.Vector3();let lo=-3,hi=3;
+   for(let it=0;it<22;it++){const m=(lo+hi)/2;v.set(f.x*m,Y,f.z*m).project(cam);if(v.y>ty)lo=m;else hi=m}const t=(lo+hi)/2;d.position.x=f.x*t;d.position.z=f.z*t}}catch(e){}}catch(e){}};
  const loop=()=>{tick();requestAnimationFrame(loop)};requestAnimationFrame(loop)})();
 /* Settings: pick the centre island (picture or the 3D backup); remembered on this phone */
 try{if(localStorage.getItem('dc_pond3d')==='1')window.__pondImg=0}catch(e){}
