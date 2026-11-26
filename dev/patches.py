@@ -134,6 +134,15 @@ P = [
  "<div class=\"ocd\">${pc}${window.__sdc&&__sdc(o)<o.c?'<span class=\"gbn\">-20%</span>':''}<div class=\"otop\"><div class=\"omed\">${pimg(o.h)}</div><div class=\"oqty\"><img alt=\"\" src=\"${U.s_gem}\"><b>×${o.q}</b></div></div><div class=\"onm\">${HD[o.h].n}</div>${price(window.__sdc?__sdc(o):o.c,o.gem,(o.gem?SV.gems:SV.gold)>=(window.__sdc?__sdc(o):o.c),'buy('+i+')')}"),
 ("shard discount (buy)","function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold';if(SV[k]>=o.c){SV[k]-=o.c;","function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold',cc=window.__sdc?__sdc(o):o.c;if(SV[k]>=cc){SV[k]-=cc;"),
 ("nav labels (Pix 26 Nov)","[['shop','Shop'],['coll','Collection'],['main','Battle'],['comm','Community'],['jour','Journal']]","[['shop','Shop'],['coll','Arsenal'],['main','Play'],['comm','Social'],['jour','Quests']]"),
+('rename (used to upgrade bas','(used to upgrade bases in Collection → Base)','(used to upgrade bases in Arsenal → Base)'),
+('rename gear in Collection →','gear in Collection → Hero.','gear in Arsenal → Hero.'),
+('rename bases in Collection ','bases in Collection → Base.','bases in Arsenal → Base.'),
+("rename coll:{name:'Collecti","coll:{name:'Collection'","coll:{name:'Arsenal'"),
+("rename comm:{name:'Communit","comm:{name:'Community'","comm:{name:'Social'"),
+("rename jour:{name:'Journal'","jour:{name:'Journal'","jour:{name:'Quests'"),
+("rename ['coll','🃏','Collect","['coll','🃏','Collection'],['main','⚔️','Main'],['comm','👥','Community'],['jour','📜','Journal']","['coll','🃏','Arsenal'],['main','⚔️','Play'],['comm','👥','Social'],['jour','📜','Quests']"),
+('rename hero shards</b> here','hero shards</b> here. Use them in the <b>Collection</b> page','hero shards</b> here. Use them in the <b>Arsenal</b> page'),
+('rename base blueprints</b> ','base blueprints</b> here. Use them in the <b>Collection</b> page','base blueprints</b> here. Use them in the <b>Arsenal</b> page'),
 ]
 import os
 def tile_model(s):

@@ -80,7 +80,7 @@ window.redeem=async function(){const i=document.getElementById('rdc'),c=((i&&i.v
 let CTX='',LAST=null,LOG=[],SAMP=[],ALT={};
 const ctx=()=>{if(CTX)return CTX;try{const M=document.getElementById('menu'),inMenu=M&&M.style.display!=='none';
  const pt=(document.querySelector('#menu .mpop .uc b, #menu .mpop b')||{}).textContent||'',ov=document.getElementById('ov'),ovt=ov&&ov.style.display!=='none'?((ov.querySelector('h2,b')||{}).textContent||''):'';
- const T={shop:'Shop',coll:'Collection',main:'Battle',comm:'Community',jour:'Journal'}[tab]||tab;
+ const T={shop:'Shop',coll:'Arsenal',main:'Play',comm:'Social',jour:'Quests'}[tab]||tab;
  return (inMenu?T+(tab==='comm'?' › '+({fr:'Friends',gu:'Guild',ml:'Mail',st:'Settings'}[CMT]||''):''):'In a match'+(ovt?' › '+ovt.trim():''))+(pt?' › '+pt.trim().slice(0,40):'')}catch(e){return '?'}};
 const snap=()=>({g:Math.floor(SV.gold||0),m:Math.floor(SV.gems||0),u:window.__upN()});
 const LIM={g:[4000,'gold'],m:[150,'gems'],u:[12,'upgrades']};

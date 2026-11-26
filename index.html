@@ -772,7 +772,7 @@ function menu(t){tab=t||tab;const M=$('menu'),rk=rank(),nx=RK[rk+1];M.style.disp
  else if(tab==='coll'){const h=SV.mine,g=gr(h);b=`<div class="pn"><b>${HD[h].e} ${HD[h].n}</b> — shards: ${SV.sh[h]||0}<br>${[0,1,2].map(j=>`${GN[j]} Lv ${g[j]}/10 <button class="bt" ${g[j]>=10||(SV.sh[h]||0)<LV[g[j]]?'disabled':''} onclick="upg(${j})">${g[j]>=10?'MAX':'Upgrade ('+LV[g[j]]+')'}</button>`).join('<br>')}</div><div class="pn"><b>Dice cards (14 basic)</b><br>1 2 3 4 5 6 · Random · Even · Odd · Low · High · Extreme · Middle · Double<br><b>Starter specials (change them in the deck builder below)</b><br>💰 Coins · 🧪 Potion · ⚡ Stun · 📜 Draw 2 · 🛡️ Shield</div>`}
  else if(tab==='comm'){b='<div class="pn">👥 Friends, guild and mail are planned but not in this test build yet.</div>'}
  else{const a=[['Matches played',SV.played,10],['Wins',SV.wins,5],['Gear levels',Object.values(SV.gear).flat().reduce((x,y)=>x+y,0),10],['Shards owned',Object.values(SV.sh).reduce((x,y)=>x+y,0),20]];b=`<div class="pn"><b>Achievements</b>${a.map(x=>`<div>${x[0]}: ${x[1]}/${x[2]} ${x[1]>=x[2]?'✅':''}<div class="bar"><i style="width:${Math.min(100,100*x[1]/x[2])}%;background:#ffd166"></i></div></div>`).join('')}</div>`}
- M.innerHTML=`<div id="mt"><span>🪙 ${SV.gold}</span><span>💎 ${SV.gems}</span><span>🏅 ${RK[rk][0]} · ${SV.rp} RP</span></div><div id="mb">${b}</div><div id="nv">${[['shop','🛒','Shop'],['coll','🃏','Collection'],['main','⚔️','Main'],['comm','👥','Community'],['jour','📜','Journal']].map(x=>`<button class="${tab===x[0]?'on':''}" onclick="menu('${x[0]}')">${x[1]}<br>${x[2]}</button>`).join('')}</div>`}
+ M.innerHTML=`<div id="mt"><span>🪙 ${SV.gold}</span><span>💎 ${SV.gems}</span><span>🏅 ${RK[rk][0]} · ${SV.rp} RP</span></div><div id="mb">${b}</div><div id="nv">${[['shop','🛒','Shop'],['coll','🃏','Arsenal'],['main','⚔️','Play'],['comm','👥','Social'],['jour','📜','Quests']].map(x=>`<button class="${tab===x[0]?'on':''}" onclick="menu('${x[0]}')">${x[1]}<br>${x[2]}</button>`).join('')}</div>`}
 function buy(i){const o=SV.offers[i],k=o.gem?'gems':'gold',cc=window.__sdc?__sdc(o):o.c;if(SV[k]>=cc){SV[k]-=cc;SV.sh[o.h]=(SV.sh[o.h]||0)+o.q;SV.offers[i]=null;sv()}menu()}
 function upg(j){const h=CH||SV.mine,g=gr(h);if(g[j]<10&&(SV.sh[h]||0)>=LV[g[j]]){SV.sh[h]-=LV[g[j]];g[j]++;sv()}menu()}
 function go(m){mode=m;$('menu').style.display='none';init();intro()}
@@ -1072,7 +1072,7 @@ function setUI(){const s=SV.set,ck=(k,l)=>`<label class="srow"><span>${l}</span>
 function redeem(){const c=($('rdc').value||'').trim().toUpperCase(),C={WELCOME100:{gold:100},DICECARDS:{gems:10},MESHY:{sh:5}};SV.codes=SV.codes||[];let m;if(!C[c])m='That code is not valid.';else if(SV.codes.includes(c))m='You already used that code.';else{const r=C[c];SV.codes.push(c);if(r.gold)SV.gold+=r.gold;if(r.gems)SV.gems+=r.gems;if(r.sh){const h=pick(Object.keys(HD));SV.sh[h]=(SV.sh[h]||0)+r.sh}m='Code redeemed!';sv()}menu();$('rdm').textContent=m}
 const BPN=[0,2,4,7,12];
 function mkBO(){SV.boffers=(_bs=>[0,1,2].map(i=>({b:_bs[i%_bs.length],q:[1,2,1][i],gem:i===2,c:[90,170,4][i]})))(shuf(Object.keys(BASES)))}
-function bshop(){if(!SV.boffers)mkBO();return '<div class="pn"><b>🏰 Base blueprints</b> <small>(used to upgrade bases in Collection → Base)</small>'+SV.boffers.map((o,i)=>o?`<button class="bt big" onclick="bbuy(${i})">${BASES[o.b].e} ${BASES[o.b].n} blueprint ×${o.q} — ${o.gem?'💎':'🪙'} ${o.c}</button>`:'<div style="opacity:.5">Sold out</div>').join('')+'<button class="bt" onclick="if(SV.gems>=2){SV.gems-=2;mkBO();sv();menu()}">🔄 Refresh blueprints (💎 2)</button></div>'}
+function bshop(){if(!SV.boffers)mkBO();return '<div class="pn"><b>🏰 Base blueprints</b> <small>(used to upgrade bases in Arsenal → Base)</small>'+SV.boffers.map((o,i)=>o?`<button class="bt big" onclick="bbuy(${i})">${BASES[o.b].e} ${BASES[o.b].n} blueprint ×${o.q} — ${o.gem?'💎':'🪙'} ${o.c}</button>`:'<div style="opacity:.5">Sold out</div>').join('')+'<button class="bt" onclick="if(SV.gems>=2){SV.gems-=2;mkBO();sv();menu()}">🔄 Refresh blueprints (💎 2)</button></div>'}
 function bbuy(i){const o=SV.boffers[i],k=o.gem?'gems':'gold';if(SV[k]>=o.c){SV[k]-=o.c;SV.bs[o.b]=(SV.bs[o.b]||0)+o.q;SV.boffers[i]=null;sv()}menu()}
 baseWin=function(b){const L=BL(b),mx=L>=5,have=SV.bs[b]||0,need=BPN[L];return '<div class="pn" style="border-color:var(--gold)"><div class="hw"><div class="hw-sp">'+BASES[b].e+'</div><div><b style="font-size:15px">'+BASES[b].n+' base</b> · Level '+L+'/5<br><span style="font-size:11px">Now: '+bdesc(b,L)+'</span>'+(mx?'':'<br><span style="font-size:11px;color:#9fe3ff">Next level: '+bdesc(b,L+1)+'</span>')+'</div></div><div class="hw-row" style="font-size:12px;margin-top:6px"><span>'+BASES[b].e+' blueprints owned: <b>'+have+'</b></span>'+(mx?'<b>MAX level</b>':`<button class="bt" ${have<need?'disabled':''} onclick="bup('${b}')">Upgrade to Lv ${L+1} · ${need} blueprints</button>`)+'</div><div style="font-size:10px;opacity:.65;margin-top:4px">Buy blueprints in the Shop. Costs and effects are a first version.</div></div>'};
 bup=function(b){const L=BL(b),need=BPN[L];if(L<5&&(SV.bs[b]||0)>=need){SV.bs[b]-=need;SV.blv[b]=L+1;sv()}menu()};
@@ -1091,8 +1091,8 @@ function ocard(icon,name,qty,price,gem,onclick){const can=(gem?SV.gems:SV.gold)>
 const soldC='<div class="oc sold"><span class="oi">✔️</span><b>Sold out</b></div>';
 function gx(g,c){if(SV.gems>=g){SV.gems-=g;SV.gold+=c;sv()}menu()}
 function shopUI(){const tabs=subT(STAB,[['sh','🔹','Shards'],['bp','🏰','Blueprints'],['gg','💰','Gold & Gems']],'stab');let body;
- if(STAB==='sh')body='<div class="pn"><div class="sh-h"><b>Hero shards</b><button class="bt sm" '+(SV.gems>=3?'':'disabled')+' onclick="if(SV.gems>=3){SV.gems-=3;mkOffers();sv();menu()}">🔄 Refresh · 💎3</button></div><div class="ogrid">'+SV.offers.map((o,i)=>o?ocard(HD[o.h].e,HD[o.h].n,o.q,o.c,o.gem,`buy(${i})`):soldC).join('')+'</div><div class="sh-n">Shards upgrade your heroes\' gear in Collection → Hero.</div></div>';
- else if(STAB==='bp'){if(!SV.boffers)mkBO();body='<div class="pn"><div class="sh-h"><b>Base blueprints</b><button class="bt sm" '+(SV.gems>=2?'':'disabled')+' onclick="if(SV.gems>=2){SV.gems-=2;mkBO();sv();menu()}">🔄 Refresh · 💎2</button></div><div class="ogrid">'+SV.boffers.map((o,i)=>o?ocard(BASES[o.b].e,BASES[o.b].n,o.q,o.c,o.gem,`bbuy(${i})`):soldC).join('')+'</div><div class="sh-n">Blueprints upgrade your bases in Collection → Base.</div></div>'}
+ if(STAB==='sh')body='<div class="pn"><div class="sh-h"><b>Hero shards</b><button class="bt sm" '+(SV.gems>=3?'':'disabled')+' onclick="if(SV.gems>=3){SV.gems-=3;mkOffers();sv();menu()}">🔄 Refresh · 💎3</button></div><div class="ogrid">'+SV.offers.map((o,i)=>o?ocard(HD[o.h].e,HD[o.h].n,o.q,o.c,o.gem,`buy(${i})`):soldC).join('')+'</div><div class="sh-n">Shards upgrade your heroes\' gear in Arsenal → Hero.</div></div>';
+ else if(STAB==='bp'){if(!SV.boffers)mkBO();body='<div class="pn"><div class="sh-h"><b>Base blueprints</b><button class="bt sm" '+(SV.gems>=2?'':'disabled')+' onclick="if(SV.gems>=2){SV.gems-=2;mkBO();sv();menu()}">🔄 Refresh · 💎2</button></div><div class="ogrid">'+SV.boffers.map((o,i)=>o?ocard(BASES[o.b].e,BASES[o.b].n,o.q,o.c,o.gem,`bbuy(${i})`):soldC).join('')+'</div><div class="sh-n">Blueprints upgrade your bases in Arsenal → Base.</div></div>'}
  else body='<div class="pn"><div class="sh-h"><b>Gold & Gems</b></div><div class="ogrid">'+[[10,500],[25,1400],[60,3600]].map(([g,c])=>`<div class="oc"><span class="oi">🪙</span><b>${c} gold</b><button class="bt op" ${SV.gems>=g?'':'disabled'} onclick="gx(${g},${c})">💎 ${g}</button></div>`).join('')+'</div><div class="sh-n">Trade gems for gold. Real-money gem packs are not part of this prototype.</div><div style="margin-top:8px;text-align:center"><button class="bt sm" onclick="SV.gold+=200;SV.gems+=10;sv();menu()">🧪 Test helper: +200🪙 +10💎</button></div></div>';
  return tabs+body}
 const _m6=menu;menu=function(t){_m6(t);if(tab==='shop'){$('mb').innerHTML=shopUI();fitMenu();if(window.requestAnimationFrame)requestAnimationFrame(fitMenu)}};
@@ -3347,21 +3347,21 @@ setInterval(()=>{try{const M=$('menu'),b=document.getElementById('v3tq');if(tab=
  const call=(f,a)=>{try{window[f]?window[f](a):eval(f+"('"+a+"')")}catch(e){}};
  const PAGES={
   shop:{name:'Shop',cur:()=>G('STAB'),set:v=>call('stab',v),steps:[
-   {s:'sh',t:()=>tabN(0),m:'<b>Shards</b>: buy <b>hero shards</b> here. Use them in the <b>Collection</b> page to upgrade your hero’s starting stats.'},
+   {s:'sh',t:()=>tabN(0),m:'<b>Shards</b>: buy <b>hero shards</b> here. Use them in the <b>Arsenal</b> page to upgrade your hero’s starting stats.'},
    {s:'sh',t:()=>$q('.ocd'),m:'Each card shows the hero, how many shards you get and the price. Tap the price to buy.'},
-   {s:'bp',t:()=>tabN(1),m:'<b>Blueprints</b>: buy <b>base blueprints</b> here. Use them in the <b>Collection</b> page to upgrade your bases.'},
+   {s:'bp',t:()=>tabN(1),m:'<b>Blueprints</b>: buy <b>base blueprints</b> here. Use them in the <b>Arsenal</b> page to upgrade your bases.'},
    {s:'gg',t:()=>tabN(2),m:'<b>Gold &amp; Gems</b>: buy more <b>gold</b> using gems, or get extra <b>gems</b> with real money.'}]},
-  comm:{name:'Community',cur:()=>G('CMT'),set:v=>call('cmt',v),steps:[
+  comm:{name:'Social',cur:()=>G('CMT'),set:v=>call('cmt',v),steps:[
    {s:'fr',t:()=>tabN(0),m:'<b>Friends</b>: add your friends, send them <b>coin gifts</b> or challenge them to a <b>friendly battle</b>.'},
    {s:'gu',t:()=>tabN(1),m:'<b>Guild</b>: join a guild for extra bonuses on loot, starting stats and more.'},
    {s:'ml',t:()=>tabN(2),m:'<b>Mail</b>: receive gifts and messages from your friends here.'},
    {s:'st',t:()=>tabN(3),m:'<b>Settings</b>: adjust the game to your preferences.'}]},
-  jour:{name:'Journal',cur:()=>G('JT'),set:v=>call('jt',v),steps:[
+  jour:{name:'Quests',cur:()=>G('JT'),set:v=>call('jt',v),steps:[
    {s:'rew',t:()=>$q('.dls')||tabN(0),m:'<b>Daily login</b>: open the game every day and tap today’s reward to collect it. Day 7 is the best!'},
    {s:'rew',t:()=>$q('.dq3'),m:'<b>Daily quests</b>: 3 new quests every day. Play matches to finish them, then tap <b>CLAIM</b> for gold or gems. New quests come at midnight.'},
    {s:'rew',t:()=>$q('.csh'),m:'<b>Chests</b>: win Casual or Ranked fights to earn chests full of free <b>hero shards</b> and <b>base blueprints</b>.'},
    {s:'ach',t:()=>tabN(1),m:'<b>Achievements</b>: complete achievements and challenges to earn extra <b>gold</b> and <b>gems</b>.'}]},
-  coll:{name:'Collection',cur:()=>G('CT'),set:v=>call('c3t',v),steps:[
+  coll:{name:'Arsenal',cur:()=>G('CT'),set:v=>call('c3t',v),steps:[
    {s:'hero',t:()=>$q('.prow'),m:'<b>Heroes</b>: choose a hero here.'},
    {s:'hero',t:()=>$q('.grs'),m:'Upgrade your chosen hero’s <b>starting stats</b> using the <b>hero shards</b> you earn or buy.'},
    {s:'base',t:()=>$q('.stabs + *')||tabN(1),t2:()=>$q('.bupb')||$q('.bmax'),m:'<b>Bases</b>: same idea. Pick a base and upgrade it using <b>base blueprints</b> with the upgrade button below.'},
@@ -6034,7 +6034,7 @@ window.redeem=async function(){const i=document.getElementById('rdc'),c=((i&&i.v
 let CTX='',LAST=null,LOG=[],SAMP=[],ALT={};
 const ctx=()=>{if(CTX)return CTX;try{const M=document.getElementById('menu'),inMenu=M&&M.style.display!=='none';
  const pt=(document.querySelector('#menu .mpop .uc b, #menu .mpop b')||{}).textContent||'',ov=document.getElementById('ov'),ovt=ov&&ov.style.display!=='none'?((ov.querySelector('h2,b')||{}).textContent||''):'';
- const T={shop:'Shop',coll:'Collection',main:'Battle',comm:'Community',jour:'Journal'}[tab]||tab;
+ const T={shop:'Shop',coll:'Arsenal',main:'Play',comm:'Social',jour:'Quests'}[tab]||tab;
  return (inMenu?T+(tab==='comm'?' › '+({fr:'Friends',gu:'Guild',ml:'Mail',st:'Settings'}[CMT]||''):''):'In a match'+(ovt?' › '+ovt.trim():''))+(pt?' › '+pt.trim().slice(0,40):'')}catch(e){return '?'}};
 const snap=()=>({g:Math.floor(SV.gold||0),m:Math.floor(SV.gems||0),u:window.__upN()});
 const LIM={g:[4000,'gold'],m:[150,'gems'],u:[12,'upgrades']};
