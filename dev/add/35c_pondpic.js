@@ -2,12 +2,12 @@
    It is a flat picture that always faces the camera and sits BEHIND the board, so tiles, bases, items and heroes
    are drawn over it and the water fills the gaps. window.__pondImg=0 → the 3D pond (backup) instead.
    Tuning: __pp = {d: push-back distance, w: picture width (world units at the board centre), ax/ay: anchor (ring) in the picture, y: anchor height} ===== */
-(function(){const P=window.__pp=Object.assign({d:7,w:11.2,ax:.478,ay:.468,y:.6},window.__pp||{});
+(function(){const P=window.__pp=Object.assign({d:7,w:11.2,ax:.478,ay:.40,y:.6},window.__pp||{});
  let M=null,ISL=null;
  const tick=()=>{try{const G=window.__3;if(!G||!G.S||!G.cam||!G.V||!window.__PONDIMG)return;const V=G.V,S=G.S,cam=G.cam,on=window.__pondImg!==0;
   if(!M){const tx=new V.TextureLoader().load(window.__PONDIMG,t=>{const im=t.image;M.userData.ar=im.height/im.width});tx.minFilter=V.LinearMipmapLinearFilter;tx.anisotropy=4;
    M=new V.Mesh(new V.PlaneGeometry(1,1),new V.MeshBasicMaterial({map:tx,transparent:true,alphaTest:.35,depthWrite:false,fog:false,toneMapped:false}));
-   M.userData.ar=1001/1024;M.renderOrder=-5;M.frustumCulled=false;M.userData.__mine=1;S.add(M);window.__pondPic=M}
+   M.userData.ar=1001/1024;{const C=M.material.color;['set','setRGB','setHex','setHSL','copy','multiplyScalar','lerp','offsetHSL','multiply','lerpColors'].forEach(f=>{C[f]=function(){return C}});M.material.userData.__ct=1;M.material.userData.__pcel=1;M.userData.__nt=1}M.renderOrder=-5;M.frustumCulled=false;M.userData.__mine=1;S.add(M);window.__pondPic=M}
   if(M.parent!==S)S.add(M);
   M.visible=on;if(window.__pondG)window.__pondG.visible=!on;
   /* the old rocky underside of the centre island would show in front of the picture */
