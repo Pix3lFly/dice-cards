@@ -1,0 +1,17 @@
+/* Top bar + bottom nav on every menu page: Pix's Play-page mock-up (26 Nov) */
+html body #menu.v2 #mt{background:linear-gradient(#2c3258,#181d3a 60%,#11152c)!important;border:3px solid #d9ac4a!important;border-radius:26px!important;
+ box-shadow:inset 0 2px 0 #ffffff26,inset 0 0 0 2px #0c0f20,0 0 0 2px #241a30,0 0 0 4px #9aa0c4,0 0 0 5.5px #2a2440,0 5px 10px #000a!important}
+html body #menu.v2 #mt .rs{background:linear-gradient(#1c2142,#0c1024)!important;border:1.5px solid #5a6090!important;border-radius:12px!important;box-shadow:inset 0 2px 4px #0009,0 1px 0 #ffffff1a!important;color:#fff!important}
+html body #menu.v2 #mt .rs *{color:#fff!important;text-shadow:0 2px 0 #000a!important}
+html body #menu.v2 #mt .rs.rk small,html body #menu.v2 #mt .rs.rk span{color:#e6e0f2!important}
+html body #menu.v2 #mt .pf3{box-shadow:0 0 0 3px #f2c25a,0 0 0 5px #3a2208,0 3px 6px #000a!important}
+html body #menu.v2 #nv{gap:6px!important;padding:0 4px!important;align-items:flex-end!important}
+html body #menu.v2 #nv button{height:62px!important;border-radius:14px!important;padding:4px 1px 3px!important;
+ background:linear-gradient(#3c4266,#232848 55%,#151a32)!important;border:2.5px solid #d9ac4a!important;
+ box-shadow:inset 0 2px 0 #ffffff30,inset 0 -3px 0 #0c0f22,0 0 0 2px #241a30,0 0 0 3.5px #8a90b4,0 5px 7px #000b!important;
+ color:#fff!important;font:400 13.5px 'Lilita One',system-ui,sans-serif!important;letter-spacing:.2px;
+ text-shadow:-1px -1px 0 #1a1030,1px -1px 0 #1a1030,-1px 1px 0 #1a1030,1px 1px 0 #1a1030,0 2px 0 #1a1030!important}
+html body #menu.v2 #nv button img{width:36px!important;height:36px!important;object-fit:contain;filter:drop-shadow(0 2px 2px #000a)}
+html body #menu.v2 #nv button.on{height:70px!important;background:linear-gradient(#fff0a8,#f5c242 45%,#d9961c)!important;border-color:#fff3c0!important;
+ box-shadow:inset 0 2px 0 #fff8d8,inset 0 -3px 0 #a8650c,0 0 0 2px #5a3608,0 0 0 3.5px #f2c25a,0 0 14px #ffd76699,0 5px 8px #000b!important;color:#fff!important}
+html body #menu.v2 #nv button.on img{width:42px!important;height:42px!important}
