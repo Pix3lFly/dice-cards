@@ -2,7 +2,7 @@
    It is a flat picture that always faces the camera and sits BEHIND the board, so tiles, bases, items and heroes
    are drawn over it and the water fills the gaps. window.__pondImg=0 → the 3D pond (backup) instead.
    Tuning: __pp = {d: push-back distance, w: picture width (world units at the board centre), ax/ay: anchor (ring) in the picture, y: anchor height} ===== */
-(function(){const P=window.__pp=Object.assign({d:7,w:11.2,ax:.478,ay:.40,y:.6},window.__pp||{});
+(function(){const P=window.__pp=Object.assign({d:7,w:11.2,ax:.478,ay:.365,y:.6},window.__pp||{});
  let M=null,ISL=null;
  const tick=()=>{try{const G=window.__3;if(!G||!G.S||!G.cam||!G.V||!window.__PONDIMG)return;const V=G.V,S=G.S,cam=G.cam,on=window.__pondImg!==0;
   if(!M){const tx=new V.TextureLoader().load(window.__PONDIMG,t=>{const im=t.image;M.userData.ar=im.height/im.width});tx.minFilter=V.LinearMipmapLinearFilter;tx.anisotropy=4;
@@ -17,6 +17,10 @@
   if(on&&!(tick.n=(tick.n||0)+1)%15==0||on&&tick.n<3){const b=new V.Box3(),sz=new V.Vector3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
    S.children.forEach(o=>{if(o===M||o===window.__pondG||o===ISL||T.has(o)||!o.visible)return;if(o.isSprite||o.isPoints)return;b.setFromObject(o);if(b.isEmpty())return;b.getSize(sz);b.getCenter(c);
     if(sz.x>3&&sz.z>3&&sz.x<9&&b.max.y<.75&&Math.hypot(c.x,c.z)<1.5){o.visible=false;(window.__pondHid=window.__pondHid||[]).push(o)}})}
+  /* leftover outline lines of the old centre platform (the gold squares) */
+  if(on&&tick.n%15==1){const b=new V.Box3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
+   S.traverse(o=>{if(!o.isMesh||!o.visible||!(o.userData.__olc||o.userData.ol))return;let p=o.parent;while(p&&p!==S){if(T.has(p)||p===window.__pondG||p===M)return;p=p.parent}
+    b.setFromObject(o);if(b.isEmpty())return;b.getCenter(c);if(Math.hypot(c.x,c.z)<2.2&&b.max.y<.8&&b.min.y>-1){o.visible=false;(window.__pondHid=window.__pondHid||[]).push(o)}})}
   if(!on&&window.__pondHid){window.__pondHid.forEach(o=>o.visible=true);window.__pondHid=null}
   if(!on)return;
   const A=new V.Vector3(0,P.y,0),dir=A.clone().sub(cam.position);const dist=dir.length();dir.normalize();
