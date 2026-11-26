@@ -2,7 +2,7 @@
    It is a flat picture that always faces the camera and sits BEHIND the board, so tiles, bases, items and heroes
    are drawn over it and the water fills the gaps. window.__pondImg=0 → the 3D pond (backup) instead.
    Tuning: __pp = {d: push-back distance, w: picture width (world units at the board centre), ax/ay: anchor (ring) in the picture, y: anchor height} ===== */
-(function(){const P=window.__pp=Object.assign({d:7,w:12.32,ax:.478,ay:.365,y:.6},window.__pp||{});
+(function(){const P=window.__pp=Object.assign({d:7,w:12.32,ax:.478,ay:.34,y:.6},window.__pp||{});
  let M=null,ISL=null;
  const tick=()=>{try{const G=window.__3;if(!G||!G.S||!G.cam||!G.V||!window.__PONDIMG)return;const V=G.V,S=G.S,cam=G.cam,on=window.__pondImg!==0;
   if(!M){const tx=new V.TextureLoader().load(window.__PONDIMG,t=>{const im=t.image;M.userData.ar=im.height/im.width});tx.minFilter=V.LinearMipmapLinearFilter;tx.anisotropy=4;
