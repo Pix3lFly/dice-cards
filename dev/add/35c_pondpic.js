@@ -2,7 +2,7 @@
    It is a flat picture that always faces the camera and sits BEHIND the board, so tiles, bases, items and heroes
    are drawn over it and the water fills the gaps. window.__pondImg=0 → the 3D pond (backup) instead.
    Tuning: __pp = {d: push-back distance, w: picture width (world units at the board centre), ax/ay: anchor (ring) in the picture, y: anchor height} ===== */
-(function(){const P=window.__pp=Object.assign({d:7,w:12.32,ax:.478,ay:.34,y:.6},window.__pp||{});
+(function(){const P=window.__pp=Object.assign({d:7,w:12.32,sy:1.12,ax:.478,ay:.34,y:.6},window.__pp||{});
  let M=null,ISL=null;
  const tick=()=>{try{const G=window.__3;if(!G||!G.S||!G.cam||!G.V||!window.__PONDIMG)return;const V=G.V,S=G.S,cam=G.cam,on=window.__pondImg!==0;
   if(!M){const tx=new V.TextureLoader().load(window.__PONDIMG,t=>{const im=t.image;M.userData.ar=im.height/im.width});tx.minFilter=V.LinearMipmapLinearFilter;tx.anisotropy=4;
@@ -25,7 +25,7 @@
   if(!on)return;
   const A=new V.Vector3(0,P.y,0),dir=A.clone().sub(cam.position);const dist=dir.length();dir.normalize();
   const pos=A.clone().addScaledVector(dir,P.d),k=(dist+P.d)/dist;
-  M.quaternion.copy(cam.quaternion);const w=P.w*k,h=w*M.userData.ar;M.scale.set(w,h,1);
+  M.quaternion.copy(cam.quaternion);const w=P.w*k,h=w*M.userData.ar*(P.sy||1);M.scale.set(w,h,1);
   /* shift so the picture's gold ring (ax,ay) lands on the anchor */
   const right=new V.Vector3(1,0,0).applyQuaternion(cam.quaternion),up=new V.Vector3(0,1,0).applyQuaternion(cam.quaternion);
   pos.addScaledVector(right,(.5-P.ax)*w).addScaledVector(up,(P.ay-.5)*h);M.position.copy(pos)}catch(e){}};
