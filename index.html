@@ -6546,16 +6546,16 @@ function deco(){if(!ON()||typeof tab==='undefined'||tab!=='comm'||typeof CMT==='
   const b=document.createElement('button');b.className='fgf fgx';b.disabled=sent||(full&&!sent);b.innerHTML='<img alt="" src="'+((typeof U!=='undefined'&&U.coin)||'')+'"><small>'+(sent?'Sent':'Gift')+'</small>';b.onclick=e=>{e.stopPropagation();window.__giftTo(id)};
   const fb=r.querySelector('.fbt');if(fb)r.insertBefore(b,fb);else r.appendChild(b);
   if(isAI(id)){const lso=r.querySelector('.lso');if(lso)lso.textContent='AI player'}});
- /* suggestions (2 friends or fewer) */
- const nf=(F.ids?F.ids().length:0)+aiList().length;let h='';
- if(nf<=2){loadSug();const fids=F.ids?F.ids():[];const S2=sug.filter(x=>!fids.includes(x.uid)).slice(0,3).map(x=>({k:'u'+x.uid,x})).concat(aiSug().map(a=>({k:'a'+a.id,x:a,a})));
-  if(S2.length){h+='<div class="frh lst sgh">Suggested players</div>'+S2.map(o=>{SG[o.k]=o.a?{a:o.a}:{uid:o.x.uid};const pend=o.x.uid&&F.sentTo&&F.sentTo(o.x.uid);
-   return row(o.k,o.x,o.a?'Lv '+o.x.lv+' · W-L '+o.x.w+'-'+o.x.l:'Played recently',pend?'<button class="opr jn" disabled>Sent</button>':'<button class="opr jn" onclick="__sgAdd(\''+o.k+'\')">＋ Add</button>')}).join('')}}
  /* recent opponents */
- const ids=F.ids?F.ids():[],an=aiList().map(a=>a.n);const R=(Array.isArray(SV.recent)?SV.recent:[]).filter(x=>!(x.uid&&(ids.includes(x.uid)||x.uid===F.uid))&&!(!x.uid&&an.includes(x.n)));
+ const ids=F.ids?F.ids():[],an=aiList().map(a=>a.n);const R=(Array.isArray(SV.recent)?SV.recent:[]).filter(x=>!(x.uid&&(ids.includes(x.uid)||x.uid===F.uid))&&!(!x.uid&&an.includes(x.n))).slice(0,3);let h='';
  if(R.length){h+='<div class="frh lst sgh">Recent opponents</div>'+R.map((x,i)=>{const k='r'+i;SG[k]=x.uid?{uid:x.uid}:{a:aiMake('r_'+x.n,x.n,x.h)};const pend=x.uid&&F.sentTo&&F.sentTo(x.uid);
    const ago=Math.max(1,Math.round((Date.now()-(x.t||0))/6e4)),when=ago<60?ago+' min ago':ago<1440?Math.round(ago/60)+' h ago':Math.round(ago/1440)+' d ago';
    return row(k,x,'Played '+when,pend?'<button class="opr jn" disabled>Sent</button>':'<button class="opr jn" onclick="__sgAdd(\''+k+'\')">＋ Add</button>')}).join('')}
+ /* suggestions (2 friends or fewer) */
+ const nf=(F.ids?F.ids().length:0)+aiList().length;
+ if(nf<=2){loadSug();const fids=F.ids?F.ids():[];const S2=sug.filter(x=>!fids.includes(x.uid)).slice(0,3).map(x=>({k:'u'+x.uid,x})).concat(aiSug().map(a=>({k:'a'+a.id,x:a,a}))).slice(0,3);
+  if(S2.length){h+='<div class="frh lst sgh">Suggested players</div>'+S2.map(o=>{SG[o.k]=o.a?{a:o.a}:{uid:o.x.uid};const pend=o.x.uid&&F.sentTo&&F.sentTo(o.x.uid);
+   return row(o.k,o.x,o.a?'Lv '+o.x.lv+' · W-L '+o.x.w+'-'+o.x.l:'Played recently',pend?'<button class="opr jn" disabled>Sent</button>':'<button class="opr jn" onclick="__sgAdd(\''+o.k+'\')">＋ Add</button>')}).join('')}}
  if(h){const f0=lst.querySelector('.fr0');lst.insertAdjacentHTML('beforeend',h)}}
 const _m=menu;menu=function(){const r=_m.apply(this,arguments);try{deco()}catch(e){console.log('social deco',e)}return r};
 const css=document.createElement('style');css.textContent=`
