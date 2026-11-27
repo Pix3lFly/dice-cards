@@ -3395,7 +3395,7 @@ setInterval(()=>{try{const M=$('menu'),b=document.getElementById('v3tq');if(tab=
  Q.onclick=e=>{e.stopPropagation();const pg=G('tab');start(pg,1)};
  const vis=id=>{const e=document.getElementById(id);return e&&e.style.display!=='none'&&getComputedStyle(e).display!=='none'};
  setInterval(()=>{try{const pg=G('tab'),SVv=G('SV');if(!SVv)return;SVv.mt=SVv.mt||{};
-   const onMenu=vis('menu')&&!vis('splash')&&PAGES[pg]&&!document.querySelector('#menu .mpop')&&!vis('tut3');
+   const onMenu=!(window.__nmHold&&__nmHold())&&vis('menu')&&!vis('splash')&&PAGES[pg]&&!document.querySelector('#menu .mpop')&&!vis('tut3');
    if(!onMenu||run){if(!run)Q.style.display='none';return}
    if(!SVv.mt[pg]){SVv.mt[pg]=1;try{sv()}catch(e){}start(pg,0);return}
    const mt=document.getElementById('mt'),r=mt&&mt.getBoundingClientRect();Q.style.display='flex';Q.style.top=((r&&r.bottom)||60)+6+'px';Q.style.right='14px'}catch(e){}},400);
@@ -4740,7 +4740,7 @@ async function ensure2(u){uid=u.uid;const D=db(),ref=D.collection('profiles').do
  else{for(let i=0;i<8&&!prof;i++){const n=randName(),num=randNum(),p=Object.assign({name:n,nameLower:n.toLowerCase(),num:num,seen:FV().serverTimestamp()},stats());
    const b=D.batch();b.set(D.collection('names').doc(p.nameLower),{uid:uid});b.set(D.collection('nums').doc(num),{uid:uid});b.set(ref,p);
    try{await b.commit();prof=p;lastErr=''}catch(e){lastErr=((e&&e.code)||'create')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('name try',e&&e.code);if(!/^permission-denied/.test(lastErr)||i>=2)break}}
-  if(!prof)return}
+  if(!prof)return;SV.nm4=1;try{sv()}catch(e){}}
  if(O.user&&O.user.uid!==uid)return;
  const em=(u.email||'').toLowerCase();if(em)D.collection('emails').doc(em).set({uid:uid}).catch(e=>console.log('email idx',e&&e.code));
  if(SV.pname!==prof.name){SV.pname=prof.name;sv()}
@@ -4845,6 +4845,16 @@ window.__pfSave=async function(){let synced=null;try{synced=JSON.parse(localStor
   b.set(D.collection('profiles').doc(uid),{name:v,nameLower:lo},{merge:true});await b.commit();
   prof=Object.assign({},prof,{name:v,nameLower:lo});_save&&_save()}
  catch(e){console.log('rename',e&&e.code);err(e&&e.code==='permission-denied'?'That name is taken — try another.':'Something went wrong — try again.')}};
+/* rename used by Sparky's first-time name pick (42_name.js): returns '' when done, otherwise the reason */
+F.rename=async function(v){v=(v||'').trim();if(!NAME_OK.test(v))return '3–16 letters, numbers or _ (no spaces).';
+ if(!ON()){if(O.user&&O.state==='ready'){ensure();return 'Setting up your online profile… try again in a moment'}SV.pname=v;try{sv()}catch(e){}return ''}
+ if(v===prof.name){SV.pname=v;try{sv()}catch(e){}return ''}
+ const D=db(),lo=v.toLowerCase(),old=prof.nameLower;
+ try{if(lo!==old){const s=await D.collection('names').doc(lo).get();if(s.exists&&s.data().uid!==uid)return 'That name is taken — try another.'}
+  const b=D.batch();if(lo!==old){b.set(D.collection('names').doc(lo),{uid:uid});b.delete(D.collection('names').doc(old))}
+  b.set(D.collection('profiles').doc(uid),{name:v,nameLower:lo},{merge:true});await b.commit();
+  prof=Object.assign({},prof,{name:v,nameLower:lo});SV.pname=v;try{sv()}catch(e){}beat(1);return ''}
+ catch(e){console.log('rename',e&&e.code);return e&&e.code==='permission-denied'?'That name is taken — try another.':'Something went wrong — try again.'}};
 const numRow=()=>{if(!ON())return;const box=document.querySelector('#menu .mpop .pfp');if(!box||box.querySelector('.pnum'))return;
  const nm=box.querySelector('.pnm b'),me=nm&&nm.textContent===prof.name&&box.querySelector('.pics');
  let num='';if(me)num=prof.num;else if(nm){const f=frIds.map(friendObj).find(x=>x.n===nm.textContent);if(f)num=f.num}
@@ -5446,7 +5456,7 @@ const st=document.createElement('style');st.textContent=`
 #v4ins .ibt button:active{transform:translateY(2px)}
 `;document.head.appendChild(st);
 const close=no=>{const o=document.getElementById('v4ins');if(o)o.remove();if(no)try{localStorage.setItem(K,String(Date.now()))}catch(e){}};
-function show(){if(document.getElementById('v4ins')||sa())return;const bip=window.__bip;
+function show(){if(document.getElementById('v4ins')||sa())return;if(window.__nmHold&&__nmHold()||document.getElementById('nm4')){setTimeout(show,4000);return}const bip=window.__bip;
  const share='<svg width="15" height="17" viewBox="0 0 15 17" style="vertical-align:-3px"><path d="M7.5 1v10M3.5 5l4-4 4 4" stroke="#ffe08a" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 8H2v8h11V8h-2.5" stroke="#ffe08a" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>';
  const steps=bip?'':ios?'<ol><li>Tap the <b>Share</b> button '+share+' in the browser bar</li><li>Pick <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>':'<ol><li>Open the browser <b>menu</b> (<b>⋮</b> or <b>☰</b>)</li><li>Pick <b>Install app</b> or <b>Add to Home screen</b></li></ol>';
  const o=document.createElement('div');o.id='v4ins';o.innerHTML='<div class="ib"><img class="ic" alt="" src="icons/icon-192.png"><div class="ittl">Install Dice Cards?</div><p>Add the game to your phone’s home screen. It opens full screen, like a normal app.</p>'+steps+'<div class="ibt"><button class="n">Not now</button><button class="y">'+(bip?'Install':'OK')+'</button></div></div>';
@@ -7415,7 +7425,7 @@ window.__kf=n=>{n=+n||0;const a=Math.abs(n),t=(v,d)=>(+v.toFixed(d)).toString();
 #sp4n span{position:absolute;right:4px;top:-10px;font:400 18px 'Lilita One',system-ui,sans-serif;color:#cfe4ff;text-shadow:0 2px 0 #0008;animation:zz 2.2s ease-in-out infinite}
 @keyframes zz{0%{opacity:0;transform:translate(0,6px) scale(.7)}40%{opacity:1}100%{opacity:0;transform:translate(10px,-16px) scale(1.15)}}`;document.head.appendChild(st);
  const guide=()=>[...document.body.children].some(e=>e.id!=='menu'&&e.id!=='app'&&e.offsetParent!==null&&/Tap to continue/i.test(e.textContent||''));
- const inMenu=()=>{const m=document.getElementById('menu');return m&&m.style.display==='flex'&&!document.querySelector('#menu .mpop,#tut3[style*="flex"],#v3wel[style*="flex"]')&&!guide()};
+ const inMenu=()=>{const m=document.getElementById('menu');return !(window.__nmHold&&__nmHold())&&m&&m.style.display==='flex'&&!document.querySelector('#menu .mpop,#tut3[style*="flex"],#v3wel[style*="flex"]')&&!guide()};
  const close=()=>{const e=document.getElementById('sp4');if(e)e.remove()};
  window.__sp4Close=close;
  const show=k=>{close();const t=TIP[k];if(!t)return;const d=document.createElement('div');d.id='sp4';d.innerHTML='<img alt="" src="'+(M[t[0]]||M.hold)+'"><div class="bb"><i>'+NAME+'</i>'+t[1]+'<button onclick="__sp4Close()">Got it!</button></div>';document.body.appendChild(d)};
@@ -7460,4 +7470,108 @@ window.__kf=n=>{n=+n||0;const a=Math.abs(n),t=(v,d)=>(+v.toFixed(d)).toString();
   [0,.16,.32,.5].forEach(a=>noise(.12,180,1,.22,a,'lowpass'));noise(.6,7000,1,.05,.5,'highpass')};
  window.__sfx.lose=()=>{chord([392,494,587],0,.35,.07);chord([370,440,523],.35,.35,.07);chord([311,392,466],.7,1.1,.07,'sine');tone(98,73,1.2,'sine',.18,.7)};
 }catch(e){console.warn('v4 sound',e)}})();
+</script><script id="v4_41_clean">/* ===== v4 (27 Nov): no bad words in player names, guild names and guild messages ===== */
+(function(){try{
+ /* words blocked anywhere inside a word (unambiguous) */
+ const T1=['fuck','fuk','fck','shit','bitch','cunt','pussy','whore','slut','nigger','nigga','niger','faggot','retard','asshole','arsehole','motherf','dildo','blowjob','handjob','porn','penis','vagina','wanker','twat','hitler','bastard','jizz','cocksuck','dickhead','bollock','clit','testicle','pedo','paedo','molest','isis','skank','bimbo','hentai','orgasm','masturb','ejacul','erection','nazi'];
+ /* words blocked only as a whole word (they hide inside normal words: class, title, grape, peacock…) */
+ const T2=['ass','asses','arse','cum','cumming','tit','tits','titty','titties','cock','cocks','dick','dicks','sex','sexy','sexx','anal','anus','fag','fags','rape','raped','rapist','nude','nudes','naked','boob','boobs','horny','kys','hoe','hoes','piss','prick','spunk','semen','thot','milf','xxx','kkk','gay','homo','lesbo','tranny','coon','chink','spic','kike','wetback','gook','damn','crap','bullshit','stfu','wtf','milf','incel','suicide','killyourself'];
+ /* Egyptian / Arabic (Franco letters) */
+ const F1=['kosom','ksom','kosomak','sharmot','sharmout','charmot','metnak','mtnak','mitnak','khawal','5awal','khwal','wes5a','weskha','wis5a','manyak','manyok','ma3ras','m3ras','a7a','zebby','zbi'];
+ const F2=['kos','kus','zeb','zob','teez','tiz','ars','3ars','ibnwes5a','nik','neek'];
+ /* Arabic script */
+ const A1=['شرموط','شرموطه','متناك','منيوك','منيك','قحب','كسمك','كسامك','كس امك','ابن الوسخه','وسخه','عرص','معرص','لبوه','زبي','زبك','طيزك','نياك','لوطي','سكس','سافل'];
+ const A2=['كس','زب','طيز','احا','خرا','زق','نيك','خول'];
+ const LEET={'0':'o','1':'i','!':'i','|':'i','3':'e','4':'a','@':'a','5':'s','$':'s','7':'t','+':'t','8':'b','9':'g','6':'g','2':'z'};
+ const sq=w=>w.replace(/(.)\1+/g,'$1');
+ const T1s=T1.map(sq).filter(w=>w.length>=3);
+ const arN=t=>t.replace(/[ً-ٰٟـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي');
+ function bad(s){s=String(s||'');if(!s.trim())return false;
+  const sp=s.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/([A-Za-z])([0-9])(?=[A-Za-z]{2})/g,'$1$2');
+  const low=sp.toLowerCase();
+  /* Franco Arabic: before leet so 3 / 5 / 7 stay letters */
+  const fr=low.replace(/[^a-z0-9]+/g,' ').trim().split(' ');const frj=low.replace(/[^a-z0-9]/g,'');
+  if(F1.some(w=>frj.includes(w))||fr.some(t=>F2.includes(t)))return true;
+  /* Arabic script */
+  const ar=arN(s);if(/[؀-ۿ]/.test(ar)){const at=ar.replace(/[^؀-ۿ ]+/g,' ').split(/\s+/).filter(Boolean);
+   const aj=at.join(' '),an=at.join('');
+   if(A1.some(w=>aj.includes(w)||an.includes(w.replace(/ /g,''))))return true;
+   if(at.some(t=>A2.includes(t)||A2.includes(t.replace(/^(و|ف|يا|ال)/,''))))return true}
+  /* English with leetspeak */
+  const lt=(low+' '+s.toLowerCase()).replace(/[0-9!|@$+]/g,c=>LEET[c]||c);
+  /* words: split on anything that's not a letter; join runs of single letters (f u c k / f.u.c.k) */
+  let toks=lt.split(/[^a-z]+/).filter(Boolean),out=[],run='';
+  toks.forEach(t=>{if(t.length===1)run+=t;else{if(run){out.push(run);run=''}out.push(t)}});if(run)out.push(run);
+  for(const t of out){const q=sq(t);
+   if(T1.some(w=>t.includes(w))||T1s.some(w=>q.includes(w)))return true;
+   if(T2.includes(t)||T2.includes(q)||(t.endsWith('s')&&T2.includes(t.slice(0,-1))))return true}
+  /* words split by dots, dashes, underscores inside one chunk: f-u-c-k, f_u_c_k */
+  for(const c of lt.split(/\s+/)){const j=c.replace(/[^a-z]/g,'');if(j.length>=4&&/[^a-z]/.test(c)&&(T1.some(w=>j.includes(w))||T1s.some(w=>sq(j).includes(w))))return true}
+  return false}
+ window.__bad=bad;
+ const MSG='Please keep it friendly — no bad words.';
+ const val=id=>{const e=document.getElementById(id);return e?e.value:''};
+ const note=t=>{try{const n=document.createElement('div');n.className='m3note';n.textContent=t;document.body.appendChild(n);setTimeout(()=>n.remove(),2200)}catch(e){}};
+ const pfErr=t=>{let e=document.querySelector('#menu .pfp .pner');if(!e){const r=document.querySelector('#menu .pfp .pnr');if(!r)return note(t);r.insertAdjacentHTML('afterend','<div class="pner" style="font:700 11.5px system-ui;color:#ffb3a8;text-align:center;margin-top:-2px"></div>');e=document.querySelector('#menu .pfp .pner')}e.textContent=t};
+ const G={__pfSave:()=>bad(val('pfnm'))&&(pfErr(MSG),1),
+  guCreate:()=>bad(val('gun'))&&((document.getElementById('gum')||{}).textContent=MSG,1),
+  guSave:()=>bad(val('gmsg'))&&(note(MSG),1)};
+ /* keep the check on top even when other files replace these functions later */
+ setInterval(()=>{for(const k in G){const f=window[k];if(typeof f!=='function'||f.__cl)continue;const w=function(){if(G[k]())return;return f.apply(this,arguments)};w.__cl=1;window[k]=w}},500);
+}catch(e){console.warn('v4 clean',e)}})();
+</script><script id="v4_42_name">/* ===== v4 (27 Nov): new players pick their username with Sparky before anything else ===== */
+(function w(){if(typeof SV==='undefined'||!window.__MASC||typeof menu!=='function'){setTimeout(w,400);return}try{
+ const M=window.__MASC,OK=/^[A-Za-z0-9_]{3,16}$/;
+ const st=document.createElement('style');st.textContent=`
+#nm4{position:fixed;inset:0;z-index:60;background:#0a0e24c4;display:flex;align-items:center;justify-content:center;padding:16px;animation:nm4f .3s ease-out both}
+#nm4.pt{background:none;pointer-events:none}
+@keyframes nm4f{from{opacity:0}}
+#nm4 .nm4b{position:relative;width:min(340px,92vw);background:linear-gradient(#26305a,#161c3a);border:3px solid #e8b84e;border-radius:18px;padding:64px 16px 16px;color:#fff;font:500 14px/1.4 system-ui,sans-serif;text-align:center;box-shadow:0 0 0 2px #3a2208,0 10px 24px #000c;animation:nm4i .5s cubic-bezier(.3,1.4,.5,1) both;pointer-events:auto}
+@keyframes nm4i{from{transform:translateY(40px) scale(.9);opacity:0}}
+#nm4 .nm4b>img{position:absolute;left:50%;top:-66px;width:118px;transform:translateX(-50%);filter:drop-shadow(0 5px 5px #000a);animation:mscB 2.4s ease-in-out infinite}
+#nm4 i{display:block;font:400 19px 'Lilita One',system-ui,sans-serif;font-style:normal;color:#ff9a3c;margin-bottom:4px}
+#nm4 p{margin:0 0 12px}#nm4 p b{color:#ffd76a}
+#nm4 input{width:100%;box-sizing:border-box;height:46px;border-radius:12px;border:2.5px solid #8a5f17;background:#fff8e6;color:#3a2006;font:400 20px 'Lilita One',system-ui,sans-serif;text-align:center;outline:none}
+#nm4 input:focus{border-color:#f5c242;box-shadow:0 0 0 3px #f5c24255}
+#nm4 small{display:block;margin:6px 0 0;color:#b8c0e0;font-size:12px}
+#nm4 .er{min-height:17px;margin-top:6px;color:#ffb3a8;font-weight:700;font-size:12.5px}
+#nm4 button{margin-top:8px;width:100%;height:46px;border-radius:12px;border:2px solid #7a4a0e;background:linear-gradient(#ffe9a6,#f5c242 50%,#d4901c);font:400 19px 'Lilita One',system-ui,sans-serif;color:#3a2006;box-shadow:inset 0 2px 0 #fff3c4,0 3px 0 #5a3608;cursor:pointer}
+#nm4 button:active{transform:translateY(2px)}#nm4 button:disabled{filter:grayscale(.6) brightness(.8)}
+#nm4 .ring{position:fixed;border-radius:50%;border:3px solid #ffd76a;box-shadow:0 0 0 4px #ffd76a55,0 0 18px #ffd76a;animation:nm4r 1.1s ease-in-out infinite;pointer-events:none}
+@keyframes nm4r{50%{transform:scale(1.12);opacity:.7}}
+#nm4 .arw{position:fixed;width:0;height:0;border:13px solid transparent;border-bottom:20px solid #ffd76a;border-top:0;filter:drop-shadow(0 0 2px #6a4208) drop-shadow(0 3px 3px #000a);animation:nm4a 1s ease-in-out infinite;pointer-events:none}
+@keyframes nm4a{50%{transform:translate(-5px,-7px)}}`;document.head.appendChild(st);
+ const ON=window.__ON,vis=id=>{const e=document.getElementById(id);return !!e&&e.style.display!=='none'&&getComputedStyle(e).display!=='none'};
+ const offline=()=>!ON||ON.state==='none'||ON.state==='off';
+ const fresh=()=>SV.nm4==null&&!SV.pname&&!(SV.played>0);
+ const pending=()=>SV.nm4===1||(fresh()&&offline());
+ let menuAt=0;
+ /* also keeps the page guide, install popup and Sparky tips waiting */
+ window.__nmHold=()=>{if(document.getElementById('nm4')||pending())return true;
+  if(!fresh()||!ON||!menuAt||Date.now()-menuAt>15000)return false;
+  return ON.state==='loading'||(ON.state==='ready'&&!!ON.user&&!(window.__FRON&&__FRON.prof))};
+ const esc=t=>String(t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+ function ask(){const o=document.createElement('div');o.id='nm4';
+  o.innerHTML='<div class="nm4b"><img alt="" src="'+(M.cheer||M.hold)+'"><i>Hi, I’m Sparky!</i><p>Welcome to <b>Dice Cards</b>! Before we start, what should other players call you?</p><input id="nm4i" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Your username"><small>3–16 letters, numbers or _</small><div class="er"></div><button>Confirm</button></div>';
+  document.body.appendChild(o);const i=o.querySelector('input'),er=o.querySelector('.er'),b=o.querySelector('button');
+  setTimeout(()=>{try{i.focus()}catch(e){}},500);
+  i.oninput=()=>{er.textContent=''};i.onkeydown=e=>{if(e.key==='Enter')go()};b.onclick=go;
+  async function go(){const v=i.value.trim();
+   if(!OK.test(v)){er.textContent='Use 3–16 letters, numbers or _ (no spaces).';return}
+   if(window.__bad&&__bad(v)){er.textContent='Please keep it friendly — no bad words.';return}
+   b.disabled=true;b.textContent='Saving…';let r='';
+   try{r=window.__FRON&&__FRON.rename&&!offline()?await __FRON.rename(v):(SV.pname=v,'')}catch(e){r='Something went wrong — try again.'}
+   b.disabled=false;b.textContent='Confirm';if(r){er.textContent=r;return}
+   SV.nm4=2;try{sv()}catch(e){}try{window.__sfx&&__sfx.up&&__sfx.up()}catch(e){}
+   try{if(typeof tab!=='undefined'&&tab==='main')menu()}catch(e){}thanks(v)}}
+ function thanks(v){const o=document.getElementById('nm4');if(!o)return;o.classList.add('pt');
+  o.innerHTML='<div class="nm4b" style="margin-top:90px"><img alt="" src="'+(M.star||M.cheer||M.hold)+'"><i>Thanks, '+esc(v)+'!</i><p>Want to change your name or your profile picture later? Just tap your <b>profile picture</b> up here in the top left.</p><button>Got it!</button></div>';
+  const pf=document.querySelector('#menu #mt .pf3');
+  if(pf){const r=pf.getBoundingClientRect();if(r.width){const g=document.createElement('div');g.className='ring';Object.assign(g.style,{left:r.left-5+'px',top:r.top-5+'px',width:r.width+10+'px',height:r.height+10+'px'});o.appendChild(g);
+   const a=document.createElement('div');a.className='arw';Object.assign(a.style,{left:r.left+r.width/2-13+'px',top:r.bottom+8+'px'});o.appendChild(a)}}
+  o.querySelector('button').onclick=()=>o.remove()}
+ setInterval(()=>{try{const m=vis('menu')&&!vis('splash');if(m&&!menuAt)menuAt=Date.now();
+  if(!m||document.getElementById('nm4')||document.getElementById('acp')||!pending())return;
+  if(window.__sp4Close)__sp4Close();const ins=document.getElementById('v4ins');if(ins)ins.remove();ask()}catch(e){}},600);
+}catch(e){console.warn('v4 name pick',e)}})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>

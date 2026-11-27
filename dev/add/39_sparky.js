@@ -20,7 +20,7 @@
 #sp4n span{position:absolute;right:4px;top:-10px;font:400 18px 'Lilita One',system-ui,sans-serif;color:#cfe4ff;text-shadow:0 2px 0 #0008;animation:zz 2.2s ease-in-out infinite}
 @keyframes zz{0%{opacity:0;transform:translate(0,6px) scale(.7)}40%{opacity:1}100%{opacity:0;transform:translate(10px,-16px) scale(1.15)}}`;document.head.appendChild(st);
  const guide=()=>[...document.body.children].some(e=>e.id!=='menu'&&e.id!=='app'&&e.offsetParent!==null&&/Tap to continue/i.test(e.textContent||''));
- const inMenu=()=>{const m=document.getElementById('menu');return m&&m.style.display==='flex'&&!document.querySelector('#menu .mpop,#tut3[style*="flex"],#v3wel[style*="flex"]')&&!guide()};
+ const inMenu=()=>{const m=document.getElementById('menu');return !(window.__nmHold&&__nmHold())&&m&&m.style.display==='flex'&&!document.querySelector('#menu .mpop,#tut3[style*="flex"],#v3wel[style*="flex"]')&&!guide()};
  const close=()=>{const e=document.getElementById('sp4');if(e)e.remove()};
  window.__sp4Close=close;
  const show=k=>{close();const t=TIP[k];if(!t)return;const d=document.createElement('div');d.id='sp4';d.innerHTML='<img alt="" src="'+(M[t[0]]||M.hold)+'"><div class="bb"><i>'+NAME+'</i>'+t[1]+'<button onclick="__sp4Close()">Got it!</button></div>';document.body.appendChild(d)};

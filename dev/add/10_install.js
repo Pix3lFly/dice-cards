@@ -23,7 +23,7 @@ const st=document.createElement('style');st.textContent=`
 #v4ins .ibt button:active{transform:translateY(2px)}
 `;document.head.appendChild(st);
 const close=no=>{const o=document.getElementById('v4ins');if(o)o.remove();if(no)try{localStorage.setItem(K,String(Date.now()))}catch(e){}};
-function show(){if(document.getElementById('v4ins')||sa())return;const bip=window.__bip;
+function show(){if(document.getElementById('v4ins')||sa())return;if(window.__nmHold&&__nmHold()||document.getElementById('nm4')){setTimeout(show,4000);return}const bip=window.__bip;
  const share='<svg width="15" height="17" viewBox="0 0 15 17" style="vertical-align:-3px"><path d="M7.5 1v10M3.5 5l4-4 4 4" stroke="#ffe08a" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 8H2v8h11V8h-2.5" stroke="#ffe08a" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>';
  const steps=bip?'':ios?'<ol><li>Tap the <b>Share</b> button '+share+' in the browser bar</li><li>Pick <b>Add to Home Screen</b></li><li>Tap <b>Add</b></li></ol>':'<ol><li>Open the browser <b>menu</b> (<b>⋮</b> or <b>☰</b>)</li><li>Pick <b>Install app</b> or <b>Add to Home screen</b></li></ol>';
  const o=document.createElement('div');o.id='v4ins';o.innerHTML='<div class="ib"><img class="ic" alt="" src="icons/icon-192.png"><div class="ittl">Install Dice Cards?</div><p>Add the game to your phone’s home screen. It opens full screen, like a normal app.</p>'+steps+'<div class="ibt"><button class="n">Not now</button><button class="y">'+(bip?'Install':'OK')+'</button></div></div>';

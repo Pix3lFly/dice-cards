@@ -31,7 +31,7 @@ async function ensure2(u){uid=u.uid;const D=db(),ref=D.collection('profiles').do
  else{for(let i=0;i<8&&!prof;i++){const n=randName(),num=randNum(),p=Object.assign({name:n,nameLower:n.toLowerCase(),num:num,seen:FV().serverTimestamp()},stats());
    const b=D.batch();b.set(D.collection('names').doc(p.nameLower),{uid:uid});b.set(D.collection('nums').doc(num),{uid:uid});b.set(ref,p);
    try{await b.commit();prof=p;lastErr=''}catch(e){lastErr=((e&&e.code)||'create')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('name try',e&&e.code);if(!/^permission-denied/.test(lastErr)||i>=2)break}}
-  if(!prof)return}
+  if(!prof)return;SV.nm4=1;try{sv()}catch(e){}}
  if(O.user&&O.user.uid!==uid)return;
  const em=(u.email||'').toLowerCase();if(em)D.collection('emails').doc(em).set({uid:uid}).catch(e=>console.log('email idx',e&&e.code));
  if(SV.pname!==prof.name){SV.pname=prof.name;sv()}
@@ -136,6 +136,16 @@ window.__pfSave=async function(){let synced=null;try{synced=JSON.parse(localStor
   b.set(D.collection('profiles').doc(uid),{name:v,nameLower:lo},{merge:true});await b.commit();
   prof=Object.assign({},prof,{name:v,nameLower:lo});_save&&_save()}
  catch(e){console.log('rename',e&&e.code);err(e&&e.code==='permission-denied'?'That name is taken — try another.':'Something went wrong — try again.')}};
+/* rename used by Sparky's first-time name pick (42_name.js): returns '' when done, otherwise the reason */
+F.rename=async function(v){v=(v||'').trim();if(!NAME_OK.test(v))return '3–16 letters, numbers or _ (no spaces).';
+ if(!ON()){if(O.user&&O.state==='ready'){ensure();return 'Setting up your online profile… try again in a moment'}SV.pname=v;try{sv()}catch(e){}return ''}
+ if(v===prof.name){SV.pname=v;try{sv()}catch(e){}return ''}
+ const D=db(),lo=v.toLowerCase(),old=prof.nameLower;
+ try{if(lo!==old){const s=await D.collection('names').doc(lo).get();if(s.exists&&s.data().uid!==uid)return 'That name is taken — try another.'}
+  const b=D.batch();if(lo!==old){b.set(D.collection('names').doc(lo),{uid:uid});b.delete(D.collection('names').doc(old))}
+  b.set(D.collection('profiles').doc(uid),{name:v,nameLower:lo},{merge:true});await b.commit();
+  prof=Object.assign({},prof,{name:v,nameLower:lo});SV.pname=v;try{sv()}catch(e){}beat(1);return ''}
+ catch(e){console.log('rename',e&&e.code);return e&&e.code==='permission-denied'?'That name is taken — try another.':'Something went wrong — try again.'}};
 const numRow=()=>{if(!ON())return;const box=document.querySelector('#menu .mpop .pfp');if(!box||box.querySelector('.pnum'))return;
  const nm=box.querySelector('.pnm b'),me=nm&&nm.textContent===prof.name&&box.querySelector('.pics');
  let num='';if(me)num=prof.num;else if(nm){const f=frIds.map(friendObj).find(x=>x.n===nm.textContent);if(f)num=f.num}
