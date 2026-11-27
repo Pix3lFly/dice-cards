@@ -157,14 +157,19 @@ P = [
 ('arabic: shop popup',"if(/Shop/.test(ttl.textContent))","if(/Shop|المتجر/.test(ttl.textContent))"),
 ('arabic: maxed label',"(/max/i.test(sp.textContent)?'Maxed':'Next level')","(/max|الأقصى/i.test(sp.textContent)?'Maxed':'Next level')"),
 ('arabic: language picker',"row('Language','<select><option>English</option><option disabled>More coming soon</option></select>')","row('Language','<select onchange=\"window.__setLang&&__setLang(this.value)\"><option value=\"en\">English</option><option value=\"ar\" '+(SV.lang==='ar'?'selected':'')+'>العربية</option></select>')"),
+('island tile: spin each tile so the rocks differ, sand at the tile top',"top.rotation.y=(i%4)*Math.PI/2;o.g.add(top);","top.rotation.y=window.__TISL?((i*2.39996+.7)%6.2832):(i%4)*Math.PI/2;if(window.__TISL)top.position.y+=(bb.max.y-(window.__tSand||.742))*sx*(window.__tileH||1);o.g.add(top);"),
+('island tile: no cream wash on the sand when flat-lit',"if(vN.y>.8&&c.r>c.g&&c.g>c.b&&c.g>.35)c=mix(","if(ck>.01&&vN.y>.8&&c.r>c.g&&c.g>c.b&&c.g>.35)c=mix("),
 ]
 import os
 def tile_model(s):
     # new Meshy tile (25 Nov) replaces the V3 tile GLB; it keeps its own painted cliffs (no procedural rock)
     k='<script id="v3_22">(function(){const B=\'';i=s.find(k);assert i>0,'tile model';i+=len(k);j=s.find("'",i)
     TOY=True  # toy pass tile (25 Nov); False = previous Meshy tile
-    nb=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'assets','tile_toy.b64' if TOY else 'tile.b64')).read().strip()
-    s=s[:i]+nb+s[j:];return s.replace('<script id="v3_22">',('<script>window.__TNEW=1;window.__TTOY=1</script>' if TOY else '<script>window.__TNEW=1</script>')+'<script id="v3_22">',1)
+    NEWT=True # Pix's floating-island tile (27 Nov, assets/tile_new.b64, merged 940k → 28k triangles); False = toy tile
+    nb=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'assets','tile_new.b64' if NEWT else ('tile_toy.b64' if TOY else 'tile.b64'))).read().strip()
+    s=s[:i]+nb+s[j:]
+    if NEWT:s=s.replace('<script id="v3_22">','<script>window.__TISL=1;window.__tileH=1;window.__tileW=1.1</script><script id="v3_22">',1)
+    return s.replace('<script id="v3_22">',('<script>window.__TNEW=1;window.__TTOY=1</script>' if TOY else '<script>window.__TNEW=1</script>')+'<script id="v3_22">',1)
 def apply(s):
     s=tile_model(s)
     for t in P:
