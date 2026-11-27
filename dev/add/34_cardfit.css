@@ -1,2 +1,8 @@
 #hand .c>b{white-space:nowrap!important;overflow:visible!important}
 #hand .c>b>.cft{display:inline-block;white-space:nowrap;transform-origin:50% 50%;flex:none}
+/* 27 Nov: bigger cards with 5 or 6 in hand, still one row. 5 cards: use the width; 6 cards: they overlap a little, like cards held in a hand */
+html body #hand:has(.c:nth-child(5)):not(:has(.c:nth-child(6))) .c{width:min(76px,calc((100vw - 52px) / 5))!important}
+html body #hand:has(.c:nth-child(6)){gap:0!important}
+html body #hand:has(.c:nth-child(6)) .c{width:min(72px,calc((100vw - 26px) / 5.65))!important;margin-left:-8px!important;position:relative}
+html body #hand:has(.c:nth-child(6)) .c:first-child{margin-left:0!important}
+html body #hand:has(.c:nth-child(6)) .c.csel{z-index:3}
