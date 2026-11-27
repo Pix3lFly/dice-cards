@@ -148,6 +148,7 @@ P = [
 ("pond centre island hook","m.userData.toonW=.01;S.add(m)}","m.userData.toonW=.01;S.add(m);if(window.__POND)window.__POND(V,S,m)}"),
 ("tile + base cliffs warm brown like Pix's pond picture","c=vec3(.6,.62,.66)*(.6+.75*gl);","c=vec3(.8,.55,.34)*(.6+.75*gl);"),
 ("landing ring above the portal surface (flicker)","m=MK[i]=mk(V);m.position.y=.7;o.g.add(m)","m=MK[i]=mk(V);m.position.y=o.t==='portal'?.86:.7;o.g.add(m)"),
+("__arr safe when player is gone (menu errors @433)","window.__arr=k=>vis[k]===P[k].pos&&!hop[k]&&P[k].via==null;","window.__arr=k=>{const q=P&&P[k];if(!q)return true;return vis[k]===q.pos&&!hop[k]&&q.via==null};"),
 ]
 import os
 def tile_model(s):
