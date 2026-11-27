@@ -28,18 +28,43 @@
      vertexShader:'uniform float uW;void main(){vec4 c=projectionMatrix*modelViewMatrix*vec4(position,1.0);vec3 n=normalize(normalMatrix*normal);vec2 q=(projectionMatrix*vec4(n,0.0)).xy;float l=length(q);if(l>1e-5)c.xy+=q/l*uW*c.w;gl_Position=c;}',
      fragmentShader:'uniform vec3 uC;void main(){gl_FragColor=vec4(uC,1.0);}'});om.userData.__ct=1;
     o.geometry.computeVertexNormals();const h=new V.Mesh(o.geometry,om);h.userData.__olc=1;h.userData.__mine=1;h.renderOrder=-5;h.frustumCulled=false;h.raycast=()=>{};o.add(h)});
-   G3=g.scene;G3.userData.__mine=1;G3.name='island3';loading=false;window.__isl3=G3},e=>{console.warn('island3 parse',e);failed=true;loading=false})}catch(e){console.warn('island3',e);failed=true;loading=false}};
+   G3=g.scene;G3.userData.__mine=1;G3.name='island3';loading=false;ROOT().add(G3)},e=>{console.warn('island3 parse',e);failed=true;loading=false})}catch(e){console.warn('island3',e);failed=true;loading=false}};
   if(window.__ISL3B64){go();return}
   const sc=pre();sc.addEventListener('load',go);sc.addEventListener('error',()=>{failed=true;loading=false})}
  /* start downloading early, while the player is still in the menus */
  function pre(){let sc=document.getElementById('isl3js');if(!sc){sc=document.createElement('script');sc.id='isl3js';sc.src='m/island3.js?v=1';document.head.appendChild(sc)}return sc}
- setTimeout(()=>{if(MODE()==='model')pre()},4000);
- function tick(){try{if(window.__covered&&window.__covered())return;const G=window.__3;if(!G||!G.S||!G.V)return;const on=MODE()==='model';
-  window.__pondImg=MODE()==='3d'?0:1;
-  if(on&&!G3)load(G);window.__isl3on=!!(on&&G3);
-  if(!G3)return;if(G3.parent!==G.S)G.S.add(G3);G3.visible=on;if(!on)return;
-  G3.position.set(0,P.y,0);G3.scale.set(P.sx,P.sy,P.sz);G3.rotation.y=P.ry;
-  /* the dice never sinks into the ring (top of the ring + half the dice) */
-  window.__dieFloor=P.y+.671*P.sy+.52}catch(e){}}
+ setTimeout(()=>{if(BS()!=='2')pre()},4000);
+ /* ===== Board style. 1 = 3D island + 20 island tiles. 2 = Pix's whole-board model (m/board2.js): the 20 normal tiles and the pond are
+    one model; the game's own tile meshes are hidden, everything on them (icons, markers, rings, heroes) and the bases / portals stay.
+    The model was warped offline so each tile top sits exactly on the game's tile spot (1 grid step = 1 model unit). ===== */
+ window.__board2=1;
+ const BS=()=>{try{return localStorage.getItem('dc_board')==='2'?'2':'1'}catch(e){return '1'}};window.__boardStyleNow=BS;
+ const B=window.__b2p=Object.assign({s:1.38,y:.135,top:.311,mid:.4037,ow:.0045},window.__b2p||{});
+ let R0=null;function ROOT(){if(!R0){const G=window.__3,V=G.V;R0=new V.Group();R0.name='board3d';R0.userData.__mine=1;window.__isl3=R0}return R0}
+ let B2=null,b2load=false,b2fail=false;
+ function b2pre(){let sc=document.getElementById('b2js');if(!sc){sc=document.createElement('script');sc.id='b2js';sc.src='m/board2.js?v=1';document.head.appendChild(sc)}return sc}
+ function b2(G){if(b2load||B2||b2fail)return;const L=G.V.GLTFLoader||window.THREE&&THREE.GLTFLoader;if(!L)return;b2load=true;
+  const go=()=>{try{const s=atob(window.__B2B64),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);window.__B2B64=null;
+   new L().parse(u.buffer,'',g=>{const V=G.V,ms=[];g.scene.traverse(o=>{if(o.isMesh)ms.push(o)});ms.forEach(o=>{const map=o.material&&o.material.map;
+    if(map){map.encoding=V.LinearEncoding;map.anisotropy=8;map.needsUpdate=true}o.material=new V.MeshBasicMaterial({map,fog:false,toneMapped:false});{const C=o.material.color;['set','setRGB','setHex','setHSL','copy','multiplyScalar','lerp','offsetHSL','multiply','lerpColors'].forEach(f=>{C[f]=function(){return C}})}
+    o.material.userData.__ct=1;o.material.userData.__pcel=1;o.userData.__nt=1;o.userData.__mine=1;o.frustumCulled=false;o.renderOrder=-4;o.onAfterRender=r=>{try{r.clearDepth()}catch(e){}};
+    o.geometry.computeVertexNormals();const om=new V.ShaderMaterial({side:V.BackSide,uniforms:{uW:{value:B.ow},uC:{value:new V.Color(window.__inkC||0x24140a)}},
+     vertexShader:'uniform float uW;void main(){vec4 c=projectionMatrix*modelViewMatrix*vec4(position,1.0);vec3 n=normalize(normalMatrix*normal);vec2 q=(projectionMatrix*vec4(n,0.0)).xy;float l=length(q);if(l>1e-5)c.xy+=q/l*uW*c.w;gl_Position=c;}',
+     fragmentShader:'uniform vec3 uC;void main(){gl_FragColor=vec4(uC,1.0);}'});om.userData.__ct=1;
+    const h=new V.Mesh(o.geometry,om);h.userData.__olc=1;h.userData.__mine=1;h.renderOrder=-5;h.frustumCulled=false;h.raycast=()=>{};o.add(h)});
+    B2=g.scene;B2.name='board2';B2.userData.__mine=1;b2load=false;ROOT().add(B2)},e=>{console.warn('board2 parse',e);b2fail=true;b2load=false})}catch(e){console.warn('board2',e);b2fail=true;b2load=false}};
+  if(window.__B2B64){go();return}const sc=b2pre();sc.addEventListener('load',go);sc.addEventListener('error',()=>{b2fail=true;b2load=false})}
+ setTimeout(()=>{if(BS()==='2')b2pre()},4000);
+ let lastHide=null;
+ function tick(){try{if(window.__covered&&window.__covered())return;const G=window.__3;if(!G||!G.S||!G.V)return;
+  window.__pondImg=1;const R=ROOT();if(R.parent!==G.S)G.S.add(R);
+  const want2=BS()==='2';if(want2&&!B2)b2(G);const two=!!(want2&&B2);
+  if(!two&&!G3)load(G);window.__isl3on=!!(two||G3);
+  /* the game's own tile meshes: hidden on Board 2 (only the 20 normal tiles; bases and portals are separate) */
+  if(lastHide!==two||(two&&(tick.n=(tick.n||0)+1)%60==0)){lastHide=two;(G.tiles||[]).forEach((o,i)=>{if(o&&o.cBlk&&i%6!==0)o.cBlk.visible=!two})}
+  if(B2){B2.visible=two;B2.position.set(0,B.y,0);B2.scale.setScalar(B.s)}
+  if(G3){G3.visible=!two;G3.position.set(0,P.y,0);G3.scale.set(P.sx,P.sy,P.sz);G3.rotation.y=P.ry}
+  /* the dice never sinks into the middle (top of the dais + half the dice) */
+  window.__dieFloor=two?B.y+B.mid*B.s+.52:P.y+.671*P.sy+.52}catch(e){if(!tick.e){tick.e=1;console.warn("b2tick",e&&e.stack)}}}
  const loop=()=>{tick();requestAnimationFrame(loop)};requestAnimationFrame(loop);
 })();
