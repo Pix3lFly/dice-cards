@@ -127,8 +127,22 @@ setInterval(()=>{if(!L||!L.started)return;
  if(myTurn()||(over&&!L.sentOver)){const s=snap(),js=JSON.stringify(s);if(js!==L.lastSent){L.lastSent=js;send({k:'s',d:s})}if(over)L.sentOver=1}
  flush()},150);
 /* heartbeat + "your friend left" */
-setInterval(()=>{if(!L||!L.started||L.done||document.visibilityState==='hidden')return;mref().set({['h_'+L.me]:Date.now()},{merge:true}).catch(()=>{})},4000);
-setInterval(()=>{if(!live()||over)return;if(Date.now()-L.seen>(L.ready?20000:60000))finish(1,(L.themName||'Your friend')+' left the match — you win! 🏆')},2000);
+/* (27 Nov) my connection is checked too: a heartbeat only counts when the server confirms it.
+   While MY connection is down I never win by "they left"; after 25 s without connection I lose and a "left" message is queued for the other phone. */
+const hb=()=>{const S=L;if(!S||!S.started||S.done||document.visibilityState==='hidden')return;mref().set({['h_'+S.me]:Date.now()},{merge:true}).then(()=>{S.okAt=Date.now()}).catch(()=>{})};
+setInterval(hb,4000);
+const banner=t=>{let b=document.getElementById('lvnet');if(!t){if(b)b.remove();return}if(!b){b=document.createElement('div');b.id='lvnet';document.body.appendChild(b);
+  const st=document.getElementById('lvnetcss')||document.createElement('style');st.id='lvnetcss';st.textContent="#lvnet{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 132px);transform:translateX(-50%);z-index:60;pointer-events:none;padding:8px 16px;border-radius:14px;background:#1a1030e6;border:2px solid #ffcf5a;color:#fff2d8;font:400 15px 'Lilita One',system-ui,sans-serif;white-space:nowrap;box-shadow:0 4px 10px #000a}#lvnet.bad{border-color:#ff7a6a}";document.head.appendChild(st)}
+  b.className=t[1]||'';b.textContent=t[0]};
+setInterval(()=>{if(!live()||over){banner(null);return}const S=L,now=Date.now();if(S.okAt==null)S.okAt=now;
+ const mineBad=!navigator.onLine||now-S.okAt>10000;
+ if(mineBad){if(!S.badAt)S.badAt=now;const left=Math.max(0,25-Math.round((now-S.badAt)/1000));banner(['📶 Connection lost — reconnecting… '+left+'s','bad']);
+  if(now-S.badAt>25000){send({k:'left'});flush();banner(null);finish(0,'Connection lost — match over 💀')}return}
+ S.badAt=0;
+ const gone=now-S.seen,lim=S.ready?25000:60000;
+ if(S.ready&&gone>8000){banner(['⏳ Waiting for '+(S.themName||'your opponent')+'… '+Math.max(0,Math.round((lim-gone)/1000))+'s'])}else banner(null);
+ if(gone>lim){banner(null);finish(1,(S.themName||'Your friend')+' left the match — you win! 🏆')}},1000);
+addEventListener('online',()=>{if(live()&&!over)hb()});
 
 
 /* ---------- roll-off: each player rolls their own die; the screen stays until both rolled and someone won ---------- */
@@ -167,7 +181,9 @@ const MON={pend:0,t:0,i:0,ml:1};
 let hidAt=0;
 document.addEventListener('visibilitychange',()=>{if(!live()||over)return;
  if(document.visibilityState==='hidden'){hidAt=Date.now();return}
- if(hidAt&&Date.now()-hidAt>20000){hidAt=0;finish(0,'You left the match 💀')}hidAt=0});
+ /* back within 15 s: carry on (the other phone waits up to 25 s). Longer: I lose, and the other phone is told right away */
+ if(hidAt&&Date.now()-hidAt>15000){hidAt=0;send({k:'left'});flush();finish(0,'You left the match 💀');return}
+ hidAt=0;L.okAt=Date.now();L.badAt=0;hb()});
 
 /* ---------- start / end ---------- */
 const vis=id=>{const e=$$(id);return !!e&&getComputedStyle(e).display!=='none'};
