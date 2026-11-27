@@ -19,11 +19,11 @@
 #sp4n img{width:100%;display:block}
 #sp4n span{position:absolute;right:4px;top:-10px;font:400 18px 'Lilita One',system-ui,sans-serif;color:#cfe4ff;text-shadow:0 2px 0 #0008;animation:zz 2.2s ease-in-out infinite}
 @keyframes zz{0%{opacity:0;transform:translate(0,6px) scale(.7)}40%{opacity:1}100%{opacity:0;transform:translate(10px,-16px) scale(1.15)}}`;document.head.appendChild(st);
- const guide=()=>[...document.body.children].some(e=>e.id!=='menu'&&e.id!=='app'&&e.offsetParent!==null&&/Tap to continue/i.test(e.textContent||''));
+ const guide=()=>[...document.body.children].some(e=>e.id!=='menu'&&e.id!=='app'&&e.offsetParent!==null&&/Tap to continue|اضغط للمتابعة|اضغط للإنهاء/i.test(e.textContent||''));
  const inMenu=()=>{const m=document.getElementById('menu');return !(window.__nmHold&&__nmHold())&&m&&m.style.display==='flex'&&!document.querySelector('#menu .mpop,#tut3[style*="flex"],#v3wel[style*="flex"]')&&!guide()};
  const close=()=>{const e=document.getElementById('sp4');if(e)e.remove()};
  window.__sp4Close=close;
- const show=k=>{close();const t=TIP[k];if(!t)return;const d=document.createElement('div');d.id='sp4';d.innerHTML='<img alt="" src="'+(M[t[0]]||M.hold)+'"><div class="bb"><i>'+NAME+'</i>'+t[1]+'<button onclick="__sp4Close()">Got it!</button></div>';document.body.appendChild(d)};
+ const show=k=>{close();const t=TIP[k];if(!t)return;const d=document.createElement('div');d.id='sp4';d.innerHTML='<img alt="" src="'+(M[t[0]]||M.hold)+'"><div class="bb"><i>'+NAME+'</i><span>'+t[1]+'</span><button onclick="__sp4Close()">Got it!</button></div>';document.body.appendChild(d)};
  setInterval(()=>{try{if(!inMenu()||!SV.m1){close();return}SV.sp4=SV.sp4||{};const k=typeof tab!=='undefined'?tab:'';
   const cur=document.getElementById('sp4');if(cur&&cur.dataset.k&&cur.dataset.k!==k)close();
   if(TIP[k]&&!SV.sp4[k]&&!document.getElementById('sp4')){SV.sp4[k]=1;try{sv()}catch(e){}show(k);const e=document.getElementById('sp4');if(e)e.dataset.k=k}}catch(e){}},700);

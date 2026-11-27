@@ -1,0 +1,458 @@
+All-rounder	متعدد المواهب
+First victory	أول انتصار
+Champion	بطل
+Legend	أسطورة
+Warlord	أمير الحرب
+Conqueror	الفاتح
+Immortal	الخالد
+Regular	لاعب دائم
+Veteran	مخضرم
+Devoted	مخلص
+Die-hard	عنيد
+Tireless	لا يتعب
+Eternal	أبدي
+Hard hitter	ضارب قوي
+Bruiser	مُبرِح
+Destroyer	مدمّر
+Wrecker	محطِّم
+Devastator	ساحق
+Annihilator	مُبيد
+Monster hunter	صياد الوحوش
+Monster slayer	قاتل الوحوش
+Beast bane	لعنة الوحوش
+Ogre breaker	قاهر الغيلان
+Demon bane	لعنة الشياطين
+Monster legend	أسطورة الوحوش
+Spellcaster	ملقي التعاويذ
+Scholar	عالِم
+Sorcerer	مشعوذ
+Archmage	كبير السحرة
+Grand magus	الساحر الأعظم
+Loremaster	سيد المعرفة
+Shopper	متسوّق
+Bargain hunter	صائد الصفقات
+Big spender	مُنفِق كبير
+Merchant friend	صديق التجار
+Trade baron	بارون التجارة
+Market king	ملك السوق
+Jailer	السجّان
+Warden	الآمر
+Gaoler	حارس السجن
+Chain master	سيد السلاسل
+Iron keeper	حارس الحديد
+Dungeon lord	سيد الزنزانة
+Escape artist	فنان الهروب
+Lockpick	فاتح الأقفال
+Slippery	زلِق
+Houdini	هوديني
+Untouchable	لا يُمس
+Free spirit	روح حرة
+Card master	سيد البطاقات
+Card shark	محترف البطاقات
+Deck wizard	ساحر المجموعة
+High roller	المقامر الكبير
+Card lord	لورد البطاقات
+Dice legend	أسطورة النرد
+Treasure hunter	صائد الكنوز
+Chest cracker	كاسر الصناديق
+Loot lover	عاشق الغنائم
+Hoarder	المكتنِز
+Vault raider	ناهب الخزائن
+Dragon’s hoard	كنز التنين
+Tinkerer	المصلِّح
+Smith	الحداد
+Artificer	الصانع
+Master smith	كبير الحدادين
+Forge lord	سيد الحدادة
+Legend forger	صانع الأساطير
+Collector	الجامع
+Gatherer	المجمِّع
+Curator	أمين المجموعة
+Archivist	أمين الأرشيف
+Treasurer	أمين الخزانة
+Grand collector	الجامع الأكبر
+Silver league	الدوري الفضي
+Gold league	الدوري الذهبي
+Platinum league	الدوري البلاتيني
+Diamond league	الدوري الماسي
+Master league	دوري الأساتذة
+Win # battle · you have #	اربح # معركة · لديك #
+Win # battles	اربح # معارك
+🏆 First victory · # levels	🏆 أول انتصار · # مستويات
+Training	تدريب
+Start training	ابدأ التدريب
+Training match · no rewards	مباراة تدريبية · بلا مكافآت
+Training — no rewards	تدريب — بلا مكافآت
+Friend battle · no rewards	معركة صديق · بلا مكافآت
+🎓 Training — vs AI, no timer, no rewards	🎓 تدريب — ضد الكمبيوتر، بلا مؤقت، بلا مكافآت
+Replay tutorial	إعادة الدرس التعليمي
+Repeat guide	إعادة الدليل
+Tutorial?	الدرس التعليمي؟
+Would you like a quick guide on how to play?	هل تريد دليلًا سريعًا لطريقة اللعب؟
+Yes, show me	نعم، أرني
+Not now	ليس الآن
+Yes	نعم
+No	لا
+Learn how to play in a short guided match.	تعلّم اللعب في مباراة قصيرة مع دليل.
+▶ Begin Game	▶ ابدأ اللعب
+Welcome to Dice Cards!	أهلًا بك في بطاقات النرد!
+Welcome to Dice Cards	أهلًا بك في بطاقات النرد
+We’ll do our best to teach you the game in<br><b># easy steps</b>.	سنبذل جهدنا لنعلّمك اللعبة في<br><b># خطوات سهلة</b>.
+<b>Goal:</b> bring your enemy’s <b>HP to #</b> to win!	<b>الهدف:</b> أوصل <b>صحة خصمك إلى #</b> لتفوز!
+These are <b>your stats</b>: health (HP), attack power (AP), gold and skills.	هذه <b>قدراتك</b>: الصحة، قوة الهجوم، الذهب والمهارات.
+These are <b>your enemy’s stats</b>.	هذه <b>قدرات خصمك</b>.
+These are your <b>dice cards</b>. Tap a card, then tap it again to play it and move on the board.	هذه <b>بطاقات النرد</b> الخاصة بك. اضغط على بطاقة ثم اضغط عليها مرة أخرى لتلعبها وتتحرك على اللوحة.
+Move around the <b>board</b>. Every space you land on does something: attack, heal, gold, traps, shops and more.	تحرك حول <b>اللوحة</b>. كل خانة تقف عليها تفعل شيئًا: هجوم، علاج، ذهب، فخاخ، متاجر والمزيد.
+This is <b>your base</b>. Every time you <b>pass or land on it</b>, you level up and pick a <b>skill to upgrade</b>.	هذه <b>قاعدتك</b>. في كل مرة <b>تمر بها أو تقف عليها</b> ترتقي مستوى وتختار <b>مهارة لترقيتها</b>.
+<b>Portals</b> teleport you straight to the <b>other side</b> of the board. There are two of them.	<b>البوابات</b> تنقلك مباشرة إلى <b>الجانب الآخر</b> من اللوحة. يوجد اثنتان منها.
+<b>A portal!</b> It jumps you straight to the <b>other side</b> of the board.	<b>بوابة!</b> تنقلك مباشرة إلى <b>الجانب الآخر</b> من اللوحة.
+<b>Jail!</b> Land on the enemy base, or the enemy lands on your block, and you enter jail.	<b>السجن!</b> إذا وقفت على قاعدة الخصم، أو وقف الخصم على خانتك، تدخل السجن.
+<b>To escape jail</b>, play a card. If the dice lands on a <b>glowing number</b>, you’re free!<br>Fighting monsters works the same way.	<b>للهروب من السجن</b>، العب بطاقة. إذا وقع النرد على <b>رقم مضيء</b> تتحرر!<br>قتال الوحوش يعمل بالطريقة نفسها.
+<b>You’re in jail!</b> Play a card: if the dice shows a <b>glowing number</b>, you break free.	<b>أنت في السجن!</b> العب بطاقة: إذا أظهر النرد <b>رقمًا مضيئًا</b> تتحرر.
+<b>Monster!</b> Pick a card to roll. Land on a <b>glowing number</b> to win gold, a card and a level up.	<b>وحش!</b> اختر بطاقة لترمي. قف على <b>رقم مضيء</b> لتربح ذهبًا وبطاقة وترقية.
+<b>The shop!</b> Spend your gold on a new card — or close it and keep your gold.	<b>المتجر!</b> أنفق ذهبك على بطاقة جديدة — أو أغلقه واحتفظ بذهبك.
+<b>Your turn!</b> Tap a dice card, then tap it again to roll and move.	<b>دورك!</b> اضغط على بطاقة نرد، ثم اضغط عليها مرة أخرى لترمي وتتحرك.
+<b>Great hit!</b> Bring the enemy’s HP down to <b>#</b> to win the match!	<b>ضربة رائعة!</b> أوصل صحة الخصم إلى <b>#</b> لتفوز بالمباراة!
+Nice move! Every tile does something — <b>tap any tile</b> on the board to see what it does.	حركة جميلة! كل خانة تفعل شيئًا — <b>اضغط على أي خانة</b> في اللوحة لترى ما تفعله.
+That’s it! Pick a card, move, and beat your rival.	هذا كل شيء! اختر بطاقة، تحرك، واهزم خصمك.
+<b>What the spaces do</b>	<b>ماذا تفعل الخانات</b>
+<b>Sword</b><em>hit your enemy</em>	<b>سيف</b><em>اضرب خصمك</em>
+<b>Gold sack</b><em>+# gold</em>	<b>كيس ذهب</b><em>+# ذهب</em>
+<b>Chest</b><em>free card</em>	<b>صندوق</b><em>بطاقة مجانية</em>
+<b>Monster</b><em>win the roll to level up</em>	<b>وحش</b><em>اربح الرمية لترتقي</em>
+<b>Magic book</b><em>random spell</em>	<b>كتاب سحري</b><em>تعويذة عشوائية</em>
+<b>Shop</b><em>buy cards</em>	<b>متجر</b><em>اشترِ بطاقات</em>
+<b>Portal</b><em>jump to the other portal</em>	<b>بوابة</b><em>اقفز إلى البوابة الأخرى</em>
+<b>Your base</b><em>level up</em>	<b>قاعدتك</b><em>ترقية</em>
+<b>Enemy base</b><em>you go to jail</em>	<b>قاعدة الخصم</b><em>تدخل السجن</em>
+<b>Ready to play?</b>	<b>جاهز للعب؟</b>
+<b>Who goes first?</b>	<b>من يبدأ أولًا؟</b>
+<b>Heroes</b>: choose a hero here.	<b>الأبطال</b>: اختر بطلًا من هنا.
+Upgrade your chosen hero’s <b>starting stats</b> using the <b>hero shards</b> you earn or buy.	رقِّ <b>قدرات البداية</b> لبطلك المختار باستخدام <b>شظايا الأبطال</b> التي تربحها أو تشتريها.
+<b>Bases</b>: same idea. Pick a base and upgrade it using <b>base blueprints</b> with the upgrade button below.	<b>القواعد</b>: الفكرة نفسها. اختر قاعدة ورقِّها باستخدام <b>مخططات القواعد</b> بزر الترقية بالأسفل.
+<b>Deck</b>: choose a <b>deck loadout</b>. We’ve already built one for you.	<b>المجموعة</b>: اختر <b>تشكيلة</b>. لقد جهزنا لك واحدة بالفعل.
+These are the cards in your deck. Tap cards below to add or remove them.	هذه البطاقات في مجموعتك. اضغط على البطاقات بالأسفل لإضافتها أو إزالتها.
+Your deck can hold up to <b># points</b> worth of cards. Check your points here.	يمكن لمجموعتك أن تحمل بطاقات حتى <b># نقاط</b>. تفقّد نقاطك هنا.
+Filter the cards by their <b>cost</b> here.	صنّف البطاقات حسب <b>تكلفتها</b> هنا.
+<b>Deck experimentation is the key to a winning strategy.</b><br>Good luck!	<b>تجربة المجموعات هي مفتاح الاستراتيجية الرابحة.</b><br>بالتوفيق!
+<b>Chests</b>: win Casual or Ranked fights to earn chests full of free <b>hero shards</b> and <b>base blueprints</b>.	<b>الصناديق</b>: اربح معارك ودية أو مصنفة لتحصل على صناديق مليئة بـ<b>شظايا الأبطال</b> و<b>مخططات القواعد</b> مجانًا.
+<b>Achievements</b>: complete achievements and challenges to earn extra <b>gold</b> and <b>gems</b>.	<b>الإنجازات</b>: أكمل الإنجازات والتحديات لتربح <b>ذهبًا</b> و<b>جواهر</b> إضافية.
+<b>Daily login</b>: open the game every day and tap today’s reward to collect it. Day # is the best!	<b>الدخول اليومي</b>: افتح اللعبة كل يوم واضغط على مكافأة اليوم لاستلامها. اليوم # هو الأفضل!
+<b>Daily quests</b>: # new quests every day. Play matches to finish them, then tap <b>CLAIM</b> for gold or gems. New quests come at midnight.	<b>المهام اليومية</b>: # مهام جديدة كل يوم. العب مباريات لإنجازها، ثم اضغط <b>استلام</b> لتربح ذهبًا أو جواهر. تأتي مهام جديدة عند منتصف الليل.
+Tap a hero to see its stats and upgrades. Tap it again to close.	اضغط على بطل لترى قدراته وترقياته. اضغط عليه مرة أخرى للإغلاق.
+Tap a skill to upgrade it	اضغط على مهارة لترقيتها
+Tap again to play	اضغط مرة أخرى للعب
+Tap a guild to see its members before you join.	اضغط على عشيرة لترى أعضاءها قبل الانضمام.
+CLAIM	استلام
+TAP TO CLAIM	اضغط للاستلام
+Claimed	تم الاستلام
+Collect	اجمع
+Confirm	تأكيد
+Copy	نسخ
+Copied!	تم النسخ!
+Delete	حذف
+Details	التفاصيل
+Buy	شراء
+Buy cards	شراء بطاقات
+Sold	مُباع
+Sold out	نفد
+SOLD	مُباع
+FREE	مجانًا
+Full	ممتلئ
+Open	فتح
+Install	تثبيت
+Install Dice Cards?	تثبيت بطاقات النرد؟
+Add the game to your phone’s home screen. It opens full screen, like a normal app.	أضف اللعبة إلى الشاشة الرئيسية لهاتفك. ستفتح بملء الشاشة، مثل أي تطبيق عادي.
+Open the browser <b>menu</b> (<b>⋮</b> or <b>☰</b>)	افتح <b>قائمة</b> المتصفح (<b>⋮</b> أو <b>☰</b>)
+Pick <b>Install app</b> or <b>Add to Home screen</b>	اختر <b>تثبيت التطبيق</b> أو <b>الإضافة إلى الشاشة الرئيسية</b>
+Continue with Google	المتابعة باستخدام Google
+or with email	أو بالبريد الإلكتروني
+Email	البريد الإلكتروني
+Password	كلمة المرور
+Create account	إنشاء حساب
+Forgot password?	نسيت كلمة المرور؟
+Have an account? Log in	لديك حساب؟ سجّل الدخول
+Log out	تسجيل الخروج
+Log in or register to play	سجّل الدخول أو أنشئ حسابًا للعب
+Connecting…	جارٍ الاتصال…
+Connecting… try again in a moment	جارٍ الاتصال… حاول بعد لحظة
+Checking your online save…	جارٍ فحص حفظك على الإنترنت…
+Progress saved online	تم حفظ التقدم على الإنترنت
+Online accounts work in the phone app	الحسابات على الإنترنت تعمل في تطبيق الهاتف
+Accounts are coming soon	الحسابات قادمة قريبًا
+Type your email	اكتب بريدك الإلكتروني
+Type your password	اكتب كلمة المرور
+Wrong email or password	البريد أو كلمة المرور غير صحيحة
+That email doesn't look right	هذا البريد لا يبدو صحيحًا
+Password needs at least # characters	كلمة المرور تحتاج # أحرف على الأقل
+This email already has an account — log in instead	هذا البريد لديه حساب بالفعل — سجّل الدخول بدلًا من ذلك
+No account with this email — register first	لا يوجد حساب بهذا البريد — أنشئ حسابًا أولًا
+Too many tries — wait a minute	محاولات كثيرة — انتظر دقيقة
+Something went wrong — try again	حدث خطأ — حاول مرة أخرى
+Something went wrong — try again.	حدث خطأ — حاول مرة أخرى.
+Something went wrong.	حدث خطأ.
+No internet connection	لا يوجد اتصال بالإنترنت
+No internet connection.	لا يوجد اتصال بالإنترنت.
+Pick your progress	اختر تقدمك
+This account already has an online save. Which one do you want to keep?	هذا الحساب لديه حفظ على الإنترنت بالفعل. أيهما تريد الاحتفاظ به؟
+<b>Online save</b>	<b>الحفظ على الإنترنت</b>
+<b>This phone</b>	<b>هذا الهاتف</b>
+Online save	الحفظ على الإنترنت
+This phone	هذا الهاتف
+Hi, I’m Sparky!	مرحبًا، أنا سباركي!
+Welcome to <b>Dice Cards</b>! Before we start, what should other players call you?	أهلًا بك في <b>بطاقات النرد</b>! قبل أن نبدأ، بأي اسم يناديك اللاعبون الآخرون؟
+Your username	اسم المستخدم
+3–16 letters, numbers or _	من 3 إلى 16 حرفًا أو رقمًا أو _
+#–# letters, numbers or _	من # إلى # حرفًا أو رقمًا أو _
+Use #–# letters, numbers or _ (no spaces).	استخدم من # إلى # حرفًا أو رقمًا أو _ (بدون مسافات).
+Use 3–16 letters, numbers or _ (no spaces).	استخدم من 3 إلى 16 حرفًا أو رقمًا أو _ (بدون مسافات).
+Want to change your name or your profile picture later? Just tap your <b>profile picture</b> up here in the top left.	تريد تغيير اسمك أو صورتك لاحقًا؟ فقط اضغط على <b>صورتك الشخصية</b> هنا في أعلى اليسار.
+Saving…	جارٍ الحفظ…
+Please keep it friendly — no bad words.	من فضلك حافظ على اللطف — بدون ألفاظ سيئة.
+That name is taken — try another.	هذا الاسم مستخدم — جرّب اسمًا آخر.
+Setting up your online profile… try again in a moment	جارٍ إعداد ملفك على الإنترنت… حاول بعد لحظة
+Connect to the internet to change your name.	اتصل بالإنترنت لتغيير اسمك.
+Profile picture	الصورة الشخصية
+Player number	رقم اللاعب
+Copied	تم النسخ
+Unlock more pictures with hero skins.	افتح صورًا أكثر بأزياء الأبطال.
+Welcome to the <b>Shop</b>!	أهلًا بك في <b>المتجر</b>!
+No friends yet — tap <b>＋ Add friend</b> and type their username, player number or email.	لا يوجد أصدقاء بعد — اضغط <b>＋ إضافة صديق</b> واكتب اسم المستخدم أو رقم اللاعب أو البريد.
+Type their <b>username</b>, <b>player number</b> or <b>email</b>.	اكتب <b>اسم المستخدم</b> أو <b>رقم اللاعب</b> أو <b>البريد</b>.
+Username, number or email	اسم المستخدم أو الرقم أو البريد
+Type a username, number or email.	اكتب اسم مستخدم أو رقمًا أو بريدًا.
+Usernames use only letters, numbers and _	أسماء المستخدمين تحتوي فقط على حروف وأرقام و _
+No player with that username.	لا يوجد لاعب بهذا الاسم.
+No player with that number.	لا يوجد لاعب بهذا الرقم.
+No player with that email.	لا يوجد لاعب بهذا البريد.
+You already sent them a request.	لقد أرسلت له طلبًا بالفعل.
+Request sent	تم إرسال الطلب
+Request sent · waiting for an answer	تم إرسال الطلب · بانتظار الرد
+Request accepted!	تم قبول الطلب!
+Recent opponents	الخصوم الأخيرون
+Suggested players	لاعبون مقترحون
+Friend requests	طلبات الصداقة
+Go to friends	اذهب إلى الأصدقاء
+Battle request	طلب تحدٍّ
+Battle accepted!	تم قبول التحدي!
+Try again later!	حاول لاحقًا!
+Try again when they are online!	حاول عندما يكون متصلًا!
+Live battles with friends are coming in the next update!	المعارك المباشرة مع الأصدقاء قادمة في التحديث القادم!
+Write a short message	اكتب رسالة قصيرة
+Write a message first.	اكتب رسالة أولًا.
+Pick a friend.	اختر صديقًا.
+You can only send mail to friends.	يمكنك إرسال الرسائل للأصدقاء فقط.
+You can only send mail to friends. Add a friend first.	يمكنك إرسال الرسائل للأصدقاء فقط. أضف صديقًا أولًا.
+You can only reply to friends.	يمكنك الرد على الأصدقاء فقط.
+This is a game message — you can’t reply.	هذه رسالة من اللعبة — لا يمكنك الرد عليها.
+No mail yet.	لا توجد رسائل بعد.
+Mail deleted	تم حذف الرسالة
+Delete all gift mails	حذف كل رسائل الهدايا
+sent you a gift! 🎁	أرسل لك هدية! 🎁
+Gift sent!	تم إرسال الهدية!
+Could not send the gift	تعذّر إرسال الهدية
+Sending…	جارٍ الإرسال…
+Sent	مُرسلة
+Guild level	مستوى العشيرة
+Guild message	رسالة العشيرة
+<b>📜 Guild message</b>	<b>📜 رسالة العشيرة</b>
+Write a message for your members	اكتب رسالة لأعضاء عشيرتك
+<i>No message yet.</i>	<i>لا توجد رسالة بعد.</i>
+Guild logo	شعار العشيرة
+Logo	الشعار
+Guild points	نقاط العشيرة
+Guild pts	نقاط العشيرة
+guild points · +# per win	نقاط العشيرة · +# لكل فوز
+Guild settings saved	تم حفظ إعدادات العشيرة
+Could not save	تعذّر الحفظ
+Leave guild	مغادرة العشيرة
+Members	الأعضاء
+Member	عضو
+Leader	القائد
+Co-leader	نائب القائد
+Role	الدور
+Join requests	طلبات الانضمام
+No join requests right now.	لا توجد طلبات انضمام حاليًا.
+Joining rules	شروط الانضمام
+Who can join	من يمكنه الانضمام
+Open · anyone can join	مفتوحة · يمكن لأي أحد الانضمام
+Invite only	بالدعوة فقط
+Request to join	طلب انضمام
+Minimum wins	أقل عدد انتصارات
+Minimum rank	أقل رتبة
+Your guild is full	عشيرتك ممتلئة
+That guild name is taken.	اسم العشيرة هذا مستخدم.
+Use 3–18 letters, numbers or spaces.	استخدم من 3 إلى 18 حرفًا أو رقمًا أو مسافة.
+Use #–# letters, numbers or spaces.	استخدم من # إلى # حرفًا أو رقمًا أو مسافة.
+Creating…	جارٍ الإنشاء…
+Loading guilds…	جارٍ تحميل العشائر…
+Loading guild…	جارٍ تحميل العشيرة…
+◀ All guilds	◀ كل العشائر
+Could not join — try again	تعذّر الانضمام — حاول مرة أخرى
+Could not leave — try again	تعذّر المغادرة — حاول مرة أخرى
+That guild no longer exists	هذه العشيرة لم تعد موجودة
+Save changes	حفظ التغييرات
+Manage	إدارة
+Make co-leader	تعيين نائبًا للقائد
+Remove co-leader	إزالة من نيابة القائد
+Remove from guild	إزالة من العشيرة
+Delete guild	حذف العشيرة
+members · tap a member to see their profile	أعضاء · اضغط على عضو لترى ملفه
+Co-leaders can accept or deny join requests. Make someone co-leader by tapping them in the <b>Members</b> list.	يمكن لنواب القائد قبول أو رفض طلبات الانضمام. عيّن نائبًا بالضغط عليه في قائمة <b>الأعضاء</b>.
+No co-leaders yet.	لا يوجد نواب للقائد بعد.
+Active players only. Win # matches to join.	للاعبين النشطين فقط. اربح # مباريات للانضمام.
+Silver rank and up. We push ranked every week!	رتبة فضي فأعلى. نلعب المصنفة كل أسبوع!
+Welcome travellers! Play daily and have fun.	أهلًا بالمسافرين! العبوا يوميًا واستمتعوا.
+Welcome travellers! Play daily and have fun. Everyone is welcome here.	أهلًا بالمسافرين! العبوا يوميًا واستمتعوا. الجميع مرحب بهم هنا.
+Redeem code	استبدال كود
+That code has expired.	انتهت صلاحية هذا الكود.
+You already used that code.	لقد استخدمت هذا الكود بالفعل.
+Dark mode	الوضع الداكن
+Light mode	الوضع الفاتح
+Music muted	تم كتم الموسيقى
+Music on	تشغيل الموسيقى
+Next song	الأغنية التالية
+Reset account	إعادة ضبط الحساب
+Reset my account?	إعادة ضبط حسابي؟
+This deletes <b>all</b> your progress and starts the game fresh. This can’t be undone.	هذا يحذف <b>كل</b> تقدمك ويبدأ اللعبة من جديد. لا يمكن التراجع عن ذلك.
+Account reset	تمت إعادة ضبط الحساب
+Not enough gems	لا توجد جواهر كافية
+Not enough gems.	لا توجد جواهر كافية.
+Purchases are coming soon!	الشراء قادم قريبًا!
+Premium skin ·	زي مميز ·
+Legendary skin unlocked!	تم فتح الزي الأسطوري!
+skin equipped!	تم ارتداء الزي!
+Win # games with this hero to unlock it	اربح # مباريات بهذا البطل لفتحه
+Unlocks at level	يُفتح عند المستوى
+Maxed	الحد الأقصى
+MAX LEVEL	أقصى مستوى
+UPGRADE	ترقية
+Upgrade	ترقية
+Upgrades	الترقيات
+fully upgraded	مُرقّى بالكامل
+Level up	ترقية
+Level up!	ترقية!
+LEVEL UP!	ترقية!
+Deck is full (# cards)	المجموعة ممتلئة (# بطاقات)
+Only one extreme card allowed	مسموح ببطاقة خارقة واحدة فقط
+Not enough points left	لا توجد نقاط كافية
+Removed from deck	أُزيلت من المجموعة
+In your deck	في مجموعتك
+Pick up to # specials worth # points in total. Only one extreme card (cost #).	اختر حتى # بطاقات خاصة بمجموع # نقاط. بطاقة خارقة واحدة فقط (التكلفة #).
+Pick a hero and a base first	اختر بطلًا وقاعدة أولًا
+Win Casual or Ranked matches to earn chests (max #).	اربح مباريات ودية أو مصنفة لتحصل على صناديق (الحد الأقصى #).
+chest opened!	تم فتح الصندوق!
+No rewards — you forfeited before turn #	لا مكافآت — انسحبت قبل الدور #
+A new season has started. Your RP dropped by half.	بدأ موسم جديد. انخفضت نقاط RP إلى النصف.
+Season over!	انتهى الموسم!
+Rank up!	ارتقاء في الرتبة!
+Top rank reached	وصلت إلى أعلى رتبة
+Earn frames by finishing a ranked season — your best rank's frame is yours to keep.	اربح إطارات بإنهاء موسم مصنف — إطار أفضل رتبة تصل إليها يبقى لك.
+Sudden death!	الموت المفاجئ!
+⚠️ Sudden death! Only attack, trap and level-# magic book tiles from now on	⚠️ الموت المفاجئ! من الآن فقط خانات الهجوم والفخ والكتاب السحري مستوى #
+The board has changed — only Attack, Trap and level-# Magic Book tiles from now on!	تغيرت اللوحة — من الآن فقط خانات الهجوم والفخ والكتاب السحري مستوى #!
+Hey! It's your turn!	هيه! إنه دورك!
+Play another card!	العب بطاقة أخرى!
+Pick a card to play:	اختر بطاقة للعب:
+Waiting for your roll	بانتظار رميتك
+Skip the timer?	تخطي المؤقت؟
+Turn history	سجل الأدوار
+📜 Turn history ▸	📜 سجل الأدوار ▸
+Turn details / timer	تفاصيل الدور / المؤقت
+Roll to escape jail	ارمِ للهروب من السجن
+Roll to beat the monster	ارمِ لهزيمة الوحش
+Roll a <b>glowing number</b> to escape	ارمِ <b>رقمًا مضيئًا</b> لتهرب
+monster · roll a <b>glowing number</b> to win	وحش · ارمِ <b>رقمًا مضيئًا</b> لتفوز
+Winning numbers:	الأرقام الرابحة:
+Escape numbers:	أرقام الهروب:
+Escape jail	الهروب من السجن
+⛓️ Jail — escape attempt	⛓️ السجن — محاولة الهروب
+Safe in jail	آمن في السجن
+You are jailed!	أنت في السجن!
+Jailed!	في السجن!
+Enemy jailed!	الخصم في السجن!
+You go to jail	تذهب إلى السجن
+You are frozen!	أنت مجمَّد!
+Frozen!	مجمَّد!
+Frozen	مجمَّد
+Enemy frozen!	الخصم مجمَّد!
+Enemy frozen	الخصم مجمَّد
+You are stunned!	أنت مصعوق!
+Stunned!	مصعوق!
+Stunned	مصعوق
+Enemy stunned!	الخصم مصعوق!
+Enemy stunned	الخصم مصعوق
+Enemy slowed	الخصم مُبطَّأ
+Slowed	مُبطَّأ
+Poisoned	مسموم
+Poisoned: healing blocked	مسموم: العلاج ممنوع
+Silenced	مُسكَت
+Weakened	ضعيف
+Immune!	مناعة!
+Undying	لا يموت
+Undying!	لا يموت!
+Fear!	رعب!
+Hands swapped	تم تبديل الأيدي
+Gold swapped	تم تبديل الذهب
+Debuffs removed	أُزيلت التأثيرات السلبية
+Nothing happens	لا شيء يحدث
+MISS	خطأ
+Already on a portal!	أنت على بوابة بالفعل!
+Jump to the other portal	اقفز إلى البوابة الأخرى
+Jump to other portal	اقفز إلى البوابة الأخرى
+New card received	استلمت بطاقة جديدة
+Attack player!	هاجم اللاعب!
+Hit your enemy	اضرب خصمك
+Hit your rival for your AP	اضرب خصمك بقوة هجومك
+Restore HP	استعد صحتك
+Gain gold	اربح ذهبًا
+Lose HP if you land here	تخسر صحة إذا وقفت هنا
+Landing here gets you jailed	الوقوف هنا يدخلك السجن
+Draw a dice card	اسحب بطاقة نرد
+Cast a random spell	ألقِ تعويذة عشوائية
+Random spell	تعويذة عشوائية
+Fight it for a reward	قاتله لتحصل على مكافأة
+Win the roll to level up	اربح الرمية لترتقي
+Pass or land to level up	مُرّ أو قف لترتقي
+Send your enemy to jail	أرسل خصمك إلى السجن
+Escape and you move that many spaces	اهرب وستتحرك بعدد هذه الخانات
+Attack with a dice card: its roll must hit a winning number.	هاجم ببطاقة نرد: يجب أن تصيب رميتها رقمًا رابحًا.
+Play a dice card: its roll must hit an escape number.	العب بطاقة نرد: يجب أن تصيب رميتها رقم هروب.
+Win: +# gold, a card, level up	الفوز: +# ذهب، بطاقة، ترقية
+🃏 Free card	🃏 بطاقة مجانية
+📖 Magic book	📖 كتاب سحري
+🏰 Enemy base	🏰 قاعدة الخصم
+Enemy base	قاعدة الخصم
+Your base	قاعدتك
+Gold sack	كيس ذهب
+Sword	سيف
+Opponent hero	بطل الخصم
+How to play	طريقة اللعب
+🎲 Roll dice to see who goes first	🎲 ارمِ النرد لترى من يبدأ أولًا
+Searching…	جارٍ البحث…
+Waiting for	بانتظار
+Your friend	صديقك
+your opponent	خصمك
+your rival	منافسك
+Still loading… almost ready!	ما زال التحميل جاريًا… أوشكنا!
+Slow connection…	اتصال بطيء…
+Slow connection, still loading…	اتصال بطيء، ما زال التحميل جاريًا…
+Turn your phone	أدر هاتفك
+🛠️ Please remember, this is still only a prototype	🛠️ تذكّر من فضلك، هذه ما زالت نسخة تجريبية
+Your account has been banned	تم حظر حسابك
+This account is blocked	هذا الحساب محظور
+The Dice Cards team has sent you a warning.	أرسل لك فريق بطاقات النرد تحذيرًا.
+Another warning and your account will be banned.	تحذير آخر وسيُحظر حسابك.
+If you think this is a mistake, contact the Dice Cards team.	إذا كنت تظن أن هذا خطأ، تواصل مع فريق بطاقات النرد.
+Online save failed — will retry	فشل الحفظ على الإنترنت — سنعيد المحاولة
+Online save not reachable	لا يمكن الوصول إلى الحفظ على الإنترنت
+Your online save is newer than this phone's. Load it now? The game restarts.	حفظك على الإنترنت أحدث من حفظ هذا الهاتف. تحميله الآن؟ ستُعاد اللعبة.
+<b>Load it</b>Online save	<b>حمّله</b>الحفظ على الإنترنت
+<b>Not now</b>Keep playing	<b>ليس الآن</b>تابع اللعب
+Monster defeated!	هُزم الوحش!
+Burning tile!	خانة مشتعلة!
+Sudden death	الموت المفاجئ
+Leaderboard	المتصدرون
+Thanks	شكرًا
+Language	اللغة
+العربية	العربية

@@ -22,7 +22,7 @@ const isOnline=p=>p&&Date.now()-ms(p.seen)<3*60e3;
 const rankName=()=>{try{let r=0;RK.forEach((x,i)=>{if((SV.rp||0)>=x[1])r=i});return RK[r][0]}catch(e){return 'Bronze'}};
 const RKN=()=>{try{return RK.map(x=>x[0])}catch(e){return ['Bronze']}};
 const okH=h=>{try{return HD[h]||(/^[kvsfih][12]$/.test(h)&&(window.__POR||{})[h])?h:'k'}catch(e){return 'k'}};
-const stats=()=>{const w=SV.wins||0,pl=SV.played||0;return {h:okH(SV.pav||SV.mine),rk:rankName(),rp:SV.rp||0,w:w,l:Math.max(0,pl-w),lv:1+Math.floor(pl/3),g:String(SV.guild||'No guild').slice(0,24),gd:Math.floor(SV.gold||0),gm:Math.floor(SV.gems||0),pt:Math.floor(SV.pt||0),up:(window.__upN?window.__upN():0)}};
+const stats=()=>{const w=SV.wins||0,pl=SV.played||0;return {h:okH(SV.pav||SV.mine),rk:rankName(),rp:SV.rp||0,w:w,l:Math.max(0,pl-w),lv:1+Math.floor(pl/3),g:String(SV.guild||'No guild').slice(0,24),gd:Math.floor(SV.gold||0),gm:Math.floor(SV.gems||0),pt:Math.floor(SV.pt||0),up:(window.__upN?window.__upN():0),ss:Math.floor(Date.now()/(14*864e5))}};
 const toast=t=>{try{const n=document.createElement('div');n.className='m3note';n.textContent=t;document.body.appendChild(n);setTimeout(()=>n.remove(),2000)}catch(e){}};
 const refresh=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='undefined'&&CMT==='fr'&&!document.querySelector('#menu .mpop')&&document.getElementById('menu').style.display!=='none')menu()}catch(e){}};
 
@@ -59,7 +59,7 @@ window.addEventListener('dc-synced',()=>{if(O.user&&!prof)ensure()});
 setInterval(()=>{if(O.user&&O.synced&&!prof&&O.state==='ready')ensure()},30e3);
 
 /* ---------- what the existing friends page shows ---------- */
-const friendObj=id=>{const p=frP[id]||{};const rks=RKN();return {id:id,n:NAME_OK.test(p.name||'')?p.name:'Player',h:okH(p.h),rk:rks.includes(p.rk)?p.rk:'Bronze',g:esc(p.g||'No guild'),w:+p.w||0,l:+p.l||0,wv:0,lv:+p.lv||1,num:/^\d{8}$/.test(p.num||'')?p.num:'',real:1,on:isOnline(p),seen:ms(p.seen)}};
+const friendObj=id=>{const p=frP[id]||{};const rks=RKN();return {id:id,n:NAME_OK.test(p.name||'')?p.name:'Player',h:okH(p.h),rk:rks.includes(p.rk)?p.rk:'Bronze',g:esc(p.g||'No guild'),w:+p.w||0,l:+p.l||0,rp:+p.rp||0,ss:+p.ss||0,wv:0,lv:+p.lv||1,num:/^\d{8}$/.test(p.num||'')?p.num:'',real:1,on:isOnline(p),seen:ms(p.seen)}};
 const _fr=window.__friends;
 window.__friends=function(){if(!ON())return _fr?_fr():[];return frIds.filter(id=>frP[id]).map(friendObj).sort((a,b)=>b.on-a.on||a.n.localeCompare(b.n))};
 const _isOn=window.__isOn;window.__isOn=id=>{if(ON()&&frP[id])return isOnline(frP[id]);return _isOn?_isOn(id):false};

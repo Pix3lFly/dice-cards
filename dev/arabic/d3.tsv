@@ -1,0 +1,249 @@
+Sir Aldric	السير ألدريك
+Count Vlad	الكونت فلاد
+Lady Wisp	الليدي ويسب
+Ignis	إغنيس
+Frostine	فروستين
+Sylva	سيلفا
+<b>Sir Aldric</b> · Knight	<b>السير ألدريك</b> · الفارس
+<b>Count Vlad</b> · Vampire	<b>الكونت فلاد</b> · مصاص الدماء
+<b>Lady Wisp</b> · Spectre	<b>الليدي ويسب</b> · الشبح
+<b>Ignis</b> · Fire Mage	<b>إغنيس</b> · ساحر النار
+<b>Frostine</b> · Ice Mage	<b>فروستين</b> · ساحرة الجليد
+<b>Sylva</b> · Huntress	<b>سيلفا</b> · الصيادة
+⚔ Knight	⚔ الفارس
+⚔ Vampire	⚔ مصاص الدماء
+⚔ Spectre	⚔ الشبح
+⚔ Fire Mage	⚔ ساحر النار
+⚔ Ice Mage	⚔ ساحرة الجليد
+⚔ Huntress	⚔ الصيادة
+· Knight	· الفارس
+· Vampire	· مصاص الدماء
+· Spectre	· الشبح
+· Fire Mage	· ساحر النار
+· Ice Mage	· ساحرة الجليد
+· Huntress	· الصيادة
+🩸 Drain	🩸 امتصاص
+💨 Evade	💨 مراوغة
+🦇 Curse	🦇 لعنة
+🛡️ Ward	🛡️ وقاية
+✨ Mend	✨ ترميم
+🪞 Mirror	🪞 مرآة
+🔥 Ignite	🔥 إشعال
+♨️ Scorch	♨️ لهيب
+🧯 Ember	🧯 جمرة
+🧊 Chill	🧊 برودة
+❄️ Freeze	❄️ تجميد
+🥶 Prison	🥶 سجن جليدي
+🪢 Snare	🪢 شَرَك
+🪤 Trapper	🪤 صانع الفخاخ
+🎯 Hunt	🎯 مطاردة
+Lv # <i>+#</i><br>Max <u>+#</u>	مستوى # <i>+#</i><br>الأقصى <u>+#</u>
+Lv # <i>#%</i><br>Max <u>#%</u>	مستوى # <i>#%</i><br>الأقصى <u>#%</u>
+Lv # <i>+#%</i><br>Max <u>+#%</u>	مستوى # <i>+#%</i><br>الأقصى <u>+#%</u>
+Lv # <i>-#</i><br>Max <u>-#</u>	مستوى # <i>-#</i><br>الأقصى <u>-#</u>
+Lv # <i>#</i><br>Max <u>#</u>	مستوى # <i>#</i><br>الأقصى <u>#</u>
+🌲 Forest	🌲 الغابة
+⛏️ Mine	⛏️ المنجم
+🔥 Fire	🔥 النار
+❄️ Ice	❄️ الجليد
+🏰 Castle	🏰 القلعة
+⚡ Electric	⚡ الكهرباء
+🛍️ Market	🛍️ السوق
+🌲 Forest (Lv #)	🌲 الغابة (مستوى #)
+⛏️ Mine (Lv #)	⛏️ المنجم (مستوى #)
+🔥 Fire (Lv #)	🔥 النار (مستوى #)
+❄️ Ice (Lv #)	❄️ الجليد (مستوى #)
+🏰 Castle (Lv #)	🏰 القلعة (مستوى #)
+⚡ Electric (Lv #)	⚡ الكهرباء (مستوى #)
+🛍️ Market (Lv #)	🛍️ السوق (مستوى #)
+Forest Lv #:	الغابة مستوى #:
+Mine Lv #:	المنجم مستوى #:
+Fire Lv #:	النار مستوى #:
+Ice Lv #:	الجليد مستوى #:
+Castle Lv #:	القلعة مستوى #:
+Electric Lv #:	الكهرباء مستوى #:
+Market Lv #:	السوق مستوى #:
+<b>🌲 Forest</b>: Pass: heal # HP · Land: heal # HP	<b>🌲 الغابة</b>: المرور: علاج # صحة · الوقوف: علاج # صحة
+<b>🌲 Forest (Lv #)</b>: Pass: heal # HP · Land: heal # HP	<b>🌲 الغابة (مستوى #)</b>: المرور: علاج # صحة · الوقوف: علاج # صحة
+<b>Forest Lv #:</b> Pass: heal # HP · Land: heal # HP	<b>الغابة مستوى #:</b> المرور: علاج # صحة · الوقوف: علاج # صحة
+<i>💚</i>Pass: heal # HP	<i>💚</i>المرور: علاج # صحة
+<i>💚</i>Land: heal # HP	<i>💚</i>الوقوف: علاج # صحة
+<b>Mine Lv #:</b> Pass: +# gold · Land: +# gold	<b>المنجم مستوى #:</b> المرور: +# ذهب · الوقوف: +# ذهب
+<i>💚</i>Pass: +# gold	<i>💚</i>المرور: +# ذهب
+<i>💚</i>Land: +# gold	<i>💚</i>الوقوف: +# ذهب
+<b>⛏️ Mine</b>: Pass: +# gold · Land: +# gold	<b>⛏️ المنجم</b>: المرور: +# ذهب · الوقوف: +# ذهب
+<b>⛏️ Mine (Lv #)</b>: Pass: +# gold · Land: +# gold	<b>⛏️ المنجم (مستوى #)</b>: المرور: +# ذهب · الوقوف: +# ذهب
+<b>Fire Lv #:</b> Pass: # burning tile ahead of the foe · Land: # burning tiles	<b>النار مستوى #:</b> المرور: # خانة مشتعلة أمام الخصم · الوقوف: # خانات مشتعلة
+<i>💚</i>Pass: # burning tile ahead of the foe	<i>💚</i>المرور: # خانة مشتعلة أمام الخصم
+<i>💚</i>Land: # burning tiles	<i>💚</i>الوقوف: # خانات مشتعلة
+<b>🔥 Fire</b>: Pass: # tile ahead of the foe burns · Land: # burning tiles	<b>🔥 النار</b>: المرور: تشتعل # خانة أمام الخصم · الوقوف: # خانات مشتعلة
+<b>🔥 Fire (Lv #)</b>: Pass: # burning tile ahead of the foe · Land: # burning tiles	<b>🔥 النار (مستوى #)</b>: المرور: # خانة مشتعلة أمام الخصم · الوقوف: # خانات مشتعلة
+<b>Ice Lv #:</b> Pass: foe loses # card · Land: foe slowed # turns	<b>الجليد مستوى #:</b> المرور: الخصم يخسر # بطاقة · الوقوف: الخصم مُبطَّأ # أدوار
+<i>💚</i>Pass: foe loses # card	<i>💚</i>المرور: الخصم يخسر # بطاقة
+<i>💚</i>Land: foe slowed # turns	<i>💚</i>الوقوف: الخصم مُبطَّأ # أدوار
+<b>❄️ Ice</b>: Pass: the foe loses a card · Land: the foe is slowed for # turns	<b>❄️ الجليد</b>: المرور: الخصم يخسر بطاقة · الوقوف: الخصم مُبطَّأ لمدة # أدوار
+<b>❄️ Ice (Lv #)</b>: Pass: foe loses # card · Land: foe slowed # turns	<b>❄️ الجليد (مستوى #)</b>: المرور: الخصم يخسر # بطاقة · الوقوف: الخصم مُبطَّأ # أدوار
+<b>Castle Lv #:</b> Pass: +# AP · Land: +# AP	<b>القلعة مستوى #:</b> المرور: +# هجوم · الوقوف: +# هجوم
+<i>💚</i>Pass: +# AP	<i>💚</i>المرور: +# هجوم
+<i>💚</i>Land: +# AP	<i>💚</i>الوقوف: +# هجوم
+<b>🏰 Castle</b>: Pass: +# AP · Land: +# AP	<b>🏰 القلعة</b>: المرور: +# هجوم · الوقوف: +# هجوم
+<b>🏰 Castle (Lv #)</b>: Pass: +# AP · Land: +# AP	<b>🏰 القلعة (مستوى #)</b>: المرور: +# هجوم · الوقوف: +# هجوم
+<b>Electric Lv #:</b> Pass: foe stunned # turn · Land: stunned # turns	<b>الكهرباء مستوى #:</b> المرور: الخصم مصعوق # دور · الوقوف: مصعوق # أدوار
+<i>💚</i>Pass: foe stunned # turn	<i>💚</i>المرور: الخصم مصعوق # دور
+<i>💚</i>Land: stunned # turns	<i>💚</i>الوقوف: مصعوق # أدوار
+<b>⚡ Electric</b>: Pass: the foe is stunned for # turn · Land: stunned for # turns	<b>⚡ الكهرباء</b>: المرور: الخصم مصعوق لمدة # دور · الوقوف: مصعوق لمدة # أدوار
+<b>⚡ Electric (Lv #)</b>: Pass: foe stunned # turn · Land: stunned # turns	<b>⚡ الكهرباء (مستوى #)</b>: المرور: الخصم مصعوق # دور · الوقوف: مصعوق # أدوار
+<b>Market Lv #:</b> Pass: +# gold · Land: shop #% off	<b>السوق مستوى #:</b> المرور: +# ذهب · الوقوف: خصم #% في المتجر
+<i>💚</i>Land: shop #% off	<i>💚</i>الوقوف: خصم #% في المتجر
+<b>🛍️ Market</b>: Pass: +# gold · Land: the shop opens at #% off	<b>🛍️ السوق</b>: المرور: +# ذهب · الوقوف: يفتح المتجر بخصم #%
+<b>🛍️ Market (Lv #)</b>: Pass: +# gold · Land: shop #% off	<b>🛍️ السوق (مستوى #)</b>: المرور: +# ذهب · الوقوف: خصم #% في المتجر
+⚔️ Weapon (AP) Lv #/# · <b>AP # → #</b>	⚔️ السلاح (الهجوم) مستوى #/# · <b>الهجوم # → #</b>
+🛡️ Armor (HP) Lv #/# · <b>HP # → #</b>	🛡️ الدرع (الصحة) مستوى #/# · <b>الصحة # → #</b>
+🎒 Tool (Gold) Lv #/# · <b>Gold # → #</b>	🎒 الأداة (الذهب) مستوى #/# · <b>الذهب # → #</b>
+<b>Skills</b> (level # → #)<br>⚔️ <b>Hunter</b> AP gained per monster slain: +# → +#<br>🛡️ <b>Guard</b> chance to halve damage: #% → #%<br>💥 <b>Crit</b> #% chance, extra damage: +#% → +#%	<b>المهارات</b> (المستوى # → #)<br>⚔️ <b>الصياد</b> هجوم إضافي لكل وحش تهزمه: +# → +#<br>🛡️ <b>الحارس</b> فرصة تقليل الضرر للنصف: #% → #%<br>💥 <b>الضربة الحرجة</b> فرصة #%، ضرر إضافي: +#% → +#%
+🛡️ Knight ×# — 🪙 #	🛡️ الفارس ×# — 🪙 #
+👻 Spectre ×# — 🪙 #	👻 الشبح ×# — 🪙 #
+🏹 Huntress ×# — 💎 #	🏹 الصيادة ×# — 💎 #
+🧛 Vampire ×# — 💎 #	🧛 مصاص الدماء ×# — 💎 #
+🔥 Fire Mage ×# — 💎 #	🔥 ساحر النار ×# — 💎 #
+🔥 Fire Mage ×# — 🪙 #	🔥 ساحر النار ×# — 🪙 #
+❄️ Ice Mage ×# — 💎 #	❄️ ساحرة الجليد ×# — 💎 #
+❄️ Ice Mage ×# — 🪙 #	❄️ ساحرة الجليد ×# — 🪙 #
+🛡️ Knight ×# — 💎 #	🛡️ الفارس ×# — 💎 #
+👻 Spectre ×# — 💎 #	👻 الشبح ×# — 💎 #
+🏹 Huntress ×# — 🪙 #	🏹 الصيادة ×# — 🪙 #
+🧛 Vampire ×# — 🪙 #	🧛 مصاص الدماء ×# — 🪙 #
+⛏️ Mine blueprint ×# — 🪙 #	⛏️ مخطط المنجم ×# — 🪙 #
+🌲 Forest blueprint ×# — 🪙 #	🌲 مخطط الغابة ×# — 🪙 #
+🔥 Fire blueprint ×# — 💎 #	🔥 مخطط النار ×# — 💎 #
+⛏️ Mine blueprint ×# — 💎 #	⛏️ مخطط المنجم ×# — 💎 #
+🌲 Forest blueprint ×# — 💎 #	🌲 مخطط الغابة ×# — 💎 #
+🔥 Fire blueprint ×# — 🪙 #	🔥 مخطط النار ×# — 🪙 #
+❄️ Ice blueprint ×# — 🪙 #	❄️ مخطط الجليد ×# — 🪙 #
+❄️ Ice blueprint ×# — 💎 #	❄️ مخطط الجليد ×# — 💎 #
+🏰 Castle blueprint ×# — 🪙 #	🏰 مخطط القلعة ×# — 🪙 #
+🏰 Castle blueprint ×# — 💎 #	🏰 مخطط القلعة ×# — 💎 #
+⚡ Electric blueprint ×# — 🪙 #	⚡ مخطط الكهرباء ×# — 🪙 #
+⚡ Electric blueprint ×# — 💎 #	⚡ مخطط الكهرباء ×# — 💎 #
+🛍️ Market blueprint ×# — 🪙 #	🛍️ مخطط السوق ×# — 🪙 #
+🛍️ Market blueprint ×# — 💎 #	🛍️ مخطط السوق ×# — 💎 #
+First victory<i>+</i>	أول انتصار<i>+</i>
+Regular<i>+</i>	لاعب دائم<i>+</i>
+Hard hitter<i>+</i>	ضارب قوي<i>+</i>
+Monster hunter<i>+</i>	صياد الوحوش<i>+</i>
+Spellcaster<i>+</i>	ملقي التعاويذ<i>+</i>
+Shopper<i>+</i>	متسوّق<i>+</i>
+Jailer<i>+</i>	السجّان<i>+</i>
+Escape artist<i>+</i>	فنان الهروب<i>+</i>
+Card master<i>+</i>	سيد البطاقات<i>+</i>
+Treasure hunter<i>+</i>	صائد الكنوز<i>+</i>
+Tinkerer<i>+</i>	المصلِّح<i>+</i>
+Collector<i>+</i>	الجامع<i>+</i>
+Silver league<i>+</i>	الدوري الفضي<i>+</i>
+Champion<i>+</i>	بطل<i>+</i>
+Middle	وسط
+Low	منخفض
+High	مرتفع
+Your gold: 🪙	ذهبك: 🪙
+Test helper:	أداة الاختبار:
+🧪 Test helper: +#🪙 +#💎	🧪 أداة الاختبار: +#🪙 +#💎
+👥 Friends, guild and mail are planned but not in this test build yet.	👥 الأصدقاء والعشيرة والبريد مخطط لها لكنها ليست في هذه النسخة بعد.
+Bring your opponent\'s HP to # to win!	أوصل صحة خصمك إلى # لتفوز!
+Online	متصل
+Gems	جواهر
+Gem	جوهرة
+Gold & Gems	الذهب والجواهر
+hero shard	شظية بطل
+hero shards	شظايا أبطال
+free card	بطاقة مجانية
+random spell	تعويذة عشوائية
+No guild	بلا عشيرة
+Shards upgrade your heroes' gear in Arsenal → Hero.	الشظايا ترقّي عتاد أبطالك في الترسانة ← الأبطال.
+Upgrade points:	نقاط الترقية:
+gear upgrade	ترقية العتاد
+Arcane tome	المجلد السحري
+ARCANE TOME	المجلد السحري
+SHIELD	درع
+Dice cards	بطاقات النرد
+Plain die	نرد عادي
+Free roll	رمية مجانية
+<b>Free roll</b>	<b>رمية مجانية</b>
+<b>Plain die</b>	<b>نرد عادي</b>
+<b>Sold out</b>	<b>نفد</b>
+<b>Empty slot</b>	<b>خانة فارغة</b>
+<b>Next level</b>	<b>المستوى التالي</b>
+<b>Redeem code</b>	<b>استبدال كود</b>
+<b>Deck loadouts</b>	<b>تشكيلات المجموعة</b>
+<b>Handicaps for you</b>	<b>عقوبات عليك</b>
+<b>⭐ Select your hero</b>	<b>⭐ اختر بطلك</b>
+<b>🏰 Select your base</b>	<b>🏰 اختر قاعدتك</b>
+<b>🎁 Loot boxes</b>	<b>🎁 صناديق الغنائم</b>
+<b>🏰 Base blueprints</b>	<b>🏰 مخططات القواعد</b>
+<b>🔒 Locked</b><br>Unlocked after your first match	<b>🔒 مقفل</b><br>يُفتح بعد مباراتك الأولى
+Rank points	نقاط الرتبة
+rank points (RP)	نقاط الرتبة (RP)
+Opponent stats	قدرات الخصم
+Player stats	قدرات اللاعب
+Overview	نظرة عامة
+Play time	وقت اللعب
+None	لا شيء
+Nothing yet.	لا شيء بعد.
+Now	الآن
+Ready	جاهز
+Win	فوز
+Move	تحرك
+Cast	ألقِ
+Reach	اوصل
+Deal	اصنع
+Fortune	الحظ
+Lightning	برق
+Meteor	نيزك
+Blizzard	عاصفة ثلجية
+Tornado	إعصار
+Healing Light	ضوء الشفاء
+Soul Drain	امتصاص الروح
+Frost Shard	شظية الصقيع
+Book of Growth	كتاب النمو
+Purify	تطهير
+📖 Blizzard: foe slowed and frozen	📖 عاصفة ثلجية: الخصم مُبطَّأ ومجمَّد
+🔥 Burn hurts	🔥 الحرق يؤلم
+🦇 Curse bites	🦇 اللعنة تلدغ
+Enemy blown back # tiles	الخصم دُفع للخلف # خانات
+Enemy loses # cards	الخصم يخسر # بطاقات
+# card burned	# بطاقة محترقة
+# card frozen	# بطاقة مجمَّدة
+BONK!	بونك!
+CHOMP!	تشومب!
+CRACK!	كراك!
+FWOOSH!	فوووش!
+STAB	طعنة
+THWIP!	ثويب!
+WHAM!	وام!
+MONSTER FIGHT!	قتال الوحش!
+Swept	اكتُسح
+Online now	متصل الآن
+last online	آخر ظهور
+last seen	آخر ظهور
+min ago	دقيقة مضت
+Last online: —	آخر ظهور: —
+· not seen yet	· لم يظهر بعد
+· vs you	· ضدك
+· hand full	· اليد ممتلئة
+· no time limit	· بلا وقت محدد
+· no requirements	· بلا شروط
+· buy in the Shop	· اشترِ من المتجر
+· win matches or buy in the Shop	· اربح مباريات أو اشترِ من المتجر
+· you are here	· أنت هنا
+· logo is a profile picture	· الشعار صورة شخصية
+Open your profile	افتح ملفك الشخصي
+Full player profiles are coming soon.	الملفات الكاملة للاعبين قادمة قريبًا.
+The classic look.	المظهر الكلاسيكي.
+Dark	داكن
+Light	فاتح
+On	تشغيل
+Off	إيقاف
+3D model	نموذج ثلاثي الأبعاد
+🟢 <b>YOUR TURN</b> · ⏱ #s	🟢 <b>دورك</b> · ⏱ #ث
+AP # · 🪙#	الهجوم # · 🪙#
+🔴 <b>ENEMY'S TURN</b> · ⏱ #s	🔴 <b>دور الخصم</b> · ⏱ #ث
+Enemy turn… · ⏱ #s	دور الخصم… · ⏱ #ث

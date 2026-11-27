@@ -152,6 +152,11 @@ P = [
 ('top bar short numbers','src="\'+U.coin+\'">\'+SV.gold+\'</div><div class="rs"><img alt="" src="\'+U.gem+\'">\'+SV.gems+\'</div>','src="\'+U.coin+\'">\'+(window.__kf?__kf(SV.gold):SV.gold)+\'</div><div class="rs"><img alt="" src="\'+U.gem+\'">\'+(window.__kf?__kf(SV.gems):SV.gems)+\'</div>'),
 ('hp bar also waits for the killing blow','if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]&&!over){S[k]=S[k+2];drop[k]=now()}','if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]){S[k]=S[k+2];drop[k]=now()}'),
 ('name pick holds the page guide',"const onMenu=vis('menu')&&!vis('splash')&&","const onMenu=!(window.__nmHold&&__nmHold())&&vis('menu')&&!vis('splash')&&"),
+('skip drawing the board while a full screen menu covers it',"cam.lookAt(look);\n R.render(S,cam);requestAnimationFrame(fr)}","cam.lookAt(look);\n if(!(window.__covered&&window.__covered()))R.render(S,cam);requestAnimationFrame(fr)}"),
+('arabic: win look',"ovl.classList.toggle('win',/win/i.test(ot.textContent))","ovl.classList.toggle('win',/win|فزت|النصر|فوز/i.test(ot.textContent))"),
+('arabic: shop popup',"if(/Shop/.test(ttl.textContent))","if(/Shop|المتجر/.test(ttl.textContent))"),
+('arabic: maxed label',"(/max/i.test(sp.textContent)?'Maxed':'Next level')","(/max|الأقصى/i.test(sp.textContent)?'Maxed':'Next level')"),
+('arabic: language picker',"row('Language','<select><option>English</option><option disabled>More coming soon</option></select>')","row('Language','<select onchange=\"window.__setLang&&__setLang(this.value)\"><option value=\"en\">English</option><option value=\"ar\" '+(SV.lang==='ar'?'selected':'')+'>العربية</option></select>')"),
 ]
 import os
 def tile_model(s):

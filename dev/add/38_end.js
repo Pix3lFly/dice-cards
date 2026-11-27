@@ -21,7 +21,7 @@
  const _fin=fin;fin=function(win){const m0=mode,rp0=SV.rp||0;const r=_fin.apply(this,arguments);
   try{const x=document.querySelector('#ov .ov3');if(!x)return r;
    /* chest row drops in */
-   x.querySelectorAll('.rr3').forEach(row=>{if(/chest/i.test(row.textContent))row.classList.add('ch4')});
+   x.querySelectorAll('.rr3').forEach(row=>{if(/chest|صندوق/i.test(row.textContent))row.classList.add('ch4')});
    /* Sparky */
    const M=window.__MASC;if(M){const im=document.createElement('img');im.alt='';im.className='msc4'+(win?' hop':'');im.src=win?(M.cheer||M.star):(M.think||M.hold);x.appendChild(im)}
    /* rank bar */

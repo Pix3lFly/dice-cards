@@ -4,7 +4,12 @@
    Tuning: __pp = {d: push-back distance, w: picture width (world units at the board centre), ax/ay: anchor (ring) in the picture, y: anchor height} ===== */
 (function(){const P=window.__pp=Object.assign({d:7,w:12.32,sy:1,ax:.478,ay:.34,y:.6},window.__pp||{});
  let M=null,ISL=null;
- const tick=()=>{try{const G=window.__3;if(!G||!G.S||!G.cam||!G.V||!window.__PONDIMG)return;const V=G.V,S=G.S,cam=G.cam,on=window.__pondImg!==0;
+ /* speed (27 Nov): the board is hidden behind full screen menus, so nothing to update there; the clean-up scans run while the scene is changing, then only every few seconds */
+ const _m=document.getElementById('menu'),_sp=document.getElementById('splash');
+ window.__covered=()=>(_m&&_m.style.display==='flex')||(_sp&&_sp.style.display!=='none'&&_sp.offsetWidth>0);
+ let _sig='',_quiet=0;
+ const tick=()=>{try{if(window.__covered())return;const G=window.__3;if(G&&G.S){const sg=G.S.children.length+'_'+((G.tiles||[]).length)+'_'+(typeof gid!=='undefined'?gid:0);if(sg!==_sig){_sig=sg;_quiet=0}else _quiet++}
+  const scan=_quiet<900||_quiet%300<3;if(!G||!G.S||!G.cam||!G.V||!window.__PONDIMG)return;const V=G.V,S=G.S,cam=G.cam,on=window.__pondImg!==0;
   if(!M){const tx=new V.TextureLoader().load(window.__PONDIMG,t=>{const im=t.image;M.userData.ar=im.height/im.width});tx.minFilter=V.LinearMipmapLinearFilter;tx.anisotropy=4;
    M=new V.Mesh(new V.PlaneGeometry(1,1),new V.MeshBasicMaterial({map:tx,transparent:true,alphaTest:.35,depthWrite:false,fog:false,toneMapped:false}));
    M.userData.ar=1001/1024;{const C=M.material.color;['set','setRGB','setHex','setHSL','copy','multiplyScalar','lerp','offsetHSL','multiply','lerpColors'].forEach(f=>{C[f]=function(){return C}});M.material.userData.__ct=1;M.material.userData.__pcel=1;M.userData.__nt=1}M.renderOrder=-5;M.frustumCulled=false;M.userData.__mine=1;S.add(M);window.__pondPic=M}
@@ -14,15 +19,15 @@
   if(!ISL){const b=new V.Box3(),sz=new V.Vector3();S.children.forEach(o=>{if(o===M||!o.isGroup)return;b.setFromObject(o);if(b.isEmpty())return;b.getSize(sz);if(sz.x>5.5&&sz.x<7.5&&sz.y>6&&b.max.y<0)ISL=o})}
   if(ISL)ISL.visible=!on;
   /* any other flat centre-island part (old grass/rock top) also hides behind... in front of the picture: hide while the picture is used */
-  if(on&&!(tick.n=(tick.n||0)+1)%15==0||on&&tick.n<3){const b=new V.Box3(),sz=new V.Vector3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
+  if(on&&scan&&((tick.n=(tick.n||0)+1)%15==0||tick.n<3)){const b=new V.Box3(),sz=new V.Vector3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
    S.children.forEach(o=>{if(o===M||o===window.__pondG||o===ISL||T.has(o)||!o.visible)return;if(o.isSprite||o.isPoints)return;b.setFromObject(o);if(b.isEmpty())return;b.getSize(sz);b.getCenter(c);
     if(sz.x>3&&sz.z>3&&sz.x<9&&b.max.y<.75&&Math.hypot(c.x,c.z)<1.5){o.visible=false;(window.__pondHid=window.__pondHid||[]).push(o)}})}
   /* leftover outline lines of the old centre platform (the gold squares) */
-  if(on&&tick.n%15==1){const b=new V.Box3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
+  if(on&&scan&&tick.n%15==1){const b=new V.Box3(),c=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g));
    S.traverse(o=>{if(!o.isMesh||!o.visible)return;const gp=o.geometry&&o.geometry.parameters,bar=o.geometry&&o.geometry.type==='BoxGeometry'&&gp&&Math.min(gp.width,gp.height,gp.depth)<.1&&Math.max(gp.width,gp.depth)>1.2;if(!(o.userData.__olc||o.userData.ol||bar))return;let p=o.parent;while(p&&p!==S){if(T.has(p)||p===window.__pondG||p===M)return;p=p.parent}
     b.setFromObject(o);if(b.isEmpty())return;b.getCenter(c);if(Math.hypot(c.x,c.z)<2.2&&b.max.y<.8&&b.min.y>-1){window.__pondHide(o);if(o.parent&&o.parent!==S&&o.parent.isMesh)window.__pondHide(o.parent)}})}
   /* catch-all: any other flat mesh lying over the middle (phones built the old centre differently) */
-  if(on&&tick.n%15==2){const b=new V.Box3(),c=new V.Vector3(),sz=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g)),H=new Set(G.H||[]);
+  if(on&&scan&&tick.n%15==2){const b=new V.Box3(),c=new V.Vector3(),sz=new V.Vector3(),T=new Set((G.tiles||[]).map(o=>o&&o.g)),H=new Set(G.H||[]);
    S.traverse(o=>{if(!(o.isMesh||o.isLine||o.isLineSegments)||!o.visible||o===M)return;let p=o;while(p&&p!==S){if(T.has(p)||H.has(p)||p===G.die||p===window.__pondG||p===M||p.isSprite)return;p=p.parent}
     const g=o.geometry&&o.geometry.type;if(g==='OctahedronGeometry')return;b.setFromObject(o);if(b.isEmpty())return;b.getCenter(c);b.getSize(sz);
     if(Math.hypot(c.x,c.z)<2.4&&b.min.y>-1.3&&b.max.y<1.15&&Math.max(sz.x,sz.z)>.6)window.__pondHide(o)})}
@@ -45,4 +50,4 @@ try{if(localStorage.getItem('dc_pond3d')==='1')window.__pondImg=0}catch(e){}
 setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.querySelector('.pondset'))return;const r=document.createElement('label');r.className='srow fr3 st pondset';
  r.innerHTML='<span>Centre island</span><select><option value="pic">Picture</option><option value="3d">3D</option></select>';const sel=r.querySelector('select');sel.value=window.__pondImg===0?'3d':'pic';
  sel.onchange=()=>{window.__pondImg=sel.value==='3d'?0:1;try{localStorage.setItem('dc_pond3d',sel.value==='3d'?'1':'0')}catch(e){}};
- const g=[...b.children].find(x=>/Graphics/.test(x.textContent));g?g.after(r):b.appendChild(r)}catch(e){}},500);
+ const g=[...b.children].find(x=>/Graphics|الرسومات/.test(x.textContent));g?g.after(r):b.appendChild(r)}catch(e){}},500);

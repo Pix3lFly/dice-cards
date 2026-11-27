@@ -43,7 +43,8 @@
  const pfErr=t=>{let e=document.querySelector('#menu .pfp .pner');if(!e){const r=document.querySelector('#menu .pfp .pnr');if(!r)return note(t);r.insertAdjacentHTML('afterend','<div class="pner" style="font:700 11.5px system-ui;color:#ffb3a8;text-align:center;margin-top:-2px"></div>');e=document.querySelector('#menu .pfp .pner')}e.textContent=t};
  const G={__pfSave:()=>bad(val('pfnm'))&&(pfErr(MSG),1),
   guCreate:()=>bad(val('gun'))&&((document.getElementById('gum')||{}).textContent=MSG,1),
-  guSave:()=>bad(val('gmsg'))&&(note(MSG),1)};
+  guSave:()=>bad(val('gmsg'))&&(note(MSG),1),
+  mlSend:()=>bad(val('mltx'))&&((document.getElementById('mlm')||{}).textContent=MSG,1)};
  /* keep the check on top even when other files replace these functions later */
  setInterval(()=>{for(const k in G){const f=window[k];if(typeof f!=='function'||f.__cl)continue;const w=function(){if(G[k]())return;return f.apply(this,arguments)};w.__cl=1;window[k]=w}},500);
 }catch(e){console.warn('v4 clean',e)}})();

@@ -51,7 +51,7 @@ function status(msg){const bs=document.querySelectorAll('#splash .xau button'),t
  else{bs[0].textContent='Log in';if(bs[1])bs[1].textContent='Register'}
  const st=document.getElementById('bgn');if(st)st.classList.toggle('lk',needLogin());
  if(!tx)return;tx.classList.toggle('ok',!!(on&&user&&!msg&&!busy));
- tx.textContent=msg||(state==='none'?'Accounts are coming soon':state==='loading'?'Connecting…':state==='off'?(/claude\.ai|claudeusercontent/.test(location.hostname)?'Online accounts work in the phone app':'Offline — playing on this phone'):!known?'Connecting…':!user?'Log in or register to play':busy?'Checking your online save…':'Progress saved online');tx.classList.toggle('ok',tx.textContent==='Progress saved online')}
+ tx.textContent=msg||(state==='none'?'Accounts are coming soon':state==='loading'?'Connecting…':state==='off'?(/claude\.ai|claudeusercontent/.test(location.hostname)?'Online accounts work in the phone app':'Offline — playing on this phone'):!known?'Connecting…':!user?'Log in or register to play':busy?'Checking your online save…':'Progress saved online');tx.classList.toggle('ok',/Progress saved online|تم حفظ التقدم على الإنترنت/.test(tx.textContent))}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#splash .xau button');if(!b||state!=='ready')return;e.preventDefault();e.stopPropagation();
  const i=[...document.querySelectorAll('#splash .xau button')].indexOf(b);
  if(user){if(i===1)push().then(()=>auth.signOut())}else form(i===1?'reg':'log')},true);

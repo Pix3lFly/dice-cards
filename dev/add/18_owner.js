@@ -109,7 +109,7 @@ async function findP(q){q=String(q||'').trim().replace(/^#/,'');if(!q)return nul
 
 /* ---------- the panel ---------- */
 let PT='pl',P=null,PQ='',CU=null,RK2='gd',CACHE={};
-const TABS=()=>[['pl','👤 Players'],['bw','⛔ Bans & warnings'],['gu','🛡 Guilds'],['ch','💬 Staff chat'],...(isOwner()?[['cd','🎟 Codes'],['rk','🏆 Rankings'],['al','🚨 Cheat alerts'],['md','🧑‍⚖️ Moderators'],['dbg','🐞 Debug'],['me','👑 My account']]:[])];
+const TABS=()=>[['pl','👤 Players'],['rp','🚩 Reports'],['bw','⛔ Bans & warnings'],['gu','🛡 Guilds'],['ch','💬 Staff chat'],...(isOwner()?[['cd','🎟 Codes'],['rk','🏆 Rankings'],['al','🚨 Cheat alerts'],['md','🧑‍⚖️ Moderators'],['dbg','🐞 Debug'],['me','👑 My account']]:[])];
 window.__opOpen=function(){if(!staff())return;if(isOwner()){askCode();return}openP()};
 function askCode(){const o=shell();o.innerHTML='<div class="uc opk"><b class="st">👑 Owner panel</b><p>Enter your owner code</p><input id="opc" class="sin" type="password" inputmode="numeric" maxlength="8" autocomplete="off"><div id="opm" class="smsg"></div><div class="us2"><button class="opr rm" onclick="__opClose()">Cancel</button><button class="opr" onclick="__opCode()">Open</button></div></div>';
  const i=document.getElementById('opc');i.focus();i.onkeydown=e=>{if(e.key==='Enter')window.__opCode()}}
@@ -123,7 +123,7 @@ function tabs(){const t=document.querySelector('#ownp .opt');if(!t)return;const 
 window.__opTab=k=>{BACK=null;PT=k;if(CU){CU();CU=null}tabs();show(k)};
 const body=h=>{const b=document.querySelector('#ownp .opb');if(b)b.innerHTML=h;return b};
 const busy=()=>body('<div class="dnt">Loading…</div>');
-async function show(k){try{({pl:pPlayers,bw:pBW,gu:pGuilds,ch:pChat,cd:pCodes,rk:pRank,al:pAlerts,md:pMods,me:pMe,dbg:pDbg}[k]||pPlayers)()}catch(e){console.log('panel',e);body('<div class="dnt">Something went wrong.</div>')}}
+async function show(k){try{({pl:pPlayers,rp:pReports,bw:pBW,gu:pGuilds,ch:pChat,cd:pCodes,rk:pRank,al:pAlerts,md:pMods,me:pMe,dbg:pDbg}[k]||pPlayers)()}catch(e){console.log('panel',e);body('<div class="dnt">Something went wrong.</div>')}}
 
 /* players */
 function pPlayers(){body('<div class="opr2"><input id="opq" class="sin" placeholder="Name, player number or UID" value="'+esc(PQ)+'"><button class="opr" onclick="__opFind()">Find</button></div><div id="opres">'+(P?'':'<div class="dnt">Search for a player to warn, ban or make moderator.</div>')+'</div>');
@@ -207,6 +207,17 @@ async function pRank(){busy();let L=CACHE.prof;if(!L||Date.now()-CACHE.pt>60e3){
  body('<div class="opsel">'+RKS.map(([x,l])=>'<button class="'+(k===x?'on':'')+'" onclick="__opRk(\''+x+'\')">'+l+'</button>').join('')+'</div><div class="dnt">'+L.length+' players · top 50</div>'+
   S.map((p,i)=>'<div class="oprow rk" onclick="__opPlayer(\''+p.uid+'\')"><em>'+(i+1)+'</em><b>'+esc(p.name)+(OWN[p.uid]?' 👑':'')+'</b><span>'+fmt(p)+'</span></div>').join(''))}
 window.__opRk=k=>{RK2=k;pRank()};
+
+/* player reports (staff): grouped by reported player */
+const RSN={name:'Offensive name',lang:'Bad language',cheat:'Cheating',spam:'Spam',other:'Something else'};
+async function pReports(){busy();let A=[];try{A=(await db().collection('reports').get()).docs.map(d=>Object.assign({id:d.id},d.data()))}catch(e){console.log('reports',e&&e.code)}
+ const G={};A.forEach(a=>{(G[a.uid]=G[a.uid]||{uid:a.uid,name:a.name,num:a.num,L:[]}).L.push(a)});const L=Object.values(G).sort((a,b)=>b.L.length-a.L.length||Math.max(...b.L.map(x=>x.t))-Math.max(...a.L.map(x=>x.t)));
+ body(L.length?'<div class="dnt">'+A.length+' report'+(A.length>1?'s':'')+' about '+L.length+' player'+(L.length>1?'s':'')+'</div>'+L.map(g=>{const cnt={};g.L.forEach(x=>cnt[x.reason]=(cnt[x.reason]||0)+1);
+  return '<div class="opc al"><div class="opn"><b onclick="__opPlayer(\''+g.uid+'\')">🚩 '+esc(g.name||'Player')+' <small>#'+esc(g.num||'')+'</small></b><span>'+g.L.length+' report'+(g.L.length>1?'s':'')+' · '+Object.entries(cnt).map(([k,n])=>esc(RSN[k]||k)+(n>1?' ×'+n:'')).join(', ')+'</span></div>'+
+   '<details><summary>Details</summary>'+g.L.sort((a,b)=>b.t-a.t).map(x=>'<div class="alg"><small>'+when(x.t)+'</small> <b>'+esc(x.fromName||'Player')+'</b>: '+esc(RSN[x.reason]||x.reason)+(x.text?' — <i>'+esc(x.text)+'</i>':'')+'</div>').join('')+'</details>'+
+   '<div class="opa"><button class="opr sm" onclick="__opPlayer(\''+g.uid+'\')">Open player</button><button class="opr rm sm" onclick="__opRpDel(\''+g.uid+'\')">Dismiss</button></div></div>'}).join(''):'<div class="dnt">No reports. 🎉</div>');
+ window.__opRpAll=A}
+window.__opRpDel=async u=>{try{const D=db(),b=D.batch();(window.__opRpAll||[]).filter(a=>a.uid===u).forEach(a=>b.delete(D.collection('reports').doc(a.id)));await b.commit();pReports()}catch(e){note('Could not dismiss')}};
 
 /* cheat alerts (owner) */
 async function pAlerts(){busy();let A=[];try{A=(await db().collection('alerts').get()).docs.map(d=>Object.assign({id:d.id},d.data()))}catch(e){}A.sort((a,b)=>b.t-a.t);

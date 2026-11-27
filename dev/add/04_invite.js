@@ -86,7 +86,7 @@ window.__mmReal=function(m,baseLater,AI,baseClose){if(!ON()||window.__mmOff)retu
  const giveUp=()=>{if(MM!==S||S.done)return;window.__mmStop();AI()};
  const pair=async()=>{if(MM!==S||S.done)return;
   try{const q=await db().collection('mm').where('mode','==',m).get();if(MM!==S||S.done)return;
-   const c=q.docs.map(d=>d.data()).filter(d=>d&&d.uid&&d.uid!==F.uid&&d.st==='wait'&&Date.now()-(+d.c||0)<20000).sort((a,b)=>(a.c||0)-(b.c||0))[0];
+   const c=q.docs.map(d=>d.data()).filter(d=>d&&d.uid&&d.uid!==F.uid&&d.st==='wait'&&Date.now()-(+d.c||0)<20000&&!(window.__isBlk&&__isBlk(d.uid))&&!(Array.isArray(d.bl)&&d.bl.includes(F.uid))).sort((a,b)=>(a.c||0)-(b.c||0))[0];
    if(c){const mid='mm_'+F.uid.slice(0,8)+'_'+c.uid.slice(0,8)+'_'+k;
     await me.set({st:'host',mid},{merge:true});
     let ok=false;try{await db().collection('matches').doc(mid).set({a:F.uid,b:c.uid,t:FV().serverTimestamp()});
@@ -95,7 +95,7 @@ window.__mmReal=function(m,baseLater,AI,baseClose){if(!ON()||window.__mmOff)retu
     db().collection('matches').doc(mid).delete().catch(()=>{});if(MM===S&&!S.done)await me.set({st:'wait',mid:''},{merge:true})}}
   catch(e){console.log('mm search',e&&e.code)}
   if(MM===S&&!S.done)S.pt=setTimeout(pair,1500+Math.random()*1500)};
- me.set({uid:F.uid,n:SV.pname||'Player',h:okH(SV.mine),rk:rnk(),mode:m,st:'wait',k,mid:'',c:Date.now(),t:FV().serverTimestamp()}).then(()=>{
+ me.set({uid:F.uid,n:SV.pname||'Player',h:okH(SV.mine),rk:rnk(),mode:m,st:'wait',k,mid:'',c:Date.now(),bl:Object.keys(SV.blk||{}).slice(0,50),t:FV().serverTimestamp()}).then(()=>{
   if(MM!==S)return;
   S.un=me.onSnapshot(s=>{const d=s.exists?s.data():null;if(!d||MM!==S||S.done)return;if(d.st==='paired'&&d.mid&&d.k===k&&d.by)found({n:d.byN||'Player',h:d.byH,rk:d.byRk||''},{mid:d.mid,host:0,them:d.by,name:d.byN||'Player'})},e=>console.log('mm watch',e&&e.code));
   S.pt=setTimeout(pair,400+Math.random()*900)}).catch(e=>{console.log('mm join',e&&e.code);giveUp()});

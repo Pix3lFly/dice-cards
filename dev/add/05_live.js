@@ -53,6 +53,7 @@ function put(S,n,it,tries){S.pend[n]=1;let pr;try{pr=db().collection('matches').
  pr.then(()=>{delete S.pend[n]}).catch(e=>{console.log('live send',e&&e.code);if((tries||0)<40)setTimeout(()=>put(S,n,it,(tries||0)+1),1000);else delete S.pend[n]})}
 function flush(){if(!L||!L.out.length)return;const it=L.out;L.out=[];put(L,L.seq++,it,0)}
 const send=(it)=>{if(!L)return;it.t=Date.now();L.out.push(it)};
+window.__lvEmo=i=>{if(!live())return false;send({k:'emo',i:i});flush();return true};
 function listen(){const S=L;
  S.un.push(mref().collection('m').where('s','==',S.them).onSnapshot(q=>{if(L!==S)return;
   q.docChanges().forEach(ch=>{if(ch.type!=='added')return;const d=ch.doc.data();if(d&&typeof d.n==='number'&&!(d.n in S.got))S.got[d.n]=items(d)});
@@ -63,7 +64,7 @@ function listen(){const S=L;
 setInterval(()=>{const S=L;if(!S||S.done)return;const has=Object.keys(S.got).length;if(!has){S.gapT=0;return}if(!S.gapT){S.gapT=Date.now();return}if(Date.now()-S.gapT<2500)return;S.gapT=Date.now();
  const n=S.nextN;mref().collection('m').doc(S.them+'_'+pad(n)).get().then(d=>{if(L!==S||!d.exists||n!==S.nextN)return;S.got[n]=items(d.data()||{});while(S.got[S.nextN]){const it=S.got[S.nextN];delete S.got[S.nextN];S.nextN++;it.forEach(x=>queue(x))}}).catch(e=>console.log('live gap',e&&e.code))},1000);
 /* replay the other phone's items at the same pace they happened there */
-function queue(x){const S=L;if(!S)return;const now=Date.now();if(S.off==null)S.off=now-x.t+150;let due=x.t+S.off;if(due<S.lastDue)due=S.lastDue;S.lastDue=due;S.q.push({due,x})}
+function queue(x){const S=L;if(!S)return;if(x&&x.k==='emo'){try{window.__emoShow&&__emoShow(1,x.i)}catch(e){}return}const now=Date.now();if(S.off==null)S.off=now-x.t+150;let due=x.t+S.off;if(due<S.lastDue)due=S.lastDue;S.lastDue=due;S.q.push({due,x})}
 setInterval(()=>{const S=L;if(!S||!S.q.length)return;const now=Date.now();while(S.q.length&&S.q[0].due<=now&&L===S){const {x}=S.q.shift();try{run(x)}catch(e){console.log('live run',e)}}},30);
 
 function run(x){const S=L;
