@@ -3,7 +3,8 @@
    The tiles sit on its grass rim, the dice lands on its orange ring in the middle.
    Settings → Centre island: 3D model (default) / Picture / 3D (old). Tuning: window.__ip ===== */
 (function(){const P=window.__ip=Object.assign({sx:4.3,sy:3.4,sz:4.3,y:-1.33,ry:0,lit:0,k:4,wl:.45,sq:.95,D:2.1},window.__ip||{});
- const MODE=()=>{try{return localStorage.getItem('dc_isl')||'model'}catch(e){return 'model'}};
+ /* Board 1 always uses the 3D island (the picture / old 3D choices are gone from Settings) */
+ const MODE=()=>'model';
  window.__islMode=MODE;
  let G3=null,loading=false,failed=false;
  function load(G){if(loading||G3||failed)return;const L=G.V.GLTFLoader||window.THREE&&THREE.GLTFLoader;if(!L)return;loading=true;

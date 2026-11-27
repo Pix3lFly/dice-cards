@@ -46,9 +46,9 @@
    const yy=d.position.y;if(window.__dieMin==null||yy<window.__dieMin)window.__dieMin=yy;const f=new V.Vector3(cam.position.x,0,cam.position.z).normalize(),Y=P.dY||(window.__dieMin+.06),v=new V.Vector3();let lo=-3,hi=3;
    for(let it=0;it<22;it++){const m=(lo+hi)/2;v.set(f.x*m,Y,f.z*m).project(cam);if(v.y>ty)lo=m;else hi=m}const t=(lo+hi)/2;d.position.x=f.x*t;d.position.z=f.z*t}}catch(e){}}catch(e){}};
  const loop=()=>{tick();requestAnimationFrame(loop)};requestAnimationFrame(loop)})();
-/* Settings: pick the centre island (picture or the 3D backup); remembered on this phone */
-try{if(localStorage.getItem('dc_pond3d')==='1')window.__pondImg=0}catch(e){}
-setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.querySelector('.pondset'))return;const r=document.createElement('label');r.className='srow fr3 st pondset';
- r.innerHTML='<span>Centre island</span><select><option value="model">3D model</option><option value="pic">Picture</option><option value="3d">3D (old)</option></select>';const sel=r.querySelector('select');sel.value=window.__islMode?__islMode():'pic';
- sel.onchange=()=>{try{localStorage.setItem('dc_isl',sel.value);localStorage.setItem('dc_pond3d',sel.value==='3d'?'1':'0')}catch(e){}window.__pondImg=sel.value==='3d'?0:1};
+/* Settings: Board style. Board 1 = the 3D island + island tiles (now); Board 2 = Pix's whole-board model (coming) */
+setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.querySelector('.pondset'))return;const r=document.createElement('label');r.className='fr3 st pondset';
+ const has2=!!window.__board2;r.innerHTML='<b>Board style</b><select><option value="1">Board 1</option><option value="2"'+(has2?'':' disabled')+'>Board 2'+(has2?'':' (coming soon)')+'</option></select>';const sel=r.querySelector('select');
+ let v='1';try{v=localStorage.getItem('dc_board')||'1'}catch(e){}sel.value=has2?v:'1';
+ sel.onchange=()=>{try{localStorage.setItem('dc_board',sel.value)}catch(e){}window.__boardStyle=sel.value};
  const g=[...b.children].find(x=>/Graphics|الرسومات/.test(x.textContent));g?g.after(r):b.appendChild(r)}catch(e){}},500);
