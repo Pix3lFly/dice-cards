@@ -2,7 +2,7 @@
    File m/island3.js (the .glb as base64) (texture seams kept, extra-fine triangles merged: 2.25M → 273k triangles, looks the same).
    The tiles sit on its grass rim, the dice lands on its orange ring in the middle.
    Settings → Centre island: 3D model (default) / Picture / 3D (old). Tuning: window.__ip ===== */
-(function(){const P=window.__ip=Object.assign({sx:4.5,sy:4.6,sz:5.0,y:-2.87,ry:0,lit:0,k:1.8,wl:.45},window.__ip||{});
+(function(){const P=window.__ip=Object.assign({sx:5.4,sy:5.52,sz:6.0,y:-3.38,ry:0,lit:0,k:1.8,wl:.45},window.__ip||{});
  const MODE=()=>{try{return localStorage.getItem('dc_isl')||'model'}catch(e){return 'model'}};
  window.__islMode=MODE;
  let G3=null,loading=false,failed=false;
@@ -22,6 +22,8 @@
   window.__pondImg=MODE()==='3d'?0:1;
   if(on&&!G3)load(G);window.__isl3on=!!(on&&G3);
   if(!G3)return;if(G3.parent!==G.S)G.S.add(G3);G3.visible=on;if(!on)return;
-  G3.position.set(0,P.y,0);G3.scale.set(P.sx,P.sy,P.sz);G3.rotation.y=P.ry}catch(e){}}
+  G3.position.set(0,P.y,0);G3.scale.set(P.sx,P.sy,P.sz);G3.rotation.y=P.ry;
+  /* the dice never sinks into the ring (top of the ring + half the dice) */
+  window.__dieFloor=P.y+.671*P.sy+.52}catch(e){}}
  const loop=()=>{tick();requestAnimationFrame(loop)};requestAnimationFrame(loop);
 })();

@@ -7387,7 +7387,7 @@ window.__PONDIMG='data:image/webp;base64,UklGRnQjAwBXRUJQVlA4WAoAAAAQAAAA/wMA6AM
   const right=new V.Vector3(1,0,0).applyQuaternion(cam.quaternion),up=new V.Vector3(0,1,0).applyQuaternion(cam.quaternion);
   pos.addScaledVector(right,(.5-P.ax)*w).addScaledVector(up,(P.ay-.5)*h);M.position.copy(pos);
   /* the dice lands just above the picture's gold ring: slide it (x/z only, the game only moves y) */
-  if(window.__isl3on){try{const d=G.die;if(d){d.position.x=0;d.position.z=0}}catch(e){}return}
+  if(window.__isl3on){try{const d=G.die;if(d){d.position.x=0;d.position.z=0;if(window.__dieFloor&&d.position.y<__dieFloor)d.position.y=__dieFloor}}catch(e){}return}
   try{const d=G.die;if(d){if(window.__dieOff){const og=window.__dieOff;if(d.parent===og){S.add(d)}og.position.set(0,0,0)}
    const ring=new V.Vector3(P.ax-.5,.5-(P.ry||.468),0);M.updateMatrixWorld(true);ring.applyMatrix4(M.matrixWorld).project(cam);const ty=ring.y+(P.dUp==null?.07:P.dUp);
    const yy=d.position.y;if(window.__dieMin==null||yy<window.__dieMin)window.__dieMin=yy;const f=new V.Vector3(cam.position.x,0,cam.position.z).normalize(),Y=P.dY||(window.__dieMin+.06),v=new V.Vector3();let lo=-3,hi=3;
@@ -7403,7 +7403,7 @@ setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.
    File m/island3.js (the .glb as base64) (texture seams kept, extra-fine triangles merged: 2.25M → 273k triangles, looks the same).
    The tiles sit on its grass rim, the dice lands on its orange ring in the middle.
    Settings → Centre island: 3D model (default) / Picture / 3D (old). Tuning: window.__ip ===== */
-(function(){const P=window.__ip=Object.assign({sx:4.5,sy:4.6,sz:5.0,y:-2.87,ry:0,lit:0,k:1.8,wl:.45},window.__ip||{});
+(function(){const P=window.__ip=Object.assign({sx:5.4,sy:5.52,sz:6.0,y:-3.38,ry:0,lit:0,k:1.8,wl:.45},window.__ip||{});
  const MODE=()=>{try{return localStorage.getItem('dc_isl')||'model'}catch(e){return 'model'}};
  window.__islMode=MODE;
  let G3=null,loading=false,failed=false;
@@ -7423,7 +7423,9 @@ setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.
   window.__pondImg=MODE()==='3d'?0:1;
   if(on&&!G3)load(G);window.__isl3on=!!(on&&G3);
   if(!G3)return;if(G3.parent!==G.S)G.S.add(G3);G3.visible=on;if(!on)return;
-  G3.position.set(0,P.y,0);G3.scale.set(P.sx,P.sy,P.sz);G3.rotation.y=P.ry}catch(e){}}
+  G3.position.set(0,P.y,0);G3.scale.set(P.sx,P.sy,P.sz);G3.rotation.y=P.ry;
+  /* the dice never sinks into the ring (top of the ring + half the dice) */
+  window.__dieFloor=P.y+.671*P.sy+.52}catch(e){}}
  const loop=()=>{tick();requestAnimationFrame(loop)};requestAnimationFrame(loop);
 })();
 </script><script id="v4_35e_tileisl">/* ===== v4 (27 Nov): Pix's floating-island tile (patches "island tile…", assets/tile_new.b64).
@@ -7433,6 +7435,9 @@ setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.
  const T=window.__tileLook=Object.assign({empty:0xe9dfcf},window.__tileLook||{});
  const fix=(m,e)=>{if(!m||!m.uniforms||m.userData.__tisl)return;const u=m.uniforms;m.userData.__tisl=1;
   if(u.sm)u.sm.value=0;if(u.ty)u.ty.value=0;if(u.ck)u.ck.value=0;if(u.cq)u.cq.value=255;if(u.ry)u.ry.value=-99;if(u.tn)u.tn.value.set(e?T.empty:0xffffff).multiplyScalar(1.0/0.95)};
+ /* longer rock cone under every tile: everything below the grass rim is stretched down (once, before the board is built) */
+ const K=window.__tileRock||1.6,CUT=.62;
+ (function st(){const g=window.__TG&&window.__TG.geo;if(!g){setTimeout(st,150);return}if(g.userData.__rock)return;g.userData.__rock=1;const p=g.attributes.position;for(let i=0;i<p.count;i++){const y=p.getY(i);if(y<CUT)p.setY(i,CUT+(y-CUT)*K)}p.needsUpdate=true;g.computeBoundingBox();g.computeBoundingSphere();try{g.computeVertexNormals&&0}catch(e){}})();
  setInterval(()=>{try{const G=window.__3;if(!G||!G.tiles)return;G.tiles.forEach(o=>{if(!o||!o.cBlk)return;const m=o.cBlk.material;fix(m,o.t==='empty')})}catch(e){}},300);
 })();
 </script><script id="v4_36_kfmt">/* short numbers in the top bar: 9999 · 12.2k · 108k · 1.25M */

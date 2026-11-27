@@ -40,7 +40,7 @@
   const right=new V.Vector3(1,0,0).applyQuaternion(cam.quaternion),up=new V.Vector3(0,1,0).applyQuaternion(cam.quaternion);
   pos.addScaledVector(right,(.5-P.ax)*w).addScaledVector(up,(P.ay-.5)*h);M.position.copy(pos);
   /* the dice lands just above the picture's gold ring: slide it (x/z only, the game only moves y) */
-  if(window.__isl3on){try{const d=G.die;if(d){d.position.x=0;d.position.z=0}}catch(e){}return}
+  if(window.__isl3on){try{const d=G.die;if(d){d.position.x=0;d.position.z=0;if(window.__dieFloor&&d.position.y<__dieFloor)d.position.y=__dieFloor}}catch(e){}return}
   try{const d=G.die;if(d){if(window.__dieOff){const og=window.__dieOff;if(d.parent===og){S.add(d)}og.position.set(0,0,0)}
    const ring=new V.Vector3(P.ax-.5,.5-(P.ry||.468),0);M.updateMatrixWorld(true);ring.applyMatrix4(M.matrixWorld).project(cam);const ty=ring.y+(P.dUp==null?.07:P.dUp);
    const yy=d.position.y;if(window.__dieMin==null||yy<window.__dieMin)window.__dieMin=yy;const f=new V.Vector3(cam.position.x,0,cam.position.z).normalize(),Y=P.dY||(window.__dieMin+.06),v=new V.Vector3();let lo=-3,hi=3;
