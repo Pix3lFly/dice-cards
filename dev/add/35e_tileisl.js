@@ -11,5 +11,5 @@
  /* longer rock cone under every tile: everything below the grass rim is stretched down (once, before the board is built) */
  const K=window.__tileRock||1.3,CUT=.62;
  (function st(){const g=window.__TG&&window.__TG.geo;if(!g){setTimeout(st,150);return}if(g.userData.__rock)return;g.userData.__rock=1;const p=g.attributes.position;for(let i=0;i<p.count;i++){const y=p.getY(i);if(y<CUT)p.setY(i,CUT+(y-CUT)*K)}p.needsUpdate=true;g.computeBoundingBox();g.computeBoundingSphere();try{g.computeVertexNormals&&0}catch(e){}})();
- setInterval(()=>{try{const G=window.__3;if(!G||!G.tiles)return;G.tiles.forEach(o=>{if(!o||!o.cBlk)return;const m=o.cBlk.material;fix(m,o.t==='empty')})}catch(e){}},300);
+ setInterval(()=>{try{if(window.__OUTT&&!window.__OUTT.__ink){window.__OUTT.__ink=1;window.__OUTT.uniforms.uC.value.set(window.__inkC||0x24140a)}const G=window.__3;if(!G||!G.tiles)return;G.tiles.forEach(o=>{if(!o||!o.cBlk)return;const m=o.cBlk.material;fix(m,o.t==='empty')})}catch(e){}},300);
 })();

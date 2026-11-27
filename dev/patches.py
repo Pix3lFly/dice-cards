@@ -168,7 +168,7 @@ def tile_model(s):
     NEWT=True # Pix's floating-island tile (27 Nov, assets/tile_new.b64, merged 940k → 28k triangles); False = toy tile
     nb=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'assets','tile_new.b64' if NEWT else ('tile_toy.b64' if TOY else 'tile.b64'))).read().strip()
     s=s[:i]+nb+s[j:]
-    if NEWT:s=s.replace('<script id="v3_22">','<script>window.__TISL=1;window.__tileH=1;window.__tileW=1.2</script><script id="v3_22">',1)
+    if NEWT:s=s.replace('<script id="v3_22">','<script>window.__TISL=1;window.__toyOL=1;window.__tileOW=.0042;window.__tileH=1;window.__tileW=1.2</script><script id="v3_22">',1)
     return s.replace('<script id="v3_22">',('<script>window.__TNEW=1;window.__TTOY=1</script>' if TOY else '<script>window.__TNEW=1</script>')+'<script id="v3_22">',1)
 def apply(s):
     s=tile_model(s)

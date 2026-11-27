@@ -22,6 +22,11 @@
    g.scene.traverse(o=>{if(!o.isMesh)return;const p=o.geometry.attributes.position;for(let i=0;i<p.count;i++){let u=p.getX(i)/.95,v=p.getZ(i)/.84;const r=Math.hypot(u,v),m=Math.max(Math.abs(u),Math.abs(v));
      if(r>1e-4){const t=Math.min(1,Math.max(0,(r-.45)/.35)),b=t*t*(3-2*t)*P.sq,f=1+(r/m-1)*b;u*=f;v*=f}p.setX(i,u);p.setZ(i,v)}});
    g.scene.traverse(o=>{if(!o.isMesh)return;const p=o.geometry.attributes.position;for(let i=0;i<p.count;i++){const y=p.getY(i);if(y<P.wl)p.setY(i,P.wl-P.D*(1-Math.exp(-(P.wl-y)*P.k/P.D)))}p.needsUpdate=true;o.geometry.computeBoundingBox();o.geometry.computeBoundingSphere()});
+   /* dark ink outline around the island (same kind as the tiles': a back-face shell pushed out a few pixels on screen) */
+   g.scene.traverse(o=>{if(!o.isMesh||o.userData.__olc)return;const om=new V.ShaderMaterial({side:V.BackSide,uniforms:{uW:{value:P.ow||.0045},uC:{value:new V.Color(window.__inkC||0x24140a)}},
+     vertexShader:'uniform float uW;void main(){vec4 c=projectionMatrix*modelViewMatrix*vec4(position,1.0);vec3 n=normalize(normalMatrix*normal);vec2 q=(projectionMatrix*vec4(n,0.0)).xy;float l=length(q);if(l>1e-5)c.xy+=q/l*uW*c.w;gl_Position=c;}',
+     fragmentShader:'uniform vec3 uC;void main(){gl_FragColor=vec4(uC,1.0);}'});om.userData.__ct=1;
+    o.geometry.computeVertexNormals();const h=new V.Mesh(o.geometry,om);h.userData.__olc=1;h.userData.__mine=1;h.renderOrder=-5;h.frustumCulled=false;h.raycast=()=>{};o.add(h)});
    G3=g.scene;G3.userData.__mine=1;G3.name='island3';loading=false;window.__isl3=G3},e=>{console.warn('island3 parse',e);failed=true;loading=false})}catch(e){console.warn('island3',e);failed=true;loading=false}};
   if(window.__ISL3B64){go();return}
   const sc=pre();sc.addEventListener('load',go);sc.addEventListener('error',()=>{failed=true;loading=false})}
