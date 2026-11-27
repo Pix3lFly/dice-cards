@@ -128,7 +128,11 @@ window.guLeaveGo=async function(){if(!ON()||!SV.gid)return OF.guLeaveGo.apply(th
  if(GU_&&GU_.u)GU_.u();GU_=null;G=null;GID=null;SV.guild=null;SV.gid=null;SV.myGuild=null;GT='ov';sv();LT=0;menu()};
 window.guTab=k=>{GT=k;menu()};window.guSort=k=>{SORT=k;menu()};
 const mBy=id=>G&&members(GID,G).find(x=>x.id===id);
-window.guMem2=function(id,gid){const g=gid?(PW||{}):G,M=gid?members(gid,g):members(GID,G),m=M.find(x=>x.id===id);if(!m)return;const lead=!gid&&myRole()==='L'&&!m.you&&!(GID===BOT);
+window.guMem2=function(id,gid){const g=gid?(PW||{}):G,M=gid?members(gid,g):members(GID,G),m=M.find(x=>x.id===id);if(!m)return;
+ /* another guild's member (not my guild): the full player profile, with Add friend / Report / Block */
+ if(gid&&gid!==GID&&window.__pfShow&&!m.you){const real=!!(g.mem&&g.mem[m.id]);
+  if(real&&window.__pfUid){__pfUid(m.id,m.n,m.h);return}
+  __pfShow({id:m.id,n:m.n,h:m.h,rp:m.rp,lv:m.lv,w:m.w,g:g.n||'No guild'});return}const lead=!gid&&myRole()==='L'&&!m.you&&!(GID===BOT);
  const acts=lead?'<div class="us2">'+(m.role==='c'?`<button class="opr" onclick="guRole('${id}','m')">Remove co-leader</button>`:`<button class="opr" onclick="guRole('${id}','c')">Make co-leader</button>`)+`<button class="opr rm" onclick="guKickAsk('${id}')">Remove from guild</button></div>`:'';
  pop(`<div class="gpf"><div class="fp">${por(m.h)}</div><div><b class="st">${esc(m.n)}${m.you?' (you)':''}</b><i class="rl r${m.role}">${RL[m.role]}</i></div></div><div class="gst"><div><small>Rank</small><b>${RK[rkOf(m.rp)][0]}</b><small>${m.rp} RP</small></div><div><small>Level</small><b>${m.lv}</b></div><div><small>Wins</small><b>${m.w}</b></div><div><small>Guild pts</small><b>${m.gp}</b></div><div><small>Hero</small><b>${esc((HD[m.h]||{}).n||'')}</b></div></div><p class="gsn">${lastOn(m)}</p>${acts}<div class="us2"><button class="opr rm" onclick="${gid?'guView(\''+gid+'\')':'soClose()'}">${gid?'Back':'Close'}</button></div>`)};
 window.guMem=function(id){if(!ON()||!SV.gid)return OF.guMem.apply(this,arguments);return guMem2(id)};

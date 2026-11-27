@@ -5310,6 +5310,7 @@ window.mlSend=async function(){if(!ON())return _send&&_send.apply(this,arguments
  finally{sending=false;if(b)b.disabled=false}};
 
 /* ---------- other players' profiles: Add friend / Send mail ---------- */
+window.__pfUid=(u,n,h)=>showUid(u,n,h);
 async function showUid(u,n,h){if(!u)return;if(u===UID())return;
  const ids=F().ids?F().ids():[];if(ids.includes(u)){const f=F().fobj(u);return window.__pfShow({id:u,n:f.n,h:f.h,rk:f.rk,w:f.w,l:f.l,g:f.g,lv:f.lv,uid:u})}
  let p={};try{const s=await D().collection('profiles').doc(u).get();if(s.exists)p=s.data()||{}}catch(e){console.log('mail who',e&&e.code)}
@@ -5895,7 +5896,11 @@ window.guLeaveGo=async function(){if(!ON()||!SV.gid)return OF.guLeaveGo.apply(th
  if(GU_&&GU_.u)GU_.u();GU_=null;G=null;GID=null;SV.guild=null;SV.gid=null;SV.myGuild=null;GT='ov';sv();LT=0;menu()};
 window.guTab=k=>{GT=k;menu()};window.guSort=k=>{SORT=k;menu()};
 const mBy=id=>G&&members(GID,G).find(x=>x.id===id);
-window.guMem2=function(id,gid){const g=gid?(PW||{}):G,M=gid?members(gid,g):members(GID,G),m=M.find(x=>x.id===id);if(!m)return;const lead=!gid&&myRole()==='L'&&!m.you&&!(GID===BOT);
+window.guMem2=function(id,gid){const g=gid?(PW||{}):G,M=gid?members(gid,g):members(GID,G),m=M.find(x=>x.id===id);if(!m)return;
+ /* another guild's member (not my guild): the full player profile, with Add friend / Report / Block */
+ if(gid&&gid!==GID&&window.__pfShow&&!m.you){const real=!!(g.mem&&g.mem[m.id]);
+  if(real&&window.__pfUid){__pfUid(m.id,m.n,m.h);return}
+  __pfShow({id:m.id,n:m.n,h:m.h,rp:m.rp,lv:m.lv,w:m.w,g:g.n||'No guild'});return}const lead=!gid&&myRole()==='L'&&!m.you&&!(GID===BOT);
  const acts=lead?'<div class="us2">'+(m.role==='c'?`<button class="opr" onclick="guRole('${id}','m')">Remove co-leader</button>`:`<button class="opr" onclick="guRole('${id}','c')">Make co-leader</button>`)+`<button class="opr rm" onclick="guKickAsk('${id}')">Remove from guild</button></div>`:'';
  pop(`<div class="gpf"><div class="fp">${por(m.h)}</div><div><b class="st">${esc(m.n)}${m.you?' (you)':''}</b><i class="rl r${m.role}">${RL[m.role]}</i></div></div><div class="gst"><div><small>Rank</small><b>${RK[rkOf(m.rp)][0]}</b><small>${m.rp} RP</small></div><div><small>Level</small><b>${m.lv}</b></div><div><small>Wins</small><b>${m.w}</b></div><div><small>Guild pts</small><b>${m.gp}</b></div><div><small>Hero</small><b>${esc((HD[m.h]||{}).n||'')}</b></div></div><p class="gsn">${lastOn(m)}</p>${acts}<div class="us2"><button class="opr rm" onclick="${gid?'guView(\''+gid+'\')':'soClose()'}">${gid?'Back':'Close'}</button></div>`)};
 window.guMem=function(id){if(!ON()||!SV.gid)return OF.guMem.apply(this,arguments);return guMem2(id)};
@@ -6581,8 +6586,11 @@ async function loadSug(){if(!ON()||Date.now()-sugT<60e3)return;sugT=Date.now();
   sug=s.docs.filter(d=>d.id!==F.uid&&!ids.includes(d.id)&&d.data()&&/^[A-Za-z0-9_]{3,16}$/.test(d.data().name||'')).slice(0,4).map(d=>({uid:d.id,n:d.data().name,h:okH(d.data().h),rk:d.data().rk||'Bronze'}));redraw()}catch(e){console.log('suggest',e&&e.code)}}
 const aiSug=()=>{const k=day(),L=aiList().map(a=>a.id),out=[];for(let i=0;out.length<3&&i<12;i++){const a=aiMake('s'+k+'_'+i);if(!L.includes(a.id)&&!out.some(x=>x.id===a.id))out.push(a)}return out};
 const SG={};
+/* open the profile of a suggested player or a recent opponent */
+window.__sgPf=function(key){const x=SG[key];if(!x)return;if(x.uid){if(window.__pfUid)__pfUid(x.uid);return}const a=x.a;if(!a||!window.__pfShow)return;__pfShow({id:a.id,n:a.n,h:a.h,rk:a.rk,w:a.w,l:a.l,lv:a.lv});
+ try{const us=document.querySelector('#menu .mpop .pfp .us2');if(us&&!aiList().some(f=>f.id===a.id))us.insertAdjacentHTML('afterbegin','<button class="opr pfa" onclick="soClose();__sgAdd(\''+key+'\')">＋ Add friend</button>')}catch(e){}};
 window.__sgAdd=function(key){const x=SG[key];if(!x)return;if(x.uid){if(F.reqTo)F.reqTo(x.uid).then(()=>redraw());return}aiAdd(x.a);redraw()};
-const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp">'+pic(x.h)+'</div><div class="ff"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
+const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp" onclick="__sgPf(\''+key+'\')">'+pic(x.h)+'</div><div class="ff" onclick="__sgPf(\''+key+'\')"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
 function deco(){if(!ON()||typeof tab==='undefined'||tab!=='comm'||typeof CMT==='undefined'||CMT!=='fr')return;const mb=document.getElementById('mb');if(!mb)return;const lst=mb.querySelector('.flst');if(!lst||lst.querySelector('.gf3'))return;
  const g=gs();
  lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b> · gifts arrive in Mail</span></div>');

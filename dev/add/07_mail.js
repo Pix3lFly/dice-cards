@@ -77,6 +77,7 @@ window.mlSend=async function(){if(!ON())return _send&&_send.apply(this,arguments
  finally{sending=false;if(b)b.disabled=false}};
 
 /* ---------- other players' profiles: Add friend / Send mail ---------- */
+window.__pfUid=(u,n,h)=>showUid(u,n,h);
 async function showUid(u,n,h){if(!u)return;if(u===UID())return;
  const ids=F().ids?F().ids():[];if(ids.includes(u)){const f=F().fobj(u);return window.__pfShow({id:u,n:f.n,h:f.h,rk:f.rk,w:f.w,l:f.l,g:f.g,lv:f.lv,uid:u})}
  let p={};try{const s=await D().collection('profiles').doc(u).get();if(s.exists)p=s.data()||{}}catch(e){console.log('mail who',e&&e.code)}

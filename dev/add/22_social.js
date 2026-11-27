@@ -69,8 +69,11 @@ async function loadSug(){if(!ON()||Date.now()-sugT<60e3)return;sugT=Date.now();
   sug=s.docs.filter(d=>d.id!==F.uid&&!ids.includes(d.id)&&d.data()&&/^[A-Za-z0-9_]{3,16}$/.test(d.data().name||'')).slice(0,4).map(d=>({uid:d.id,n:d.data().name,h:okH(d.data().h),rk:d.data().rk||'Bronze'}));redraw()}catch(e){console.log('suggest',e&&e.code)}}
 const aiSug=()=>{const k=day(),L=aiList().map(a=>a.id),out=[];for(let i=0;out.length<3&&i<12;i++){const a=aiMake('s'+k+'_'+i);if(!L.includes(a.id)&&!out.some(x=>x.id===a.id))out.push(a)}return out};
 const SG={};
+/* open the profile of a suggested player or a recent opponent */
+window.__sgPf=function(key){const x=SG[key];if(!x)return;if(x.uid){if(window.__pfUid)__pfUid(x.uid);return}const a=x.a;if(!a||!window.__pfShow)return;__pfShow({id:a.id,n:a.n,h:a.h,rk:a.rk,w:a.w,l:a.l,lv:a.lv});
+ try{const us=document.querySelector('#menu .mpop .pfp .us2');if(us&&!aiList().some(f=>f.id===a.id))us.insertAdjacentHTML('afterbegin','<button class="opr pfa" onclick="soClose();__sgAdd(\''+key+'\')">＋ Add friend</button>')}catch(e){}};
 window.__sgAdd=function(key){const x=SG[key];if(!x)return;if(x.uid){if(F.reqTo)F.reqTo(x.uid).then(()=>redraw());return}aiAdd(x.a);redraw()};
-const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp">'+pic(x.h)+'</div><div class="ff"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
+const row=(key,x,sub,btn)=>'<div class="fr3 sg3"><div class="fp" onclick="__sgPf(\''+key+'\')">'+pic(x.h)+'</div><div class="ff" onclick="__sgPf(\''+key+'\')"><b>'+esc(x.n)+'</b> <small>'+esc(x.rk||'')+'</small><span>'+sub+'</span></div>'+btn+'</div>';
 function deco(){if(!ON()||typeof tab==='undefined'||tab!=='comm'||typeof CMT==='undefined'||CMT!=='fr')return;const mb=document.getElementById('mb');if(!mb)return;const lst=mb.querySelector('.flst');if(!lst||lst.querySelector('.gf3'))return;
  const g=gs();
  lst.insertAdjacentHTML('afterbegin','<div class="gf3"><span>🎁 Gifts sent <b>'+g.to.length+'/'+MAXS+'</b> · claimed <b>'+g.got+'/'+MAXC+'</b> · gifts arrive in Mail</span></div>');
