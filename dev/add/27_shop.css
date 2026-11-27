@@ -48,3 +48,9 @@ html body #mb.sh4 .spn2:has(.gpk3) .ocd .onm{margin:2px 0 4px!important;font-siz
 html body #mb.sh4 .spn2:has(.gpk3) .ocd .opr,html body #mb.sh4 .spn2:has(.gpk3) .ocd .gpr{height:34px!important;min-height:0!important;margin:0!important}
 html body #mb.sh4 .gpk3{margin-top:6px!important}
 html body #mb.sh4 .gph{margin:2px auto 6px!important}
+
+/* 27 Nov: the offers timer sits left of the refresh button (they overlapped), and the 3 offers sit a bit lower */
+html body #mb.sh4 .shd{position:relative;display:flex!important;align-items:center;justify-content:flex-start;gap:6px;padding-right:50px!important}
+html body #mb.sh4 .shd .spl{flex:0 1 auto;min-width:0;margin-left:0!important;margin-right:0!important}
+html body #mb.sh4 .shd .rft{position:static!important;flex:none;margin:0 0 0 auto!important;padding:3px 9px!important;font-size:10px!important;line-height:1.2;transform:none;white-space:normal!important;max-width:92px;text-align:center}
+html body #mb.sh4 .ogr{margin-top:16px!important}
