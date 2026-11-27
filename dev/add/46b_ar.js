@@ -75,6 +75,7 @@
   [/^You sell (.+)$/,m=>'بعت '+w1(m[1])],
   [/^You use (.+)$/,m=>'استخدمت '+w1(m[1])],
   [/^Enemy uses (.+)$/,m=>'الخصم يستخدم '+w1(m[1])],
+  [/^Claimed (\d+) rewards: \+(\d+) gold(?:, \+(\d+) gems)?$/,m=>'تم استلام '+m[1]+' مكافآت: +'+m[2]+' ذهب'+(m[3]?'، +'+m[3]+' جواهر':'')],
   [/^(\d+)W · (\d+)L$/,m=>m[1]+' فوز · '+m[2]+' خسارة'],
   [/^Win (\d+) games? with this hero to unlock it$/,m=>'اربح '+m[1]+' مباريات بهذا البطل لفتحه']];
  const norm=h=>h.replace(/<(\/?)(b|i|em|strong|u|br)\b[^>]*>/gi,(m,a,t)=>'<'+a+t.toLowerCase()+'>').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim().replace(/\d+([.,]\d+)?/g,'#');

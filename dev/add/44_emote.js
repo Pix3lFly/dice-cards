@@ -3,6 +3,7 @@
  const M=window.__MASC;
  const E=[['cheer','GG!'],['hold','Good luck!'],['star','Wow!'],['think','Hmm…'],['sleep','Hurry up!'],['hold','Oops!']];
  const st=document.createElement('style');st.textContent=`
+html body #app #bot{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important}
 #emb{position:fixed;z-index:46;width:44px;height:44px;border-radius:50%;padding:0;border:2.5px solid #6b3f0a;background:radial-gradient(circle at 40% 35%,#fff3b0,#f2b938 60%,#c98410);box-shadow:0 0 0 2px #ffe08a88,0 3px 6px #0009;display:none;cursor:pointer}
 #emb img{width:130%;margin:-14% 0 0 -15%;pointer-events:none;filter:drop-shadow(0 1px 1px #0008)}
 #emb.cd{filter:grayscale(.8) brightness(.8)}
@@ -23,10 +24,13 @@
  const inMatch=()=>{try{const m=document.getElementById('menu');if(m&&m.style.display==='flex')return false;if(typeof mode!=='undefined'&&mode==='train')return false;
   if(typeof over!=='undefined'&&over)return false;if(!P||!P[1])return false;const t=document.getElementById('tut4');if(t&&getComputedStyle(t).display!=='none')return false;return vis(document.getElementById('rs'))}catch(e){return false}};
  let last=0,shown=[null,null],aiT=0;
- window.__emoShow=(k,i)=>{const e=E[i];if(!e)return;const hc=document.querySelector(k?'#hud .hc.e':'#hud .hc:not(.e)');if(!hc)return;const r=hc.getBoundingClientRect();
+ window.__emoShow=(k,i)=>{const e=E[i];if(!e)return;
+  /* below everything at the top of the battle screen (cards, turn bar, turn text, ? button), on the player's side */
+  let top=0;['hud','st','qb','tbar','turnb'].forEach(id=>{const x=document.getElementById(id);if(x){const r=x.getBoundingClientRect();if(r.height&&r.top<innerHeight*.4)top=Math.max(top,r.bottom)}});
+  document.querySelectorAll('#app > *').forEach(x=>{const r=x.getBoundingClientRect(),c=getComputedStyle(x);if(r.height&&r.height<120&&r.top<innerHeight*.3&&c.display!=='none'&&c.visibility!=='hidden'&&x.id!=='gl'&&x.id!=='board')top=Math.max(top,r.bottom)});
   if(shown[k]){shown[k].remove();shown[k]=null}
   const d=document.createElement('div');d.className='emo4';d.innerHTML=(k?'<b>'+e[1]+'</b><img alt="" src="'+(M[e[0]]||M.hold)+'">':'<img alt="" src="'+(M[e[0]]||M.hold)+'"><b>'+e[1]+'</b>');
-  document.body.appendChild(d);const dw=d.offsetWidth;d.style.top=(r.bottom+6)+'px';d.style.left=(k?Math.max(6,r.right-dw):Math.min(innerWidth-dw-6,r.left))+'px';shown[k]=d;
+  document.body.appendChild(d);const dw=d.offsetWidth;d.style.top=(top+14)+'px';d.style.left=(k?innerWidth-dw-16:16)+'px';shown[k]=d;
   try{snd(k?740:880,.06,'triangle')}catch(e){}
   setTimeout(()=>{d.classList.add('out');setTimeout(()=>{d.remove();if(shown[k]===d)shown[k]=null},300)},2600)};
  const close=()=>{p.style.display='none'};

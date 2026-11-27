@@ -7661,6 +7661,7 @@ const pop=html=>{const M=document.getElementById('menu');let p=M.querySelector('
  const M=window.__MASC;
  const E=[['cheer','GG!'],['hold','Good luck!'],['star','Wow!'],['think','Hmm…'],['sleep','Hurry up!'],['hold','Oops!']];
  const st=document.createElement('style');st.textContent=`
+html body #app #bot{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important}
 #emb{position:fixed;z-index:46;width:44px;height:44px;border-radius:50%;padding:0;border:2.5px solid #6b3f0a;background:radial-gradient(circle at 40% 35%,#fff3b0,#f2b938 60%,#c98410);box-shadow:0 0 0 2px #ffe08a88,0 3px 6px #0009;display:none;cursor:pointer}
 #emb img{width:130%;margin:-14% 0 0 -15%;pointer-events:none;filter:drop-shadow(0 1px 1px #0008)}
 #emb.cd{filter:grayscale(.8) brightness(.8)}
@@ -7681,10 +7682,13 @@ const pop=html=>{const M=document.getElementById('menu');let p=M.querySelector('
  const inMatch=()=>{try{const m=document.getElementById('menu');if(m&&m.style.display==='flex')return false;if(typeof mode!=='undefined'&&mode==='train')return false;
   if(typeof over!=='undefined'&&over)return false;if(!P||!P[1])return false;const t=document.getElementById('tut4');if(t&&getComputedStyle(t).display!=='none')return false;return vis(document.getElementById('rs'))}catch(e){return false}};
  let last=0,shown=[null,null],aiT=0;
- window.__emoShow=(k,i)=>{const e=E[i];if(!e)return;const hc=document.querySelector(k?'#hud .hc.e':'#hud .hc:not(.e)');if(!hc)return;const r=hc.getBoundingClientRect();
+ window.__emoShow=(k,i)=>{const e=E[i];if(!e)return;
+  /* below everything at the top of the battle screen (cards, turn bar, turn text, ? button), on the player's side */
+  let top=0;['hud','st','qb','tbar','turnb'].forEach(id=>{const x=document.getElementById(id);if(x){const r=x.getBoundingClientRect();if(r.height&&r.top<innerHeight*.4)top=Math.max(top,r.bottom)}});
+  document.querySelectorAll('#app > *').forEach(x=>{const r=x.getBoundingClientRect(),c=getComputedStyle(x);if(r.height&&r.height<120&&r.top<innerHeight*.3&&c.display!=='none'&&c.visibility!=='hidden'&&x.id!=='gl'&&x.id!=='board')top=Math.max(top,r.bottom)});
   if(shown[k]){shown[k].remove();shown[k]=null}
   const d=document.createElement('div');d.className='emo4';d.innerHTML=(k?'<b>'+e[1]+'</b><img alt="" src="'+(M[e[0]]||M.hold)+'">':'<img alt="" src="'+(M[e[0]]||M.hold)+'"><b>'+e[1]+'</b>');
-  document.body.appendChild(d);const dw=d.offsetWidth;d.style.top=(r.bottom+6)+'px';d.style.left=(k?Math.max(6,r.right-dw):Math.min(innerWidth-dw-6,r.left))+'px';shown[k]=d;
+  document.body.appendChild(d);const dw=d.offsetWidth;d.style.top=(top+14)+'px';d.style.left=(k?innerWidth-dw-16:16)+'px';shown[k]=d;
   try{snd(k?740:880,.06,'triangle')}catch(e){}
   setTimeout(()=>{d.classList.add('out');setTimeout(()=>{d.remove();if(shown[k]===d)shown[k]=null},300)},2600)};
  const close=()=>{p.style.display='none'};
@@ -7846,6 +7850,7 @@ window.__ARD={"HP #/#":"الصحة #/#","Log in":"تسجيل الدخول","Regi
   [/^You sell (.+)$/,m=>'بعت '+w1(m[1])],
   [/^You use (.+)$/,m=>'استخدمت '+w1(m[1])],
   [/^Enemy uses (.+)$/,m=>'الخصم يستخدم '+w1(m[1])],
+  [/^Claimed (\d+) rewards: \+(\d+) gold(?:, \+(\d+) gems)?$/,m=>'تم استلام '+m[1]+' مكافآت: +'+m[2]+' ذهب'+(m[3]?'، +'+m[3]+' جواهر':'')],
   [/^(\d+)W · (\d+)L$/,m=>m[1]+' فوز · '+m[2]+' خسارة'],
   [/^Win (\d+) games? with this hero to unlock it$/,m=>'اربح '+m[1]+' مباريات بهذا البطل لفتحه']];
  const norm=h=>h.replace(/<(\/?)(b|i|em|strong|u|br)\b[^>]*>/gi,(m,a,t)=>'<'+a+t.toLowerCase()+'>').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim().replace(/\d+([.,]\d+)?/g,'#');
@@ -7924,4 +7929,19 @@ html.ar4 .dt.claim::after{content:'اضغط للاستلام'!important}html.ar4
  setInterval(()=>{try{scan()}catch(e){}},500);
  window.__arcScan=scan;
 }catch(e){console.warn('v4 arabic pictures',e)}})();
+</script><script id="v4_47_achall">/* ===== v4 (27 Nov): Achievements — "Claim all" when rewards are waiting ===== */
+(function w(){if(typeof SV==='undefined'||typeof ACH==='undefined'||typeof menu!=='function'){setTimeout(w,500);return}try{
+ const st=document.createElement('style');st.textContent=`
+#menu .acall{display:block;margin:6px auto 2px;padding:6px 18px;border-radius:11px;border:2px solid #7a4a0e;background:linear-gradient(#ffe9a6,#f5c242 50%,#d4901c);font:400 16px 'Lilita One',system-ui,sans-serif;color:#3a2006;box-shadow:inset 0 2px 0 #fff3c4,0 3px 0 #5a3608;cursor:pointer;animation:acp 1.2s ease-in-out infinite alternate}
+@keyframes acp{to{filter:brightness(1.12)}}`;document.head.appendChild(st);
+ const ready=()=>(window.__achV?__achV():ACH).filter(a=>{try{return !SV.ach[a[0]]&&a[3]()>=a[4]}catch(e){return false}});
+ window.__achAll=()=>{let g=0,m=0,n=0;const cl=window.cla||(typeof cla==='function'?cla:null);if(!cl)return;
+  for(let t=0;t<80;t++){const L=ready();if(!L.length)break;L.forEach(a=>{if(SV.ach[a[0]])return;const g0=SV.gold,m0=SV.gems;try{cl(a[0])}catch(e){}if(SV.ach[a[0]]){n++;g+=SV.gold-g0;m+=SV.gems-m0}})}
+  try{menu()}catch(e){}
+  if(n)try{const d=document.createElement('div');d.className='m3note';d.textContent='Claimed '+n+' rewards: +'+g+' gold'+(m?', +'+m+' gems':'');document.body.appendChild(d);setTimeout(()=>d.remove(),2600);window.__sfx&&__sfx.chest&&__sfx.chest()}catch(e){}};
+ setInterval(()=>{try{if(typeof tab==='undefined'||tab!=='jour'||typeof JT==='undefined'||JT!=='ach')return;const h=document.querySelector('#mb .spn2 .shd');if(!h)return;
+  const n=ready().length,b=h.parentElement.querySelector('.acall');if(n<1){if(b)b.remove();return}
+  const t='Claim all ('+n+')';if(b){if(b.dataset.n!=n){b.dataset.n=n;b.textContent=t}return}
+  h.insertAdjacentHTML('afterend','<button class="acall" data-n="'+n+'" onclick="__achAll()">'+t+'</button>')}catch(e){}},400);
+}catch(e){console.warn('v4 claim all',e)}})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>
