@@ -4719,9 +4719,12 @@ const A1=['Brave','Swift','Lucky','Grim','Bold','Sly','Mighty','Wild','Frost','E
 const A2=['Goblin','Knight','Wizard','Ogre','Dragon','Rogue','Hunter','Bat','Mage','Raven','Wolf','Pirate','Dicer','Golem','Troll','Witch','Archer','Imp','Viking','Ranger'];
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const randName=()=>{for(;;){const n=pick(A1)+pick(A2)+Math.floor(10+Math.random()*990);if(n.length<=16)return n}};
+/* still the random name the game gave at sign-up (word + word + number)? */
+const isRand=n=>{const m=/^(.+?)(\d{2,3})$/.exec(n||'');if(!m)return false;const s=m[1];return A1.some(a=>s.startsWith(a)&&A2.includes(s.slice(a.length)))};
 const randNum=()=>String(Math.floor(10000000+Math.random()*90000000));
 let lastErr='',busyE=false,prof=null,uid=null,unsub=[],frU={},frIds=[],frP={},inc=[],out=[],hb=0;
 const F=window.__FRON={get uid(){return uid},isOnline:p=>isOnline(p),get on(){return !!(prof&&O.state==='ready'&&O.user)},get prof(){return prof},get err(){return lastErr},retry:()=>ensure()};
+F.isRand=isRand;
 const ON=()=>F.on;
 const db=()=>O.db;
 const isOnline=p=>p&&Date.now()-ms(p.seen)<3*60e3;
@@ -4736,7 +4739,7 @@ const refresh=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='
 async function ensure(){const u=O.user;if(!u||busyE||prof)return;busyE=true;try{await ensure2(u)}finally{busyE=false}}
 async function ensure2(u){uid=u.uid;const D=db(),ref=D.collection('profiles').doc(uid);
  let s;try{s=await ref.get()}catch(e){lastErr=((e&&e.code)||'load')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('profile load',e);return}
- if(s.exists&&s.data().name){prof=s.data();if(SV.nm4==null&&!(SV.played>0)){SV.nm4=1;try{sv()}catch(e){}}}
+ if(s.exists&&s.data().name){prof=s.data();if(isRand(prof.name)&&SV.nm4!==1){SV.nm4=1;try{sv()}catch(e){}}}
  else{for(let i=0;i<8&&!prof;i++){const n=randName(),num=randNum(),p=Object.assign({name:n,nameLower:n.toLowerCase(),num:num,seen:FV().serverTimestamp()},stats());
    const b=D.batch();b.set(D.collection('names').doc(p.nameLower),{uid:uid});b.set(D.collection('nums').doc(num),{uid:uid});b.set(ref,p);
    try{await b.commit();prof=p;lastErr=''}catch(e){lastErr=((e&&e.code)||'create')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('name try',e&&e.code);if(!/^permission-denied/.test(lastErr)||i>=2)break}}
