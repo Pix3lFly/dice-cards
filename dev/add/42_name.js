@@ -22,7 +22,7 @@
 @keyframes nm4a{50%{transform:translate(-5px,-7px)}}`;document.head.appendChild(st);
  const ON=window.__ON,vis=id=>{const e=document.getElementById(id);return !!e&&e.style.display!=='none'&&getComputedStyle(e).display!=='none'};
  const offline=()=>!ON||ON.state==='none'||ON.state==='off';
- const fresh=()=>SV.nm4==null&&!SV.pname&&!(SV.played>0);
+ const fresh=()=>SV.nm4==null&&!(SV.played>0);
  const pending=()=>SV.nm4===1||(fresh()&&offline());
  let menuAt=0;
  /* also keeps the page guide, install popup and Sparky tips waiting */

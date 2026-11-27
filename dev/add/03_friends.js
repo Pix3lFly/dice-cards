@@ -27,7 +27,7 @@ const refresh=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='
 async function ensure(){const u=O.user;if(!u||busyE||prof)return;busyE=true;try{await ensure2(u)}finally{busyE=false}}
 async function ensure2(u){uid=u.uid;const D=db(),ref=D.collection('profiles').doc(uid);
  let s;try{s=await ref.get()}catch(e){lastErr=((e&&e.code)||'load')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('profile load',e);return}
- if(s.exists&&s.data().name)prof=s.data();
+ if(s.exists&&s.data().name){prof=s.data();if(SV.nm4==null&&!(SV.played>0)){SV.nm4=1;try{sv()}catch(e){}}}
  else{for(let i=0;i<8&&!prof;i++){const n=randName(),num=randNum(),p=Object.assign({name:n,nameLower:n.toLowerCase(),num:num,seen:FV().serverTimestamp()},stats());
    const b=D.batch();b.set(D.collection('names').doc(p.nameLower),{uid:uid});b.set(D.collection('nums').doc(num),{uid:uid});b.set(ref,p);
    try{await b.commit();prof=p;lastErr=''}catch(e){lastErr=((e&&e.code)||'create')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('name try',e&&e.code);if(!/^permission-denied/.test(lastErr)||i>=2)break}}

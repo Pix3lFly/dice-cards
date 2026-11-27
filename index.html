@@ -4736,7 +4736,7 @@ const refresh=()=>{try{if(typeof tab!=='undefined'&&tab==='comm'&&typeof CMT!=='
 async function ensure(){const u=O.user;if(!u||busyE||prof)return;busyE=true;try{await ensure2(u)}finally{busyE=false}}
 async function ensure2(u){uid=u.uid;const D=db(),ref=D.collection('profiles').doc(uid);
  let s;try{s=await ref.get()}catch(e){lastErr=((e&&e.code)||'load')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('profile load',e);return}
- if(s.exists&&s.data().name)prof=s.data();
+ if(s.exists&&s.data().name){prof=s.data();if(SV.nm4==null&&!(SV.played>0)){SV.nm4=1;try{sv()}catch(e){}}}
  else{for(let i=0;i<8&&!prof;i++){const n=randName(),num=randNum(),p=Object.assign({name:n,nameLower:n.toLowerCase(),num:num,seen:FV().serverTimestamp()},stats());
    const b=D.batch();b.set(D.collection('names').doc(p.nameLower),{uid:uid});b.set(D.collection('nums').doc(num),{uid:uid});b.set(ref,p);
    try{await b.commit();prof=p;lastErr=''}catch(e){lastErr=((e&&e.code)||'create')+(e&&e.message?': '+String(e.message).slice(0,90):'');console.log('name try',e&&e.code);if(!/^permission-denied/.test(lastErr)||i>=2)break}}
@@ -7543,7 +7543,7 @@ window.__kf=n=>{n=+n||0;const a=Math.abs(n),t=(v,d)=>(+v.toFixed(d)).toString();
 @keyframes nm4a{50%{transform:translate(-5px,-7px)}}`;document.head.appendChild(st);
  const ON=window.__ON,vis=id=>{const e=document.getElementById(id);return !!e&&e.style.display!=='none'&&getComputedStyle(e).display!=='none'};
  const offline=()=>!ON||ON.state==='none'||ON.state==='off';
- const fresh=()=>SV.nm4==null&&!SV.pname&&!(SV.played>0);
+ const fresh=()=>SV.nm4==null&&!(SV.played>0);
  const pending=()=>SV.nm4===1||(fresh()&&offline());
  let menuAt=0;
  /* also keeps the page guide, install popup and Sparky tips waiting */
