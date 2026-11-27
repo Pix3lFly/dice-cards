@@ -7707,11 +7707,29 @@ const pop=html=>{const M=document.getElementById('menu');let p=M.querySelector('
  const pic=h=>{try{const P=POR();return P[h]||P.k||''}catch(e){return ''}};
  const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
  const hsh=t=>{let h=7;for(const c of String(t))h=(h*31+c.charCodeAt(0))%1000003;return h};
- const N1=['Luna','Grim','Pyra','Frost','Brix','Nyx','Thorne','Juno','Dax','Elwin','Fenna','Rook','Ivy','Kael','Saffi','Wren','Taro','Quill','Lyra','Moss','Edda','Finch','Vex','Tobin','Orrin','Zara','Milo','Kira','Bram','Nova'];
- /* computer players, so the board is never empty; they climb a little during the season */
- const ai=()=>{const s=sid(),f=Math.min(1,(Date.now()-s*SEA)/SEA),L=[];
-  for(let i=0;i<60;i++){const k=hsh('lb'+s+'_'+i+'x'+i*7919),q=hsh('n'+i+'_'+s),top=Math.round(1650*Math.pow(1-i/60,1.6)),rp=Math.max(0,Math.round(top*(.55+.45*f))-k%40);
-   L.push({id:'ai_lb'+i,n:N1[(q+i*7)%N1.length]+(10+(q*13+i*37)%90),h:'kvsfih'[(k>>3)%6],rp,ai:1})}return L};
+ /* computer players, so the board is never empty; names in many styles, like real players pick */
+ const FIRST=['Omar','Youssef','Mariam','Nour','Karim','Salma','Hana','Ziad','Laila','Adam','Mostafa','Farida','Tarek','Jana','Ali','Malak','Hamza','Rana','Seif','Yara','Liam','Emma','Noah','Mia','Lucas','Sofia','Ethan','Chloe','Mateo','Aria','Leo','Nina','Kenji','Aiko','Diego','Elena','Ivan','Lea','Sam','Max','Zoe','Jad','Rami','Dina','Khaled','Reem'];
+ const ADJ=['Dark','Silent','Crazy','Lucky','Swift','Iron','Frost','Shadow','Golden','Wild','Mad','Tiny','Epic','Lazy','Brave','Cosmic','Fire','Night','Pixel','Turbo','Sneaky','Royal','Mystic','Rapid'];
+ const NOUN=['Wolf','Dragon','Knight','Ninja','Fox','Tiger','Phoenix','Viper','Falcon','Rogue','Wizard','Hunter','Panda','Shark','Ghost','Titan','Raven','Lion','Dice','Gamer','Storm','Blade','Bear','King'];
+ const SOLO=['Zorro','Nemo','Blaze','Echo','Kaiju','Mango','Pickles','Biscuit','Waffle','Noodle','Sparkz','Bolt','Comet','Pixie','Yuzu','Taco','Ziggy','Nova','Orbit','Mochi'];
+ const hp=(t,n)=>{let h=2166136261;for(const c of String(t)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)>>>0}return h%n};
+ const nameFor=s=>{const p=a=>a[hp(s+'|'+a[0]+a[1],a.length)],r=(n,q)=>hp(s+'#'+n+(q||''),n),st=r(10,'st');let n;
+  const yr=['98','99','00','01','02','03','04','05','07','10','2008','2006'][r(12,'y')];
+  if(st===0)n=p(FIRST);
+  else if(st===1)n=p(FIRST)+(10+r(89,'n'));
+  else if(st===2)n=p(FIRST)+'_'+yr;
+  else if(st===3)n=p(ADJ)+p(NOUN);
+  else if(st===4)n=p(ADJ)+p(NOUN)+(1+r(99,'m'));
+  else if(st===5)n=p(NOUN).toLowerCase()+'_'+p(FIRST).toLowerCase();
+  else if(st===6)n='xX'+p(NOUN)+'Xx';
+  else if(st===7)n=p(SOLO)+(r(2,'a')?'':(r(9,'b')+1)+''+r(9,'c'));
+  else if(st===8)n=p(FIRST).toLowerCase()+['_gg','_pro','x','_eg','_ksa','07','_10','_ma','tv','_yt'][r(10,'sf')];
+  else n='The'+p(ADJ)+p(NOUN);
+  n=n.replace(/[^A-Za-z0-9_]/g,'');if(n.length>16)n=n.slice(0,16);if(n.length<3)n+=r(90)+10;return n};
+ const ai=()=>{const s=sid(),f=Math.min(1,(Date.now()-s*SEA)/SEA),L=[],used=new Set();
+  for(let i=0;i<60;i++){const k=hp('lb'+s+'_'+i,1000003),top=Math.round(1650*Math.pow(1-i/60,1.6)),rp=Math.max(0,Math.round(top*(.55+.45*f))-k%40);
+   let n=nameFor(s+'_'+i),t=0;while(used.has(n.toLowerCase())&&t<5){n=nameFor(s+'_'+i+'_'+(++t))}used.add(n.toLowerCase());
+   const sk=hp(n+'skin',12),h='kvsfih'[hp(n+'hero',6)]+(sk<3?'1':sk<5?'2':'');L.push({id:'ai_lb'+i,n,h:(window.__POR&&__POR[h])?h:h[0],rp:Math.max(0,rp+hp(n+'rp',37)-18),ai:1})}return L};
  const me=()=>({id:'me',n:SV.pname||'You',h:SV.pav||SV.mine||'k',rp:SV.rp||0,me:1});
  const st=document.createElement('style');st.textContent=`
 #menu .lb4{display:flex;flex-direction:column;max-height:min(78vh,640px)}
