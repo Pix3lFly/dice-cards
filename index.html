@@ -7220,6 +7220,10 @@ html body #hand:has(.c:nth-child(6)){gap:0!important}
 html body #hand:has(.c:nth-child(6)) .c{width:min(72px,calc((100vw - 26px) / 5.65))!important;margin-left:-8px!important;position:relative}
 html body #hand:has(.c:nth-child(6)) .c:first-child{margin-left:0!important}
 html body #hand:has(.c:nth-child(6)) .c.csel{z-index:3}
+/* 27 Nov: jail / monster card pickers — all cards fit on one row (6 cards went past the window) */
+html body #fgt.f3 .uc.fg3 .us{overflow:visible!important;gap:4px!important}
+html body #fgt.f3 .uc.fg3 .us button{flex:1 1 0!important;min-width:0!important;max-width:64px!important;width:auto!important}
+html body #fgt.f3 .uc.fg3 .us button b{white-space:nowrap;overflow:hidden;text-overflow:clip}
 </style><script id="v4_34_cardfit">/* ===== v4 (26 Nov): long card titles (e.g. "ARCANE TOME") are squeezed to fit the card instead of being cut off ===== */
 (function(){const fit=()=>{try{document.querySelectorAll('#hand .c>b').forEach(b=>{const w=b.clientWidth;if(!w)return;const key=b.textContent+'|'+w;if(b.dataset.fit===key)return;
  let s=b.querySelector(':scope>.cft');if(!s){s=document.createElement('span');s.className='cft';s.textContent=b.textContent;b.textContent='';b.appendChild(s)}
