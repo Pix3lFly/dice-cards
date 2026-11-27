@@ -1577,7 +1577,7 @@ window.m3pop=function(w){const M=$('menu');let p=M.querySelector('.mpop');if(p)p
  p.onclick=e=>{if(e.target===p)p.remove()};M.appendChild(p);const x=p.querySelector('.bt.x');if(x&&x.previousElementSibling)x.previousElementSibling.appendChild(x)};
 
 function skin(){const M=$('menu');if(!M||M.style.display!=='flex')return;M.classList.add('v2');
- const rk=rank();const mt=$('mt');if(mt)mt.innerHTML='<div class="rs"><img alt="" src="'+U.coin+'">'+SV.gold+'</div><div class="rs"><img alt="" src="'+U.gem+'">'+SV.gems+'</div><div class="rs rk"><img alt="" src="'+U.rank+'"><div>'+RK[rk][0]+'<small>'+SV.rp+' RP</small></div></div>';
+ const rk=rank();const mt=$('mt');if(mt)mt.innerHTML='<div class="rs"><img alt="" src="'+U.coin+'">'+(window.__kf?__kf(SV.gold):SV.gold)+'</div><div class="rs"><img alt="" src="'+U.gem+'">'+(window.__kf?__kf(SV.gems):SV.gems)+'</div><div class="rs rk"><img alt="" src="'+U.rank+'"><div>'+RK[rk][0]+'<small>'+SV.rp+' RP</small></div></div>';
  if(SV.m1==null)SV.m1=(SV.played||0)>0?1:0;const nv=$('nv');if(nv)nv.innerHTML=[['shop','Shop'],['coll','Arsenal'],['main','Play'],['comm','Social'],['jour','Quests']].map(x=>{const lk=!SV.m1&&x[0]!=='main',nw=SV.m1&&SV.nu&&SV.nu.includes(x[0]);return `<button class="${tab===x[0]?'on':''} ${lk?'nlk':''} ${nw?'nnw':''}" onclick="${lk?"m3lk(this)":"m3go('"+x[0]+"')"}">${nw?GDN:''}${lk?'<i class="nlki">🔒</i>':''}<img alt="" src="${NVI[x[0]]}">${x[1]}</button>`}).join('');
  ['l','r','t','b','cn cn1','cn cn2','cn cn3','cn cn4','g'].forEach(c=>{const e=document.createElement('i');e.className='mfr '+c;M.appendChild(e)})}
 
@@ -7328,4 +7328,6 @@ setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.
  r.innerHTML='<span>Centre island</span><select><option value="pic">Picture</option><option value="3d">3D</option></select>';const sel=r.querySelector('select');sel.value=window.__pondImg===0?'3d':'pic';
  sel.onchange=()=>{window.__pondImg=sel.value==='3d'?0:1;try{localStorage.setItem('dc_pond3d',sel.value==='3d'?'1':'0')}catch(e){}};
  const g=[...b.children].find(x=>/Graphics/.test(x.textContent));g?g.after(r):b.appendChild(r)}catch(e){}},500);
+</script><script id="v4_36_kfmt">/* short numbers in the top bar: 9999 · 12.2k · 108k · 1.25M */
+window.__kf=n=>{n=+n||0;const a=Math.abs(n),t=(v,d)=>(+v.toFixed(d)).toString();if(a<1e4)return String(n);if(a<1e5)return t(n/1e3,1)+'k';if(a<1e6)return Math.floor(n/1e3)+'k';if(a<1e7)return t(n/1e6,2)+'M';return t(n/1e6,1)+'M'};
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>
