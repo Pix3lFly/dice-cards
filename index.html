@@ -7330,4 +7330,15 @@ setInterval(()=>{try{const b=document.querySelector('#mb .sset .sbub');if(!b||b.
  const g=[...b.children].find(x=>/Graphics/.test(x.textContent));g?g.after(r):b.appendChild(r)}catch(e){}},500);
 </script><script id="v4_36_kfmt">/* short numbers in the top bar: 9999 · 12.2k · 108k · 1.25M */
 window.__kf=n=>{n=+n||0;const a=Math.abs(n),t=(v,d)=>(+v.toFixed(d)).toString();if(a<1e4)return String(n);if(a<1e5)return t(n/1e3,1)+'k';if(a<1e6)return Math.floor(n/1e3)+'k';if(a<1e7)return t(n/1e6,2)+'M';return t(n/1e6,1)+'M'};
+</script><style id="v4_37_fit">/* wide screens (tablets, computers): keep the top bar and the bottom buttons phone-width, centred */
+@media (min-width:640px){html body #menu.v2 #mt,html body #menu.v2 #nv{max-width:560px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}}
+</style><script id="v4_37_fit">/* ===== v4 (27 Nov): small/short phones — the menus are laid out on a slightly bigger virtual screen and zoomed down,
+   so nothing is cut off. Phones 380×760 and bigger are unchanged. ===== */
+(function(){const fit=()=>{try{const M=document.getElementById('menu');if(!M)return;const W=innerWidth,H=innerHeight,z=Math.min(1,W/380,H/760);
+  if(z>=.999){if(M.dataset.fz){M.style.zoom='';M.style.width='';M.style.height='';M.style.right='';M.style.bottom='';delete M.dataset.fz}return}
+  const k=z.toFixed(3);if(M.dataset.fz===k+W+'x'+H)return;M.dataset.fz=k+W+'x'+H;M.style.zoom=k;M.style.right='auto';M.style.bottom='auto';M.style.width=(W/z)+'px';M.style.height=(H/z)+'px'}catch(e){}};
+ /* match screen too: lay out at least 380 wide, zoomed down */
+ const fitG=()=>{try{const A=document.getElementById('app');if(!A)return;const W=innerWidth,H=innerHeight,z=Math.min(1,W/380,H/700);if(z>=.999){if(A.dataset.fz){A.style.zoom='';A.style.width='';A.style.height='';delete A.dataset.fz;dispatchEvent(new Event('resize'))}return}
+  const k=z.toFixed(3)+'|'+W+'x'+H;if(A.dataset.fz===k)return;A.dataset.fz=k;A.style.zoom=z.toFixed(3);A.style.width=(W/z)+'px';A.style.height=(H/z)+'px';setTimeout(()=>dispatchEvent(new Event('resize')),50)}catch(e){}};
+ const f2=()=>{fit();fitG()};addEventListener('resize',()=>{fit()});setInterval(fitG,1000);fitG();setInterval(fit,1000);fit()})();
 </script><script>if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock("portrait").catch(()=>{})}catch(e){}</script></body></html>

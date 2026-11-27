@@ -1,0 +1,2 @@
+/* wide screens (tablets, computers): keep the top bar and the bottom buttons phone-width, centred */
+@media (min-width:640px){html body #menu.v2 #mt,html body #menu.v2 #nv{max-width:560px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}}
