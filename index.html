@@ -4323,7 +4323,7 @@ html body .dk3 .mc b.lng{letter-spacing:-.3px;font-size:85%!important;left:9%!im
  const hook=()=>{const f=window.__flc;if(f&&f.__hp)return;const g=function(t,d,k){if(/^-/.test(String(t))&&(k===0||k===1))setTimeout(()=>sync(k),0);return f?f.apply(this,arguments):''};g.__hp=1;window.__flc=g};
  setInterval(()=>{try{hook();if(typeof P==='undefined'||!P||!P[0])return;[0,1].forEach(k=>{const p=P[k];if(S[k]==null){if(S[k+2]!=null&&p.hp<S[k+2]){S[k]=S[k+2];drop[k]=now()}}
    else if(p.hp>=S[k]||now()-drop[k]>4000)S[k]=null;S[k+2]=p.hp;paint(k)})}catch(e){}},60);
- const _r=render;render=function(){const r=_r.apply(this,arguments);try{[0,1].forEach(k=>{const p=P&&P[k];if(!p)return;if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]&&!over){S[k]=S[k+2];drop[k]=now()}S[k+2]=p.hp;paint(k)})}catch(e){}return r};
+ const _r=render;render=function(){const r=_r.apply(this,arguments);try{[0,1].forEach(k=>{const p=P&&P[k];if(!p)return;if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]){S[k]=S[k+2];drop[k]=now()}S[k+2]=p.hp;paint(k)})}catch(e){}return r};
  const _i=init;init=function(){S[0]=S[1]=S[2]=S[3]=null;return _i.apply(this,arguments)};
 }catch(e){console.warn('v3 hp delay',e)}})();
 </script><script id="v3_55">/* simulated online matchmaking (Casual / Ranked) and friend battle requests */
@@ -5529,9 +5529,9 @@ html body #mb .spn2:has(.gpk3) .onm{flex:none!important;overflow:visible!importa
  new MutationObserver(()=>{const vis=ov.style.display==='flex';
   if(!vis){release();shownAt=0;return}
   if(shownAt)return;shownAt=Date.now();
-  if(quit()||hpZero())return;
+  if(quit())return;
   ov.classList.add('v4wait');
-  timer=setInterval(()=>{if(hpZero()){clearInterval(timer);timer=null;setTimeout(()=>ov.classList.remove('v4wait'),900)}else if(Date.now()-shownAt>4500)release()},100)
+  timer=setInterval(()=>{if(hpZero()){clearInterval(timer);timer=null;setTimeout(()=>ov.classList.remove('v4wait'),1100)}else if(Date.now()-shownAt>9000)release()},100)
  }).observe(ov,{attributes:true,attributeFilter:['style']});
  const st=document.createElement('style');st.textContent='#ov.v4wait{visibility:hidden!important;pointer-events:none!important}';document.head.appendChild(st)})();
 

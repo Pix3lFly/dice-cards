@@ -150,6 +150,7 @@ P = [
 ("landing ring above the portal surface (flicker)","m=MK[i]=mk(V);m.position.y=.7;o.g.add(m)","m=MK[i]=mk(V);m.position.y=o.t==='portal'?.86:.7;o.g.add(m)"),
 ("__arr safe when player is gone (menu errors @433)","window.__arr=k=>vis[k]===P[k].pos&&!hop[k]&&P[k].via==null;","window.__arr=k=>{const q=P&&P[k];if(!q)return true;return vis[k]===q.pos&&!hop[k]&&q.via==null};"),
 ('top bar short numbers','src="\'+U.coin+\'">\'+SV.gold+\'</div><div class="rs"><img alt="" src="\'+U.gem+\'">\'+SV.gems+\'</div>','src="\'+U.coin+\'">\'+(window.__kf?__kf(SV.gold):SV.gold)+\'</div><div class="rs"><img alt="" src="\'+U.gem+\'">\'+(window.__kf?__kf(SV.gems):SV.gems)+\'</div>'),
+('hp bar also waits for the killing blow','if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]&&!over){S[k]=S[k+2];drop[k]=now()}','if(S[k]==null&&S[k+2]!=null&&p.hp<S[k+2]){S[k]=S[k+2];drop[k]=now()}'),
 ]
 import os
 def tile_model(s):

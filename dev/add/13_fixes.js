@@ -12,9 +12,9 @@
  new MutationObserver(()=>{const vis=ov.style.display==='flex';
   if(!vis){release();shownAt=0;return}
   if(shownAt)return;shownAt=Date.now();
-  if(quit()||hpZero())return;
+  if(quit())return;
   ov.classList.add('v4wait');
-  timer=setInterval(()=>{if(hpZero()){clearInterval(timer);timer=null;setTimeout(()=>ov.classList.remove('v4wait'),900)}else if(Date.now()-shownAt>4500)release()},100)
+  timer=setInterval(()=>{if(hpZero()){clearInterval(timer);timer=null;setTimeout(()=>ov.classList.remove('v4wait'),1100)}else if(Date.now()-shownAt>9000)release()},100)
  }).observe(ov,{attributes:true,attributeFilter:['style']});
  const st=document.createElement('style');st.textContent='#ov.v4wait{visibility:hidden!important;pointer-events:none!important}';document.head.appendChild(st)})();
 
